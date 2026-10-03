@@ -153,3 +153,60 @@ test("aggregate imported bytes have a 16 MiB ceiling", async (t) => {
   }));
   await assert.rejects(loadStoryAssets(root, p), /total/i);
 });
+
+test("GLB accessor allocations and layouts are bounded before decoding", async (t) => {
+  const root = await setup(t);
+  const base = {
+    asset: { version: "2.0" },
+    buffers: [{ byteLength: 4 }],
+    bufferViews: [{ buffer: 0, byteLength: 4 }],
+  };
+  for (const accessor of [
+    { componentType: 5126, type: "VEC3", count: 1000000 },
+    { componentType: 5126, type: "VEC3", count: 1, bufferView: 0 },
+    { componentType: 5126, type: "SCALAR", count: -1 },
+    { componentType: 5126, type: "SCALAR", count: 1, bufferView: 2 },
+    { componentType: 5126, type: "SCALAR", count: 1, sparse: {} },
+  ])
+    await assert.rejects(
+      loadStoryAssets(
+        root,
+        await asset(root, glb({ ...base, accessors: [accessor] }), "glb"),
+      ),
+    );
+  await assert.rejects(
+    loadStoryAssets(
+      root,
+      await asset(
+        root,
+        glb({
+          ...base,
+          accessors: Array.from({ length: 6 }, () => ({
+            componentType: 5126,
+            type: "VEC3",
+            count: 250000,
+          })),
+        }),
+        "glb",
+      ),
+    ),
+  );
+  assert.equal(
+    (
+      await loadStoryAssets(
+        root,
+        await asset(
+          root,
+          glb({
+            ...base,
+            accessors: [
+              { componentType: 5126, type: "SCALAR", count: 1, bufferView: 0 },
+            ],
+          }),
+          "glb",
+        ),
+      )
+    ).length,
+    1,
+  );
+});

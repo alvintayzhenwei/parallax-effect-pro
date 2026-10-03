@@ -1357,8 +1357,8 @@
     }
   ],
   "preview": {
-    "revision": "372446f2b7a9832dc4ae6dfe9f1db7e45e36bbb4caa545ee28aa52c5de3b5443",
-    "file": "examples/continuous-camera/motion-r3.html",
-    "fileDigest": "1ee3d8306287b03f81efd7b812b2bdae1d8464390780ebafd8a9a288c2767089"
+    "revision": "c4fa25664c2e9769ec31b339b4ef730300f2e010990da80825b2053a525e9af5",
+    "file": "examples/continuous-camera/motion-r4.html",
+    "fileDigest": "af1333725a240c92925252675a4c9d82ee33d7d2a3d70ec23961dfdf30be970c"
   }
 }

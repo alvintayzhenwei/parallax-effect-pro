@@ -3,6 +3,7 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 export async function verifyStoryBrowser(browser, capture) {
@@ -68,6 +69,7 @@ export async function verifyStoryBrowser(browser, capture) {
         ],
       },
     );
+    story.chapters[0].action = { label: "Explore", target: "action" };
     await writeFile(join(root, "story.json"), JSON.stringify(story));
     await client.connect(
       new StdioClientTransport({
@@ -115,7 +117,7 @@ export async function verifyStoryBrowser(browser, capture) {
     });
     const transforms = [];
     for (const p of [0, 0.5, 1, 0.5]) {
-      await genericPage.locator("#seek-journey").evaluate((e, p) => {
+      await genericPage.locator("#pepSeek-journey").evaluate((e, p) => {
         e.value = String(p);
         e.dispatchEvent(new Event("input"));
       }, p);
@@ -165,7 +167,7 @@ export async function verifyStoryBrowser(browser, capture) {
     await page.locator(".pep-story").scrollIntoViewIfNeeded();
     const samples = [];
     for (const progress of [0, 0.15, 0.5, 0.85, 1, 0.5]) {
-      await page.locator("#seek-journey").evaluate((e, p) => {
+      await page.locator("#pepSeek-journey").evaluate((e, p) => {
         e.value = String(p);
         e.dispatchEvent(new Event("input"));
       }, progress);
@@ -241,6 +243,9 @@ export async function verifyStoryBrowser(browser, capture) {
     await staticPage.goto(pathToFileURL(file).href);
     assert.ok(await staticPage.locator("noscript .pep-static").isVisible());
     assert.equal(await staticPage.locator("noscript article").count(), 3);
+    const target = await staticPage.locator("noscript a").getAttribute("href");
+    assert.equal(target, "#pep-static-action");
+    assert.ok(await staticPage.locator(target).isVisible());
     await staticPage.close();
     const noWebgl = await browser.newPage();
     await noWebgl.addInitScript(() => {
@@ -255,6 +260,104 @@ export async function verifyStoryBrowser(browser, capture) {
     );
     assert.ok(await noWebgl.locator(".pep-motion-fallback").isVisible());
     await noWebgl.close();
+    // Imported material alpha composes with actor ancestry rather than being replaced.
+    const imported = structuredClone(story);
+    const document = {
+      asset: { version: "2.0" },
+      scenes: [{ nodes: [0] }],
+      scene: 0,
+      nodes: [{ mesh: 0 }],
+      meshes: [{ primitives: [{ attributes: { POSITION: 0 }, material: 0 }] }],
+      materials: [
+        {
+          alphaMode: "BLEND",
+          pbrMetallicRoughness: { baseColorFactor: [1, 1, 1, 0.25] },
+        },
+      ],
+      buffers: [{ byteLength: 36 }],
+      bufferViews: [{ buffer: 0, byteLength: 36 }],
+      accessors: [
+        {
+          bufferView: 0,
+          componentType: 5126,
+          type: "VEC3",
+          count: 3,
+          min: [-0.5, -0.5, 0],
+          max: [0.5, 0.5, 0],
+        },
+      ],
+    };
+    const json = Buffer.from(JSON.stringify(document));
+    const padded = Buffer.concat([
+      json,
+      Buffer.alloc((4 - (json.length % 4)) % 4, 32),
+    ]);
+    const glb = Buffer.alloc(28 + padded.length + 36);
+    glb.write("glTF");
+    glb.writeUInt32LE(2, 4);
+    glb.writeUInt32LE(glb.length, 8);
+    glb.writeUInt32LE(padded.length, 12);
+    glb.writeUInt32LE(0x4e4f534a, 16);
+    padded.copy(glb, 20);
+    glb.writeUInt32LE(36, 20 + padded.length);
+    glb.writeUInt32LE(0x004e4942, 24 + padded.length);
+    [-0.5, -0.5, 0, 0.5, -0.5, 0, 0, 0.5, 0].forEach((n, i) =>
+      glb.writeFloatLE(n, 28 + padded.length + i * 4),
+    );
+    await writeFile(join(root, "transparent.glb"), glb);
+    imported.assets = [
+      {
+        id: "model",
+        type: "glb",
+        path: "transparent.glb",
+        digest: createHash("sha256").update(glb).digest("hex"),
+      },
+    ];
+    imported.actors.find((a) => a.id === "subject").visual = {
+      kind: "asset",
+      assetId: "model",
+    };
+    imported.chapters[0].id = "review";
+    imported.stages[0].chapterIds[0] = "review";
+    imported.concepts.find(
+      (c) => c.id === imported.selectedConceptId,
+    ).sections[0] = "review";
+    for (const beat of imported.beats)
+      if (beat.chapterId === "arrival") beat.chapterId = "review";
+    await writeFile(join(root, "imported.json"), JSON.stringify(imported));
+    const importedResult = await client.callTool({
+      name: "parallax_create_preview",
+      arguments: { recordPath: "imported.json", outputPath: "imported.html" },
+    });
+    assert.ok(!importedResult.isError);
+    const importedPage = await browser.newPage();
+    await importedPage.addInitScript(() =>
+      addEventListener(
+        "pep-motion-pose",
+        (e) => (window.importedPose = e.detail),
+        true,
+      ),
+    );
+    await importedPage.goto(
+      pathToFileURL(importedResult.structuredContent.path).href,
+    );
+    await importedPage.waitForFunction(
+      () => window.importedPose?.bounds.subject?.materialOpacity !== undefined,
+    );
+    assert.equal(
+      await importedPage.evaluate(
+        () => window.importedPose.bounds.subject.materialOpacity,
+      ),
+      0.125,
+    );
+    await importedPage.locator("#pepReviewToggle").click();
+    assert.ok(await importedPage.locator("#pepReviewPanel").isVisible());
+    await importedPage.locator("#pepReviewToggle").click();
+    assert.equal(
+      await importedPage.locator("#review").evaluate((e) => e.hidden),
+      false,
+    );
+    await importedPage.close();
     assert.deepEqual(errors, []);
     assert.deepEqual(requests, []);
     return {

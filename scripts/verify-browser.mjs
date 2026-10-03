@@ -230,7 +230,9 @@ try {
     const reducedPage = await browser.newPage({ reducedMotion: "reduce" });
     await reducedPage.goto(pathToFileURL(path).href);
     await reducedPage.waitForFunction(
-      () => document.querySelector("#reduce").disabled,
+      () =>
+        document.querySelector("#reduce").disabled &&
+        document.querySelector(".layer").style.transform === "none",
     );
     assert.equal(
       await reducedPage

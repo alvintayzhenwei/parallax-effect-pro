@@ -1,3 +1,4 @@
+import { readFile } from "node:fs/promises";
 import { readContained, sha256, designRevision } from "./project.ts";
 import { storySchema, type StoryRecord } from "./story-records.ts";
 export type LoadedAsset = {
@@ -125,6 +126,67 @@ function validateGlb(bytes: Buffer) {
     )
       throw new Error("Invalid GLB buffer view bounds");
   }
+  let decodedBytes = 0;
+  const componentSizes: Record<number, number> = {
+    5120: 1,
+    5121: 1,
+    5122: 2,
+    5123: 2,
+    5125: 4,
+    5126: 4,
+  };
+  const dimensions: Record<string, [number, number]> = {
+    SCALAR: [1, 1],
+    VEC2: [1, 2],
+    VEC3: [1, 3],
+    VEC4: [1, 4],
+    MAT2: [2, 2],
+    MAT3: [3, 3],
+    MAT4: [4, 4],
+  };
+  for (const accessor of array("accessors")) {
+    const size = componentSizes[Number(accessor.componentType)],
+      shape = dimensions[String(accessor.type)],
+      count = accessor.count,
+      offset = accessor.byteOffset ?? 0;
+    if (
+      !size ||
+      !shape ||
+      !Number.isSafeInteger(count) ||
+      Number(count) <= 0 ||
+      Number(count) > 262144 ||
+      !Number.isSafeInteger(offset) ||
+      Number(offset) < 0 ||
+      Number(offset) % size ||
+      accessor.sparse !== undefined
+    )
+      throw new Error("Invalid or unsupported GLB accessor allocation");
+    const [columns, rows] = shape;
+    const elementBytes =
+      columns > 1 ? columns * Math.ceil((rows * size) / 4) * 4 : rows * size;
+    decodedBytes += Number(count) * columns * rows * size;
+    if (decodedBytes > totalLimit)
+      throw new Error("Decoded GLB accessors exceed 16 MiB");
+    if (accessor.bufferView === undefined) {
+      if (offset !== 0) throw new Error("Unbacked GLB accessor has an offset");
+      continue;
+    }
+    const view = Number.isSafeInteger(accessor.bufferView)
+      ? views[Number(accessor.bufferView)]
+      : undefined;
+    if (!view) throw new Error("Invalid GLB accessor buffer view");
+    const stride = Number(view.byteStride ?? elementBytes);
+    if (
+      !Number.isSafeInteger(stride) ||
+      stride < elementBytes ||
+      stride % size ||
+      (view.byteStride !== undefined &&
+        (stride < 4 || stride > 252 || stride % 4)) ||
+      Number(offset) + (Number(count) - 1) * stride + elementBytes >
+        Number(view.byteLength)
+    )
+      throw new Error("Invalid GLB accessor layout");
+  }
   for (const image of images) {
     if (
       !Number.isSafeInteger(image.bufferView) ||
@@ -143,6 +205,7 @@ function validateGlb(bytes: Buffer) {
       String(image.mimeType),
     );
   }
+  return decodedBytes;
 }
 export async function loadStoryAssets(
   root: string,
@@ -150,7 +213,8 @@ export async function loadStoryAssets(
 ): Promise<LoadedAsset[]> {
   const story = storySchema.parse(record),
     loaded: LoadedAsset[] = [];
-  let total = 0;
+  let total = 0,
+    decodedTotal = 0;
   for (const asset of story.assets) {
     const bytes = await readContained(root, asset.path, assetLimit);
     total += bytes.length;
@@ -160,7 +224,11 @@ export async function loadStoryAssets(
     if (digest !== asset.digest)
       throw new Error("Asset bytes no longer match reviewed digest");
     if (asset.type === "raster") validateRaster(bytes, asset.mime);
-    else validateGlb(bytes);
+    else {
+      decodedTotal += validateGlb(bytes);
+      if (decodedTotal > totalLimit)
+        throw new Error("Decoded GLB total exceeds 16 MiB");
+    }
     loaded.push({ id: asset.id, type: asset.type, bytes, digest });
   }
   return loaded;
@@ -175,5 +243,10 @@ export async function verifiedStoryRevision(
     if (sha256(bytes) !== reference.digest)
       throw new Error("Design context bytes no longer match reviewed digest");
   }
-  return designRevision(story);
+  const runtime = await readFile(
+    new URL("../assets/motion-runtime.js", import.meta.url),
+  );
+  return sha256(
+    JSON.stringify({ design: designRevision(story), runtime: sha256(runtime) }),
+  );
 }

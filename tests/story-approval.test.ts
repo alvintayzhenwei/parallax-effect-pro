@@ -1,6 +1,15 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtemp, readFile, writeFile, rm, readdir } from "node:fs/promises";
+import {
+  mkdtemp,
+  readFile,
+  writeFile,
+  rm,
+  readdir,
+  cp,
+  mkdir,
+  symlink,
+} from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { createPreview } from "../src/preview.ts";
@@ -117,4 +126,37 @@ test("partial export is reported and pre-existing user content is preserved", as
   );
   const files = await readdir(join(root, "collision.motion"));
   assert.ok(files.includes("runtime.js"));
+});
+
+test("changing installed runtime invalidates an approved preview and blocks export", async (t) => {
+  const { root } = await approved(t);
+  const installed = await mkdtemp(join(tmpdir(), "story-runtime-"));
+  t.after(() => rm(installed, { recursive: true, force: true }));
+  await cp(new URL("../src", import.meta.url), join(installed, "src"), {
+    recursive: true,
+  });
+  await mkdir(join(installed, "assets"));
+  await cp(
+    new URL("../assets/motion-runtime.js", import.meta.url),
+    join(installed, "assets/motion-runtime.js"),
+  );
+  await writeFile(join(installed, "package.json"), '{"type":"module"}');
+  await symlink(
+    new URL("../node_modules", import.meta.url).pathname,
+    join(installed, "node_modules"),
+  );
+  const api = await import(new URL(`file://${installed}/src/project.ts`).href);
+  assert.equal(
+    (await api.validateProject(root, "story.json")).approvalStatus,
+    "recorded",
+  );
+  await writeFile(
+    join(installed, "assets/motion-runtime.js"),
+    "/* different implementation */",
+  );
+  assert.equal(
+    (await api.validateProject(root, "story.json")).approvalStatus,
+    "stale",
+  );
+  await assert.rejects(api.exportHandoff(root, "story.json", "changed.md"));
 });

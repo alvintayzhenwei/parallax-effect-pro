@@ -65,6 +65,10 @@ export function mountMotionStage(
     camera: THREE.PerspectiveCamera | undefined,
     failed = false;
   const resources = new Set<THREE.Object3D>();
+  const originalMaterials = new Map<
+    THREE.Material,
+    { opacity: number; transparent: boolean }
+  >();
   for (const actor of actors) {
     const node = document.createElement("div");
     node.dataset.actorId = actor.id;
@@ -157,8 +161,16 @@ export function mountMotionStage(
         for (const material of Array.isArray(child.material)
           ? child.material
           : [child.material]) {
-          material.opacity = opacity;
-          material.transparent = opacity < 1;
+          let original = originalMaterials.get(material);
+          if (!original) {
+            original = {
+              opacity: material.opacity,
+              transparent: material.transparent,
+            };
+            originalMaterials.set(material, original);
+          }
+          material.opacity = original.opacity * opacity;
+          material.transparent = original.transparent || material.opacity < 1;
         }
       });
     }
