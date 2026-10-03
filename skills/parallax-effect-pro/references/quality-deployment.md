@@ -11,6 +11,12 @@ Build the entire approved website, not only an animated hero. Preserve the proje
 
 Broken core navigation, unusable mobile layout, missing reduced-motion fallback or exposed secrets block normal deployment. Fix and rerun affected checks. Do not turn unexecuted checks into passed records.
 
+## Motion and visual acceptance
+
+Compare start, middle and end frames for each core scene. Check visible relative travel across distinct depth planes, intentional overlap and crop margins, a stable readable text/action zone, and an exit from every sticky sequence. A sticky stage must visibly explain a relationship as scrolling progresses. Fades, uniform translations or a pinned block alone do not demonstrate differential parallax. Verify background drift moves only the background, pointer motion has a coarse-pointer alternative, and advanced storyboards are not mistaken for working media.
+
+Record actual evidence and the owner's visual verdict separately: depth, choreography, art direction, readability, and requirements coverage. Geometric placeholders test composition and motion before final assets. Passing schemas, transform checks or runtime tests cannot certify aesthetic quality or universal improvement. Compare against a matched baseline when evaluating the product's design benefit.
+
 ## Performance and assets
 
 Measure actual output. Report browser, viewport, device/emulation, network conditions, artifact size and method. Local fast loading does not prove mobile-network performance. Check images, poster/media size, decode cost and offscreen animation work. Do not claim 60 fps without measurements. Avoid scroll hijacking, oversized preload and excessive rendering layers.

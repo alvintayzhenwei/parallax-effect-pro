@@ -32,6 +32,28 @@ test("validProject and threeConceptsRequired", () => {
     false,
   );
 });
+test("each section needs a scene and motion warnings do not claim visual acceptance", async (t) => {
+  const p = structuredClone(fixture);
+  p.motionPlan.scenes.pop();
+  assert.equal(projectSchema.safeParse(p).success, false);
+  const root = await project(t);
+  const report = await validateProject(root, "project.json");
+  assert.ok(
+    report.motionWarnings.some((warning: string) =>
+      /work.*relative layer/i.test(warning),
+    ),
+  );
+  const flat = structuredClone(fixture);
+  for (const layer of flat.motionPlan.scenes[0].layers) layer.travel = 0;
+  await writeFile(join(root, "project.json"), JSON.stringify(flat));
+  const noTravel = await validateProject(root, "project.json");
+  assert.ok(
+    noTravel.motionWarnings.some((warning: string) =>
+      /hero.*zero travel/i.test(warning),
+    ),
+  );
+  assert.equal(noTravel.approvalStatus, "missing");
+});
 test("rejectTraversal and preserveExistingFile", async (t) => {
   const root = await project(t);
   await assert.rejects(writeContained(root, "../escape", "bad"));

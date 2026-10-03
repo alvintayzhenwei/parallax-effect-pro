@@ -1,0 +1,1304 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Three motion directions — Parallax Effect Pro</title>
+    <style>
+      :root {
+        --paper: #eee9dd;
+        --ink: #272822;
+        --accent: #e94c22;
+        --surface: #22231e;
+        --line: #a19e91;
+        font-family: Arial, Helvetica, sans-serif;
+        color: var(--ink);
+        background: var(--paper);
+        font-synthesis: none;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+      }
+      button,
+      input,
+      a {
+        -webkit-tap-highlight-color: transparent;
+      }
+      button,
+      a {
+        color: inherit;
+      }
+      a {
+        text-underline-offset: 4px;
+      }
+      button {
+        font: inherit;
+        cursor: pointer;
+      }
+      button:disabled {
+        cursor: default;
+      }
+      button:focus-visible,
+      a:focus-visible,
+      input:focus-visible {
+        outline: 3px solid var(--accent);
+        outline-offset: 5px;
+      }
+      ::selection {
+        background: var(--accent);
+        color: var(--paper);
+      }
+      html {
+        scrollbar-color: var(--ink) var(--paper);
+      }
+      p {
+        line-height: 1.5;
+      }
+      h1,
+      h2,
+      p {
+        margin: 0;
+      }
+      h1,
+      h2,
+      .display {
+        font-family: Georgia, "Times New Roman", serif;
+        font-weight: normal;
+        letter-spacing: -0.04em;
+      }
+      h1 {
+        font-size: clamp(2.6rem, 5.4vw, 5rem);
+        line-height: 1.03;
+        max-width: 13ch;
+        text-wrap: balance;
+      }
+      .skip {
+        position: absolute;
+        left: 20px;
+        top: -80px;
+        z-index: 10;
+        background: var(--paper);
+        padding: 12px;
+      }
+      .skip:focus {
+        top: 16px;
+      }
+      header {
+        padding: 25px 5vw;
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        align-items: center;
+      }
+      header a {
+        font-family: Georgia, serif;
+        font-size: 1.25rem;
+        text-decoration: none;
+      }
+      header p {
+        font-size: 0.8rem;
+      }
+      .intro {
+        padding: 48px 5vw 38px;
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 8vw;
+        align-items: end;
+      }
+      .intro p {
+        max-width: 48ch;
+        font-size: 1rem;
+      }
+      .intro strong {
+        font-weight: normal;
+        color: #973119;
+      }
+      .intro p + p {
+        margin-top: 12px;
+      }
+      .intro .note {
+        font-size: 0.8rem;
+      }
+      .directions {
+        display: flex;
+        gap: 0;
+        padding: 0 5vw;
+        border-bottom: 1px solid var(--line);
+      }
+      .directions button {
+        background: none;
+        border: 0;
+        border-bottom: 3px solid transparent;
+        padding: 17px 24px 17px 0;
+        margin-right: 28px;
+        text-align: left;
+        font-size: 0.95rem;
+      }
+      .directions button[aria-pressed="true"] {
+        border-color: var(--accent);
+      }
+      .directions small {
+        display: block;
+        font-size: 0.7rem;
+        margin-top: 5px;
+        color: #605e54;
+      }
+      .directions button:hover {
+        color: #a93315;
+      }
+      .directions button:disabled {
+        opacity: 0.5;
+      }
+      #stage {
+        padding: 20px 3vw 0;
+      }
+      .js #stage {
+        height: 240vh;
+      }
+      .frame {
+        background: var(--surface);
+        color: var(--paper);
+        position: relative;
+        overflow: hidden;
+      }
+      .js .frame {
+        position: sticky;
+        top: 16px;
+        height: calc(100svh - 32px);
+        min-height: 500px;
+        max-height: 940px;
+        display: flex;
+        flex-direction: column;
+      }
+      .toolbar {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 16px 24px;
+        border-bottom: 1px solid #f0eade45;
+        font-size: 0.75rem;
+        z-index: 5;
+      }
+      .toolbar a {
+        margin-left: auto;
+      }
+      .toolbar a:focus-visible,
+      .toolbar input:focus-visible {
+        outline-color: #eee9dd;
+      }
+      .toolbar label {
+        display: flex;
+        gap: 7px;
+        align-items: center;
+        cursor: pointer;
+      }
+      .toolbar input {
+        accent-color: var(--accent);
+        width: 16px;
+        height: 16px;
+      }
+      .progress {
+        font-variant-numeric: tabular-nums;
+      }
+      .progress-track {
+        width: 68px;
+        height: 2px;
+        background: #f0eade40;
+        margin-left: -10px;
+      }
+      .progress-track i {
+        display: block;
+        height: 100%;
+        width: 0;
+        background: var(--accent);
+      }
+      .jumps {
+        display: flex;
+        gap: 12px;
+      }
+      .jumps a {
+        margin: 0;
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+      }
+      .jumps a:hover {
+        border-color: currentColor;
+      }
+      .stage-art {
+        position: relative;
+        flex: 1;
+        min-height: 0;
+      }
+      .study {
+        position: relative;
+        min-height: 600px;
+        overflow: hidden;
+      }
+      .js .study {
+        position: absolute;
+        inset: 0;
+        min-height: 0;
+        display: none;
+      }
+      .js .study.is-active {
+        display: block;
+      }
+      .stage-caption {
+        position: absolute;
+        bottom: 24px;
+        left: 30px;
+        right: 30px;
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        align-items: end;
+        z-index: 4;
+        font-size: 0.8rem;
+      }
+      .stage-caption p {
+        max-width: 32ch;
+      }
+      .stage-caption span {
+        font-size: 0.7rem;
+      }
+      .caption-line {
+        display: block;
+        margin-top: 6px;
+        color: inherit;
+      }
+      .motion-layer {
+        will-change: transform;
+      }
+      .art-title {
+        position: absolute;
+        top: 7%;
+        left: 6%;
+        font-size: clamp(3rem, 7.7vw, 6rem);
+        line-height: 0.92;
+        z-index: 3;
+        pointer-events: none;
+      }
+      .art-title em {
+        font-weight: normal;
+      }
+      .atelier .art-title {
+        max-width: 7ch;
+      }
+      .atelier .art-title .second {
+        display: block;
+        margin-left: 23%;
+      }
+      .atelier .art-title em {
+        color: #ff724b;
+      }
+      .atelier .paper-word {
+        position: absolute;
+        left: 6%;
+        top: 53%;
+        font-size: clamp(2.5rem, 7.7vw, 6rem);
+        line-height: 0.95;
+        z-index: 3;
+      }
+      .atelier .paper-word span {
+        display: block;
+      }
+      .fold-object {
+        position: absolute;
+        inset: 12% 5% 17% 43%;
+        perspective: 1000px;
+      }
+      .fold-a,
+      .fold-b,
+      .fold-c {
+        position: absolute;
+        inset: 0;
+        transform-origin: 50% 50%;
+        filter: drop-shadow(0 18px 15px #0005);
+      }
+      .fold-a {
+        background: #ee532b;
+        clip-path: polygon(0 0, 100% 15%, 90% 85%, 5% 100%);
+      }
+      .fold-b {
+        background: #fbad87;
+        clip-path: polygon(0 0, 52% 30%, 53% 76%, 5% 100%);
+        transform-origin: left center;
+      }
+      .fold-c {
+        background: #dfddd0;
+        clip-path: polygon(52% 30%, 100% 15%, 90% 85%, 53% 76%);
+        transform-origin: right center;
+      }
+      .fold-seam {
+        position: absolute;
+        top: 30%;
+        left: 52%;
+        height: 46%;
+        width: 1px;
+        background: #2228;
+      }
+      .atelier .rule {
+        position: absolute;
+        left: 6%;
+        top: 44%;
+        width: 29%;
+        height: 1px;
+        background: #f0eade60;
+      }
+      .atelier .micro {
+        position: absolute;
+        right: 6%;
+        top: 8%;
+        font-size: 0.75rem;
+        max-width: 17ch;
+        text-align: right;
+        line-height: 1.5;
+      }
+      .expedition {
+        background: #173d32;
+      }
+      .expedition .art-title {
+        font-size: clamp(3rem, 6.7vw, 6rem);
+        max-width: 7ch;
+        z-index: 3;
+      }
+      .expedition .art-title em {
+        color: #d5dcb6;
+      }
+      .terrain {
+        position: absolute;
+        left: 29%;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        overflow: hidden;
+      }
+      .terrain svg {
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+      }
+      .exp-background {
+        transform-origin: 50% 50%;
+      }
+      .exp-middle {
+        transform-origin: 50% 50%;
+      }
+      .exp-foreground {
+        transform-origin: 50% 75%;
+      }
+      .view-frame {
+        position: absolute;
+        left: 51%;
+        top: 17%;
+        width: 36%;
+        height: 60%;
+        border: 1px solid #edead980;
+        z-index: 2;
+      }
+      .view-frame:before,
+      .view-frame:after {
+        content: "";
+        position: absolute;
+        width: 9px;
+        height: 9px;
+        border: 1px solid #e6e6c1;
+        background: #173d32;
+      }
+      .view-frame:before {
+        left: -5px;
+        top: -5px;
+      }
+      .view-frame:after {
+        right: -5px;
+        bottom: -5px;
+      }
+      .depth-labels {
+        position: absolute;
+        right: 4%;
+        top: 9%;
+        display: flex;
+        gap: 22px;
+        font-size: 0.7rem;
+        z-index: 3;
+      }
+      .depth-labels span {
+        border-top: 1px solid #d6dfbe80;
+        padding-top: 8px;
+      }
+      .expedition .stage-caption {
+        color: #eee9dd;
+      }
+      .expedition .compass {
+        position: absolute;
+        left: 6%;
+        top: 55%;
+        width: 58px;
+        height: 58px;
+        border: 1px solid #d6dfbe80;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+      }
+      .compass svg {
+        width: 40px;
+        height: 40px;
+      }
+      .expedition .route {
+        position: absolute;
+        left: 6%;
+        top: 70%;
+        font-size: 0.8rem;
+        max-width: 18ch;
+      }
+      .gallery {
+        background: #173cc7;
+        color: #f3eddd;
+      }
+      .gallery .art-title {
+        top: 7%;
+        left: 5%;
+        font-size: clamp(3rem, 7.7vw, 6rem);
+        line-height: 0.9;
+        z-index: 1;
+        max-width: 10ch;
+      }
+      .gallery .art-title span {
+        display: block;
+      }
+      .gallery .artwork {
+        position: absolute;
+        left: 44%;
+        right: 8%;
+        top: 14%;
+        bottom: 15%;
+        transform-origin: 50% 50%;
+        filter: drop-shadow(0 20px 20px #08175280);
+        z-index: 2;
+      }
+      .artwork svg {
+        width: 100%;
+        height: 100%;
+      }
+      .gallery-chapters {
+        position: absolute;
+        left: 6%;
+        top: 52%;
+        width: 28%;
+        height: 105px;
+        z-index: 3;
+      }
+      .gallery-chapters p {
+        position: absolute;
+        inset: 0;
+        font-family: Georgia, serif;
+        font-size: clamp(1.5rem, 2.6vw, 2.5rem);
+        line-height: 1.05;
+        letter-spacing: -0.025em;
+      }
+      .gallery-chapters p:not(:first-child) {
+        opacity: 0;
+      }
+      .gallery .margin-note {
+        position: absolute;
+        right: 5%;
+        top: 7%;
+        font-size: 0.7rem;
+        writing-mode: vertical-rl;
+      }
+      .gallery .stage-caption {
+        z-index: 3;
+      }
+      .details {
+        padding: 44px 5vw 60px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8vw;
+      }
+      .details h2 {
+        font-size: 2rem;
+        line-height: 1.1;
+        margin-bottom: 16px;
+      }
+      .details p {
+        max-width: 65ch;
+      }
+      .details p + p {
+        margin-top: 15px;
+      }
+      .details .assets {
+        font-size: 0.9rem;
+      }
+      .details .assets strong {
+        display: block;
+        margin-bottom: 5px;
+      }
+      .js .direction-detail {
+        display: none;
+      }
+      .js .direction-detail.is-active {
+        display: contents;
+      }
+      footer {
+        padding: 24px 5vw;
+        border-top: 1px solid var(--line);
+        font-size: 0.8rem;
+        display: flex;
+        justify-content: space-between;
+        gap: 24px;
+      }
+      body[data-theme="expedition"] {
+        --surface: #173d32;
+        --accent: #356d41;
+      }
+      body[data-theme="gallery"] {
+        --surface: #173cc7;
+        --accent: #173cc7;
+      }
+      body[data-theme="expedition"] .directions button:hover {
+        color: #356d41;
+      }
+      body[data-theme="gallery"] .directions button:hover {
+        color: #173cc7;
+      }
+      body[data-theme="expedition"] .progress-track i,
+      body[data-theme="gallery"] .progress-track i {
+        background: #e4e3bd;
+      }
+      body[data-theme="expedition"] .toolbar input,
+      body[data-theme="gallery"] .toolbar input {
+        accent-color: #f0eadb;
+      }
+      .motion-static .motion-layer {
+        will-change: auto;
+      }
+      .motion-static .gallery-chapters {
+        height: auto;
+        top: 51%;
+      }
+      .motion-static .gallery-chapters p {
+        position: relative !important;
+        opacity: 1 !important;
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+      }
+      .motion-static .gallery-chapters p:not(:first-child) {
+        display: none;
+      }
+      .no-js-note {
+        padding: 24px 5vw;
+      }
+      .js .no-js-note {
+        display: none;
+      }
+      @media (min-width: 1600px) {
+        .intro,
+        .details,
+        header,
+        .directions,
+        footer {
+          padding-left: max(5vw, calc((100vw - 1440px) / 2));
+          padding-right: max(5vw, calc((100vw - 1440px) / 2));
+        }
+      }
+      @media (max-width: 700px) {
+        header {
+          padding: 20px 6vw;
+        }
+        header p {
+          max-width: 17ch;
+          text-align: right;
+        }
+        .intro {
+          padding: 32px 6vw;
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+        .intro h1 {
+          max-width: 12ch;
+        }
+        .intro p {
+          font-size: 0.9rem;
+        }
+        .directions {
+          padding: 0 6vw;
+          justify-content: space-between;
+        }
+        .directions button {
+          font-size: 0.8rem;
+          padding: 15px 0;
+          margin: 0;
+        }
+        .directions small {
+          font-size: 0.75rem;
+        }
+        #stage {
+          padding: 12px 12px 0;
+        }
+        .js .frame {
+          top: 8px;
+          height: calc(100svh - 16px);
+          min-height: 510px;
+        }
+        .toolbar {
+          padding: 14px 16px;
+          gap: 10px;
+          flex-wrap: wrap;
+        }
+        .progress-track {
+          display: none;
+        }
+        .toolbar label {
+          margin-left: auto;
+        }
+        .toolbar > a {
+          margin-left: 0;
+        }
+        .jumps {
+          margin-left: auto;
+        }
+        .art-title {
+          font-size: clamp(3rem, 13vw, 5rem) !important;
+          left: 7% !important;
+          top: 7% !important;
+        }
+        .atelier .art-title {
+          max-width: 9ch;
+        }
+        .atelier .art-title .second {
+          margin-left: 16%;
+        }
+        .atelier .paper-word {
+          font-size: clamp(2.5rem, 12vw, 4.5rem);
+          left: 7%;
+          top: 43%;
+        }
+        .fold-object {
+          inset: 34% 5% 20% 34%;
+        }
+        .atelier .micro {
+          top: 27%;
+          right: 7%;
+          font-size: 0.75rem;
+        }
+        .atelier .rule {
+          top: 36%;
+          left: 7%;
+          width: 86%;
+        }
+        .stage-caption {
+          left: 20px;
+          right: 20px;
+          bottom: 20px;
+          font-size: 0.73rem;
+        }
+        .stage-caption p {
+          max-width: 23ch;
+        }
+        .stage-caption span {
+          max-width: 13ch;
+          text-align: right;
+        }
+        .terrain {
+          left: 0;
+          top: 27%;
+        }
+        .expedition .art-title {
+          max-width: 9ch;
+        }
+        .depth-labels {
+          top: 36%;
+          right: 7%;
+          gap: 14px;
+          font-size: 0.75rem;
+        }
+        .view-frame {
+          left: 22%;
+          width: 62%;
+          top: 40%;
+          height: 39%;
+        }
+        .expedition .compass {
+          left: 7%;
+          top: 30%;
+          width: 42px;
+          height: 42px;
+        }
+        .compass svg {
+          width: 30px;
+          height: 30px;
+        }
+        .expedition .route {
+          top: 81%;
+          left: 7%;
+          max-width: 26ch;
+          font-size: 0.7rem;
+        }
+        .gallery .artwork {
+          left: 28%;
+          right: 5%;
+          top: 32%;
+          bottom: 20%;
+        }
+        .gallery-chapters {
+          left: 7%;
+          top: 32%;
+          width: 42%;
+          height: 100px;
+        }
+        .gallery-chapters p {
+          font-size: 1.4rem;
+        }
+        .gallery .margin-note {
+          top: 8%;
+          right: 6%;
+          font-size: 0.75rem;
+        }
+        .gallery .art-title {
+          max-width: 9ch;
+        }
+        .details {
+          padding: 32px 6vw 40px;
+          grid-template-columns: 1fr;
+          gap: 26px;
+        }
+        .details h2 {
+          font-size: 1.8rem;
+        }
+        .details p {
+          font-size: 0.9rem;
+        }
+        footer {
+          padding: 20px 6vw;
+          flex-direction: column;
+          gap: 8px;
+        }
+        .motion-static .gallery-chapters {
+          top: 31%;
+          width: 48%;
+        }
+        .motion-static .gallery-chapters p {
+          font-size: 1.25rem;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        .motion-layer {
+          will-change: auto;
+          transform: none !important;
+        }
+      }
+
+      @media (min-width: 701px) {
+        .expedition .art-title {
+          font-size: clamp(3rem, 6vw, 5rem);
+        }
+        .terrain {
+          left: 36%;
+        }
+      }
+      .depth-labels {
+        color: #173d32;
+      }
+      .depth-labels span {
+        border-color: #173d3290;
+      }
+      @media (max-width: 700px) {
+        .directions {
+          gap: 12px;
+          flex-wrap: wrap;
+        }
+        .directions button {
+          flex: 1;
+          min-width: 90px;
+        }
+        .directions small {
+          font-size: 0.75rem;
+        }
+        .gallery .artwork {
+          top: 44%;
+          bottom: 15%;
+        }
+        .gallery-chapters {
+          top: 31%;
+          width: 65%;
+        }
+        .motion-static .gallery-chapters {
+          top: 31%;
+          width: 65%;
+        }
+        .expedition .route {
+          background: #173d32;
+          padding: 5px 8px;
+        }
+        .depth-labels {
+          top: 39%;
+        }
+      }
+    </style>
+  </head>
+  <body data-theme="atelier">
+    <a class="skip" href="#stage">Skip to motion preview</a>
+    <header>
+      <a href="#">Parallax Effect Pro</a>
+      <p>Direction studies · Review only</p>
+    </header>
+    <main>
+      <section class="intro">
+        <h1>Make scrolling<br /><em>mean something.</em></h1>
+        <div>
+          <p>
+            Three visual directions. One deliberate motion moment in each. Pick
+            a direction, then scroll through its transformation.
+          </p>
+          <p class="note">
+            Fictional stories and original geometric placeholders. This preview
+            does not select or approve a rebuild.
+          </p>
+        </div>
+      </section>
+      <nav class="directions" aria-label="Preview direction">
+        <button type="button" data-direction="atelier" aria-pressed="true">
+          Kinetic Atelier<small>Typography unfolds</small>
+        </button>
+        <button type="button" data-direction="expedition" aria-pressed="false">
+          Expedition<small>Depth journey · Recommended</small>
+        </button>
+        <button type="button" data-direction="gallery" aria-pressed="false">
+          Gallery<small>Artwork holds the story</small>
+        </button>
+      </nav>
+      <p class="no-js-note">
+        Enable JavaScript to compare scroll motion. All three static
+        compositions remain visible below.
+      </p>
+      <section id="stage" aria-label="Interactive motion preview">
+        <div class="frame">
+          <div class="toolbar">
+            <span class="progress"
+              >Scroll <output id="progress" aria-live="off">0%</output></span
+            ><span class="progress-track" aria-hidden="true"
+              ><i id="progress-fill"></i></span
+            ><label
+              ><input type="checkbox" id="motion-reduce" /> Reduce motion</label
+            ><a href="#stage" data-jump="0">Replay</a>
+            <nav class="jumps" aria-label="Jump to motion position">
+              <a href="#stage" data-jump="0">Start</a
+              ><a href="#stage" data-jump="0.5">Middle</a
+              ><a href="#stage" data-jump="1">End</a>
+            </nav>
+          </div>
+          <div class="stage-art">
+            <article
+              class="study atelier is-active"
+              aria-label="Kinetic Atelier composition"
+            >
+              <h2 class="art-title display motion-layer" id="atelier-title">
+                Ideas<span class="second"><em>take</em></span
+                >shape.
+              </h2>
+              <div class="rule"></div>
+              <div class="paper-word display motion-layer" id="atelier-word">
+                <span>Open</span><em>possibility.</em>
+              </div>
+              <div class="fold-object" aria-hidden="true">
+                <div class="fold-a motion-layer" id="fold-a"></div>
+                <div class="fold-b motion-layer" id="fold-b"></div>
+                <div class="fold-c motion-layer" id="fold-c"></div>
+                <div class="fold-seam motion-layer" id="fold-seam"></div>
+              </div>
+              <div class="stage-caption">
+                <p>One sheet. A different way<br />to see the whole.</p>
+                <span
+                  >Scroll to unfold<br /><span
+                    class="caption-line"
+                    id="atelier-state"
+                    >Folded / held</span
+                  ></span
+                >
+              </div>
+            </article>
+            <article
+              class="study expedition"
+              aria-label="Expedition depth schematic"
+            >
+              <h2 class="art-title display motion-layer" id="exp-title">
+                Somewhere<br /><em>beyond.</em>
+              </h2>
+              <div class="terrain" aria-hidden="true">
+                <svg viewBox="0 0 800 700" preserveAspectRatio="xMidYMid slice">
+                  <g class="motion-layer exp-background" id="exp-background">
+                    <path fill="#b5c2a0" d="M-100 0H950V440H-100Z" />
+                    <path fill="#d8dcc3" d="M-100 90H950V310H-100Z" />
+                    <path
+                      fill="#7f9e82"
+                      d="M-100 295 205 200 390 270 585 125 950 225V700H-100Z"
+                    />
+                  </g>
+                  <g class="motion-layer exp-middle" id="exp-middle">
+                    <path
+                      fill="#4d7861"
+                      d="M-150 440 125 322 260 379 493 260 630 354 950 265V850H-150Z"
+                    />
+                    <path
+                      fill="#658973"
+                      d="m100 425 220-58 171 46 232-92 147 22-299 114-265-6Z"
+                    />
+                  </g>
+                  <g class="motion-layer exp-foreground" id="exp-foreground">
+                    <path
+                      fill="#214d3c"
+                      d="M-200 610 82 490 224 540 408 437 628 559 1000 418V950H-200Z"
+                    />
+                    <path
+                      fill="#103b2e"
+                      d="M-200 755 158 582 375 671 608 556 1000 645V1050H-200Z"
+                    />
+                    <path
+                      fill="none"
+                      stroke="#b8c5a1"
+                      stroke-width="2"
+                      stroke-dasharray="5 9"
+                      d="M430 900C150 720 760 690 450 535S280 462 475 431"
+                    />
+                  </g>
+                </svg>
+              </div>
+              <div
+                class="view-frame motion-layer"
+                id="view-frame"
+                aria-hidden="true"
+              ></div>
+              <div class="depth-labels">
+                <span>Background</span><span>Midground</span
+                ><span>Foreground</span>
+              </div>
+              <div class="compass" aria-hidden="true">
+                <svg viewBox="0 0 40 40">
+                  <path
+                    d="M20 3V37M3 20H37"
+                    fill="none"
+                    stroke="#d8dcc3"
+                    stroke-width="1"
+                  />
+                  <path d="m20 7 5 13-5-3-5 3Z" fill="#d8dcc3" />
+                </svg>
+              </div>
+              <p class="route">
+                A fictional route<br />through the Alder Valley.
+              </p>
+              <div class="stage-caption">
+                <p>Pass the foreground.<br />Find the distance.</p>
+                <span
+                  >Depth schematic<br /><span
+                    class="caption-line"
+                    id="exp-state"
+                    >Approach / wide</span
+                  ></span
+                >
+              </div>
+            </article>
+            <article
+              class="study gallery"
+              aria-label="Gallery editorial composition"
+            >
+              <h2 class="art-title display motion-layer" id="gallery-title">
+                <span>Look</span><span><em>a little</em></span
+                ><span>longer.</span>
+              </h2>
+              <div
+                class="artwork motion-layer"
+                id="gallery-art"
+                role="img"
+                aria-label="Original geometric artwork: coral circle and black curved form on ivory paper"
+              >
+                <svg viewBox="0 0 430 520" preserveAspectRatio="xMidYMid meet">
+                  <path fill="#efe8d7" d="M0 0H430V520H0Z" />
+                  <circle cx="286" cy="190" r="108" fill="#e66b49" />
+                  <path
+                    d="M68 452V82H162V272C162 341 201 373 286 373H367V452Z"
+                    fill="#252722"
+                  />
+                  <path
+                    fill="none"
+                    stroke="#252722"
+                    stroke-width="1"
+                    d="M25 25H405V495H25Z"
+                  />
+                  <path
+                    fill="none"
+                    stroke="#d0c3ab"
+                    stroke-width="1"
+                    d="M44 44H386V476H44Z"
+                  />
+                </svg>
+              </div>
+              <div class="gallery-chapters">
+                <p class="motion-layer" id="chapter-a">First, the shape.</p>
+                <p class="motion-layer" id="chapter-b">Then, the tension.</p>
+                <p class="motion-layer" id="chapter-c">
+                  Finally, the space<br />between.
+                </p>
+              </div>
+              <span class="margin-note"
+                >Fictional exhibition · Form / Interval</span
+              >
+              <div class="stage-caption">
+                <p>An artwork stays.<br />The reading changes.</p>
+                <span
+                  >Hold the composition<br /><span
+                    class="caption-line"
+                    id="gallery-state"
+                    >Shape / first encounter</span
+                  ></span
+                >
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section class="details" aria-label="Direction notes">
+        <div class="direction-detail is-active" data-detail="atelier">
+          <div>
+            <h2>Kinetic Atelier</h2>
+            <p>
+              Oversized lettering splits as a folded surface opens. The sticky
+              stage turns one graphic gesture into a studio story.
+            </p>
+          </div>
+          <div class="assets">
+            <p>
+              <strong>Rebuild needs</strong>Original project photography, a
+              licensed display face, and one studio case study. Current panels
+              are deliberate geometry.
+            </p>
+            <p>
+              <strong>Motion to compare</strong>Type separates; panels rotate
+              and spread. Best for a studio that wants a bold graphic identity.
+            </p>
+          </div>
+        </div>
+        <div class="direction-detail" data-detail="expedition">
+          <div>
+            <h2>Expedition</h2>
+            <p>
+              Travel through three depth planes toward a framed destination.
+              Recommended for the clearest parallax story and strongest change
+              in scale.
+            </p>
+          </div>
+          <div class="assets">
+            <p>
+              <strong>Rebuild needs</strong>One licensed landscape with separate
+              foreground, midground, and background layers. These shapes are a
+              depth schematic, not a scenic image.
+            </p>
+            <p>
+              <strong>Motion to compare</strong>The near plane passes quickly;
+              distant planes enlarge slowly. The frame expands as the view
+              opens.
+            </p>
+          </div>
+        </div>
+        <div class="direction-detail" data-detail="gallery">
+          <div>
+            <h2>Gallery</h2>
+            <p>
+              One artwork stays in view while three short readings progress.
+              Giant lettering moves behind it, giving the composition an
+              editorial rhythm.
+            </p>
+          </div>
+          <div class="assets">
+            <p>
+              <strong>Rebuild needs</strong>High-resolution licensed artwork,
+              exhibition copy, and a considered editorial typeface. Current
+              artwork is an original geometric placeholder.
+            </p>
+            <p>
+              <strong>Motion to compare</strong>The artwork settles; lettering
+              crosses behind it; chapters change. Best for a portfolio or
+              exhibition story.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <p>Preview only. No direction is approved or saved.</p>
+      <p>
+        Native scrolling · No scroll hijacking · Motion preference stays in this
+        visit
+      </p>
+    </footer>
+    <script>
+      (() => {
+        document.documentElement.classList.add("js");
+        const stage = document.querySelector("#stage");
+        const frame = document.querySelector(".frame");
+        const reduce = document.querySelector("#motion-reduce");
+        const media = matchMedia("(prefers-reduced-motion: reduce)");
+        let manualPreference = null;
+        let direction = "atelier";
+        let queued = false;
+        const clamp = (value) => Math.max(0, Math.min(1, value));
+        const set = (id, transform) =>
+          (document.getElementById(id).style.transform = transform);
+        const reduced = () =>
+          manualPreference === null ? media.matches : manualPreference;
+        function render() {
+          queued = false;
+          const distance = Math.max(
+            1,
+            stage.offsetHeight - frame.offsetHeight - 16,
+          );
+          const progress = clamp((scrollY - stage.offsetTop + 16) / distance);
+          const p = reduced() ? 0.5 : progress;
+          const mobile = innerWidth <= 700;
+          const unfold = 1 - Math.pow(1 - p, 3);
+          document.querySelector("#progress").value =
+            `${Math.round(progress * 100)}%`;
+          document.querySelector("#progress-fill").style.width =
+            `${progress * 100}%`;
+          document.body.classList.toggle("motion-static", reduced());
+          set(
+            "atelier-title",
+            `translate(${p * (mobile ? -16 : -46)}px, ${p * -22}px)`,
+          );
+          set(
+            "atelier-word",
+            `translate(${p * (mobile ? 20 : 62)}px, ${p * 18}px)`,
+          );
+          set(
+            "fold-a",
+            `translate(${unfold * 18}px, ${unfold * -8}px) rotate(${unfold * -12}deg) scale(${1 + unfold * 0.09})`,
+          );
+          set(
+            "fold-b",
+            `translate(${unfold * -75}px, ${unfold * 18}px) rotateY(${unfold * -46}deg) rotate(${unfold * -20}deg)`,
+          );
+          set(
+            "fold-c",
+            `translate(${unfold * 65}px, ${unfold * -15}px) rotateY(${unfold * 35}deg) rotate(${unfold * 16}deg)`,
+          );
+          set(
+            "fold-seam",
+            `translate(${unfold * 18}px, ${unfold * -8}px) rotate(${unfold * -12}deg)`,
+          );
+          set("exp-title", `translateY(${p * -28}px)`);
+          set(
+            "exp-background",
+            `translateY(${p * 18}px) scale(${1 + p * 0.12})`,
+          );
+          set("exp-middle", `translateY(${p * 70}px) scale(${1 + p * 0.35})`);
+          set(
+            "exp-foreground",
+            `translate(${p * -55}px, ${p * 190}px) scale(${1 + p * 0.7})`,
+          );
+          set("view-frame", `scale(${1 + p * 0.6})`);
+          set(
+            "gallery-title",
+            `translate(${p * (mobile ? -12 : -36)}px, ${p * -48}px)`,
+          );
+          set(
+            "gallery-art",
+            `translate(${(1 - p) * 20}px, ${(1 - p) * 20}px) rotate(${(1 - p) * 9 - 3}deg) scale(${0.92 + p * 0.08})`,
+          );
+          const chapter = p < 0.34 ? 0 : p < 0.68 ? 1 : 2;
+          ["chapter-a", "chapter-b", "chapter-c"].forEach((id, index) => {
+            const element = document.getElementById(id);
+            element.style.opacity = index === chapter ? "1" : "0";
+            element.style.transform = `translateY(${index === chapter ? 0 : index < chapter ? -18 : 18}px)`;
+          });
+          document.querySelector("#atelier-state").textContent = reduced()
+            ? "Static composition"
+            : p < 0.34
+              ? "Folded / held"
+              : p < 0.68
+                ? "Opening / separating"
+                : "Unfolded / expanded";
+          document.querySelector("#exp-state").textContent = reduced()
+            ? "Static composition"
+            : p < 0.34
+              ? "Approach / wide"
+              : p < 0.68
+                ? "Pass / foreground"
+                : "Arrive / close";
+          document.querySelector("#gallery-state").textContent = reduced()
+            ? "Static composition"
+            : [
+                "Shape / first encounter",
+                "Tension / second reading",
+                "Space / final reading",
+              ][chapter];
+        }
+        function requestRender() {
+          if (!queued) {
+            queued = true;
+            requestAnimationFrame(render);
+          }
+        }
+        function syncPreference() {
+          reduce.checked = reduced();
+          requestRender();
+        }
+        reduce.addEventListener("change", () => {
+          manualPreference = reduce.checked;
+          syncPreference();
+        });
+        media.addEventListener("change", syncPreference);
+        document.querySelectorAll("[data-direction]").forEach((button) =>
+          button.addEventListener("click", () => {
+            direction = button.dataset.direction;
+            document.body.dataset.theme = direction;
+            document
+              .querySelectorAll("[data-direction]")
+              .forEach((tab) =>
+                tab.setAttribute("aria-pressed", String(tab === button)),
+              );
+            document
+              .querySelectorAll(".study")
+              .forEach((study) =>
+                study.classList.toggle(
+                  "is-active",
+                  study.classList.contains(direction),
+                ),
+              );
+            document
+              .querySelectorAll("[data-detail]")
+              .forEach((detail) =>
+                detail.classList.toggle(
+                  "is-active",
+                  detail.dataset.detail === direction,
+                ),
+              );
+            requestRender();
+          }),
+        );
+        document.querySelectorAll("[data-jump]").forEach((link) =>
+          link.addEventListener("click", (event) => {
+            event.preventDefault();
+            const distance = Math.max(
+              1,
+              stage.offsetHeight - frame.offsetHeight - 16,
+            );
+            window.scrollTo({
+              top: stage.offsetTop - 16 + distance * Number(link.dataset.jump),
+              behavior: reduced() ? "instant" : "smooth",
+            });
+          }),
+        );
+        addEventListener("scroll", requestRender, { passive: true });
+        addEventListener("resize", requestRender);
+        syncPreference();
+        render();
+      })();
+    </script>
+  </body>
+</html>

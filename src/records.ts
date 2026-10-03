@@ -24,12 +24,32 @@ const section = z.strictObject({
     .optional(),
 });
 export const motionPlanSchema = z.strictObject({
+  visual: z
+    .strictObject({
+      brand: text,
+      tagline: text,
+      palette: z.strictObject({
+        background: z.string().regex(/^#[a-fA-F0-9]{6}$/),
+        ink: z.string().regex(/^#[a-fA-F0-9]{6}$/),
+        accent: z.string().regex(/^#[a-fA-F0-9]{6}$/),
+        sky: z.string().regex(/^#[a-fA-F0-9]{6}$/),
+        surface: z.string().regex(/^#[a-fA-F0-9]{6}$/),
+      }),
+      typography: z.enum(["editorial", "humanist", "modern"]),
+    })
+    .optional(),
   sections: z.array(section).min(1).max(30),
   scenes: z
     .array(
       z.strictObject({
         sectionId: id,
         effect,
+        art: z.enum(["coastal", "editorial", "geometric"]).optional(),
+        coastalScene: z.enum(["coastline", "villa", "walk"]).optional(),
+        composition: z.enum(["cover", "split", "immersive"]).optional(),
+        beats: z
+          .strictObject({ start: text, middle: text, end: text })
+          .optional(),
         layers: z
           .array(
             z.strictObject({
@@ -133,6 +153,8 @@ export const projectSchema = z
         add("Layer ids must be unique within each scene");
     }
     for (const s of p.motionPlan.sections) {
+      if (!p.motionPlan.scenes.some((scene) => scene.sectionId === s.id))
+        add("Every section requires a scene");
       if (s.action && !ids.includes(s.action.target.slice(1)))
         add("Action target does not exist");
     }
@@ -145,4 +167,5 @@ export type ValidationReport = {
   issues: string[];
   revision: string;
   approvalStatus: "missing" | "stale" | "recorded";
+  motionWarnings: string[];
 };

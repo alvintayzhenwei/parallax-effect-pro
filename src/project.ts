@@ -176,7 +176,43 @@ export async function validateProject(
         : [],
     revision: designRevision(p),
     approvalStatus: status,
+    motionWarnings: motionWarnings(p),
   };
+}
+function motionWarnings(p: ProjectRecord): string[] {
+  return p.motionPlan.scenes.flatMap((scene) => {
+    if (["video-scrub", "three-dimensional"].includes(scene.effect))
+      return [
+        `${scene.sectionId}: advanced storyboard requires real media/rendering and runtime verification.`,
+      ];
+    const warnings: string[] = [];
+    if (scene.layers.every((layer) => layer.travel === 0))
+      warnings.push(
+        `${scene.sectionId}: zero travel produces a static composition.`,
+      );
+    if (
+      ["layered-depth", "pointer-depth", "sticky-reveal"].includes(
+        scene.effect,
+      ) &&
+      (new Set(scene.layers.map((layer) => layer.depth)).size < 2 ||
+        new Set(
+          scene.layers.map((layer) => `${layer.direction}:${layer.travel}`),
+        ).size < 2)
+    )
+      warnings.push(
+        `${scene.sectionId}: use distinct depth planes and relative layer travel; fading or pinning alone does not demonstrate parallax.`,
+      );
+    if (
+      scene.effect === "background-drift" &&
+      !scene.layers.some(
+        (layer) => layer.depth === "background" && layer.travel !== 0,
+      )
+    )
+      warnings.push(
+        `${scene.sectionId}: background drift needs a background plane with nonzero travel.`,
+      );
+    return warnings;
+  });
 }
 export async function exportHandoff(
   root: string,
@@ -211,6 +247,11 @@ export async function exportHandoff(
     JSON.stringify(p.motionPlan.scenes, null, 2),
     `Mobile: ${p.motionPlan.mobileBehavior}`,
     `Reduced motion: ${p.motionPlan.reducedMotionBehavior}`,
+    "## Motion review",
+    motionWarnings(p).length
+      ? motionWarnings(p).join("\n")
+      : "No structural motion warnings. Visual quality remains unverified.",
+    "Compare start, middle and end frames at desktop and mobile widths. Verify visible relative layer travel, useful sticky progression, readable copy/actions and complete static content. Passing schemas or runtime checks does not prove aesthetic quality; obtain the owner's visual verdict.",
     "## Asset plan",
     JSON.stringify(p.assetPlan, null, 2),
     "## Quality checks",

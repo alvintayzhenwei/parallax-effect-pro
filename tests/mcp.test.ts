@@ -29,9 +29,57 @@ test("stdio discovery, preview, validation and unsafe path rejection", async (t)
     const tools = await client.listTools();
     assert.deepEqual(tools.tools.map((t) => t.name).sort(), [
       "parallax_create_preview",
+      "parallax_design_guidance",
       "parallax_export_handoff",
       "parallax_validate_project",
     ]);
+    assert.match(client.getInstructions() ?? "", /parallax_design_guidance/);
+    const guidanceTool = tools.tools.find(
+      (t) => t.name === "parallax_design_guidance",
+    )!;
+    assert.equal(guidanceTool.annotations?.readOnlyHint, true);
+    assert.equal(guidanceTool.inputSchema.additionalProperties, false);
+    for (const phase of [
+      "discovery",
+      "concepts",
+      "preview",
+      "assets",
+      "build",
+      "review",
+    ]) {
+      const guide = await client.callTool({
+        name: "parallax_design_guidance",
+        arguments: { phase },
+      });
+      assert.ok(!guide.isError);
+      const data = guide.structuredContent as any;
+      assert.equal(data.phase, phase);
+      assert.match(data.workflow, /Clarify audience/);
+      assert.ok(data.references.length > 0);
+      assert.ok(Object.keys(data.templates).length > 0);
+      if (phase === "discovery")
+        assert.match(
+          data.references.map((r: any) => r.content).join("\n"),
+          /audience/i,
+        );
+      if (phase === "preview")
+        assert.equal(data.templates["project.json"].schemaVersion, 1);
+      if (phase === "build" || phase === "review")
+        assert.match(
+          data.references.map((r: any) => r.content).join("\n"),
+          /start.*middle.*end/i,
+        );
+    }
+    for (const args of [
+      { phase: "unknown" },
+      { phase: "discovery", path: "../secret" },
+    ]) {
+      const bad = await client.callTool({
+        name: "parallax_design_guidance",
+        arguments: args,
+      });
+      assert.equal(bad.isError, true);
+    }
     const result = await client.callTool({
       name: "parallax_create_preview",
       arguments: { recordPath: "project.json", outputPath: "wireframe.html" },

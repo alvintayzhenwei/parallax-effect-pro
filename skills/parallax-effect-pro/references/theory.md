@@ -30,6 +30,8 @@ Content-heavy scanning, task-focused forms, constrained devices, inadequate asse
 
 ## Concept questions
 
+During discovery, clarify audience, purpose and primary action first. Then ask about existing content/assets, desired motion or useful references, deadlines, device constraints and the incumbent stack for a revamp. Ask one material question at a time; summarize actual answers and explicitly labeled assumptions before presenting concepts. Never invent user answers or infer approval from silence.
+
 What should visitors understand first? What action matters? Is the story spatial or chronological? Which assets genuinely support layers? Should movement feel restrained or cinematic? What remains meaningful without motion?
 
 Use the answers to make three distinct concepts, not three color palettes for the same composition. Preserve content structure and test mobile/static states early.

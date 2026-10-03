@@ -70,4 +70,9 @@ Ask the agent to verify connection and available models. Paid generation require
 
 ## Evidence levels
 
-Codex 0.160.0 recognized generated marketplace/plugin and discovered the skill. Claude Code 2.1.288 passed strict manifest validation and loaded skill inventory via `--plugin-dir`. Real SDK stdio client calls exercise preview/validation/handoff refusal from source and tarball. A full model-driven end-to-end website session in both hosts and paid Runway generation are separate acceptance checks; do not infer them from manifest validation.
+Codex 0.160.0 recognized generated marketplace/plugin and discovered the skill. Claude Code 2.1.288 passed strict manifest validation and loaded skill inventory via `--plugin-dir`. Real SDK stdio client calls exercise phase guidance, preview/validation/handoff refusal from source and tarball. A full model-driven end-to-end website session in both hosts and paid Runway generation are separate acceptance checks; do not infer them from manifest validation.
+
+
+## Bare MCP versus skill plus MCP
+
+Start with `parallax_design_guidance` in phase `discovery` when using a bare MCP connection. The server exposes phase-specific packaged knowledge and a preview template; your coding agent asks material questions and develops the design. The skill provides automatic workflow routing when installed. Neither a tool call nor a manifest/discovery test proves that the model follows the full interview or produces a visually superior site. See the product E2E acceptance plan before making those claims.

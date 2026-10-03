@@ -1,20 +1,235 @@
 {
- "schemaVersion":1,
- "brief":{"goal":"Show a fictional design studio's work","audience":"Potential clients","primaryAction":"Explore services","startingPoint":"An editorial studio with subtle depth","assumptions":["All content is fictional"]},
- "concepts":[
-  {"id":"editorial","title":"Quiet depth","story":"An editorial studio with layered geometry","sections":["hero","work","services"],"effects":["layered-depth","sticky-reveal"],"assetNeeds":["Geometric placeholders"],"mobile":"Simpler layers","reducedMotion":"Static composition","effort":"low"},
-  {"id":"journey","title":"Creative journey","story":"Reveal each stage of a project","sections":["hero","work","services"],"effects":["background-drift"],"assetNeeds":["Project stills"],"mobile":"Short scenes","reducedMotion":"Sequential content","effort":"medium"},
-  {"id":"cinema","title":"Cinematic studio","story":"A film-led introduction","sections":["hero","work","services"],"effects":["video-scrub"],"assetNeeds":["Video and poster"],"mobile":"Poster fallback","reducedMotion":"Static poster","effort":"high"}
- ],
- "selectedConceptId":"editorial",
- "motionPlan":{"sections":[
-  {"id":"hero","title":"Ideas with depth","copy":"A fictional studio exploring identity, digital spaces, and thoughtful motion.","action":{"label":"Explore our work","target":"#work"}},
-  {"id":"work","title":"Selected explorations","copy":"Form, rhythm, and space. Three fictional projects show how a clear idea becomes a memorable experience.","action":{"label":"View services","target":"#services"}},
-  {"id":"services","title":"Make the idea tangible","copy":"Identity, websites, and motion systems. This is a demonstration, not a real business.","action":{"label":"Back to introduction","target":"#hero"}}
- ],"scenes":[
-  {"sectionId":"hero","effect":"layered-depth","layers":[{"id":"sky","label":"Background plane","depth":"background","direction":"vertical","travel":0.12},{"id":"shape","label":"Midground shape","depth":"midground","direction":"vertical","travel":0.25},{"id":"frame","label":"Foreground frame","depth":"foreground","direction":"vertical","travel":0.4}]},
-  {"sectionId":"work","effect":"sticky-reveal","layers":[{"id":"work-card","label":"Work placeholder","depth":"midground","direction":"horizontal","travel":0.2}]},
-  {"sectionId":"services","effect":"pointer-depth","layers":[{"id":"service-shape","label":"Decorative shape","depth":"background","direction":"horizontal","travel":0.15}]}
- ],"mobileBehavior":"Reduce travel by half; keep native scrolling","reducedMotionBehavior":"Static layers and fully visible content"},
- "assetPlan":{"provider":"none","mode":"import","items":[{"id":"geometry","purpose":"Preview depth layers","status":"placeholder","provenance":"Original geometric shapes"}]}
+  "schemaVersion": 1,
+  "brief": {
+    "goal": "Show a fictional design studio's work",
+    "audience": "Potential clients",
+    "primaryAction": "Explore services",
+    "startingPoint": "An editorial studio with subtle depth",
+    "assumptions": [
+      "All content is fictional"
+    ]
+  },
+  "concepts": [
+    {
+      "id": "editorial",
+      "title": "Quiet depth",
+      "story": "An editorial studio with layered geometry",
+      "sections": [
+        "hero",
+        "work",
+        "services"
+      ],
+      "effects": [
+        "layered-depth",
+        "sticky-reveal",
+        "pointer-depth"
+      ],
+      "assetNeeds": [
+        "Geometric placeholders"
+      ],
+      "mobile": "Simpler layers",
+      "reducedMotion": "Static composition",
+      "effort": "low"
+    },
+    {
+      "id": "journey",
+      "title": "Creative journey",
+      "story": "Reveal each stage of a project",
+      "sections": [
+        "hero",
+        "work",
+        "services"
+      ],
+      "effects": [
+        "background-drift"
+      ],
+      "assetNeeds": [
+        "Project stills"
+      ],
+      "mobile": "Short scenes",
+      "reducedMotion": "Sequential content",
+      "effort": "medium"
+    },
+    {
+      "id": "cinema",
+      "title": "Cinematic studio",
+      "story": "A film-led introduction",
+      "sections": [
+        "hero",
+        "work",
+        "services"
+      ],
+      "effects": [
+        "video-scrub"
+      ],
+      "assetNeeds": [
+        "Video and poster"
+      ],
+      "mobile": "Poster fallback",
+      "reducedMotion": "Static poster",
+      "effort": "high"
+    }
+  ],
+  "selectedConceptId": "editorial",
+  "motionPlan": {
+    "sections": [
+      {
+        "id": "hero",
+        "title": "Ideas with depth",
+        "copy": "A fictional studio exploring identity, digital spaces, and thoughtful motion.",
+        "action": {
+          "label": "Explore our work",
+          "target": "#work"
+        }
+      },
+      {
+        "id": "work",
+        "title": "Selected explorations",
+        "copy": "Form, rhythm, and space. Three fictional projects show how a clear idea becomes a memorable experience.",
+        "action": {
+          "label": "View services",
+          "target": "#services"
+        }
+      },
+      {
+        "id": "services",
+        "title": "Make the idea tangible",
+        "copy": "Identity, websites, and motion systems. This is a demonstration, not a real business.",
+        "action": {
+          "label": "Back to introduction",
+          "target": "#hero"
+        }
+      }
+    ],
+    "scenes": [
+      {
+        "sectionId": "hero",
+        "effect": "layered-depth",
+        "layers": [
+          {
+            "id": "sky",
+            "label": "Background plane",
+            "depth": "background",
+            "direction": "vertical",
+            "travel": 0.12
+          },
+          {
+            "id": "shape",
+            "label": "Midground shape",
+            "depth": "midground",
+            "direction": "vertical",
+            "travel": 0.25
+          },
+          {
+            "id": "frame",
+            "label": "Foreground frame",
+            "depth": "foreground",
+            "direction": "vertical",
+            "travel": 0.4
+          }
+        ],
+        "beats": {
+          "start": "Establish the studio as a space of ideas",
+          "middle": "Separate background, subject and frame to make depth visible",
+          "end": "Direct attention toward the work"
+        },
+        "art": "editorial",
+        "composition": "cover"
+      },
+      {
+        "sectionId": "work",
+        "effect": "sticky-reveal",
+        "layers": [
+          {
+            "id": "research",
+            "label": "Research plane",
+            "depth": "background",
+            "direction": "horizontal",
+            "travel": 0.22
+          },
+          {
+            "id": "form",
+            "label": "Form plane",
+            "depth": "midground",
+            "direction": "vertical",
+            "travel": 0.35
+          },
+          {
+            "id": "expression",
+            "label": "Expression frame",
+            "depth": "foreground",
+            "direction": "horizontal",
+            "travel": 0.48
+          }
+        ],
+        "beats": {
+          "start": "Present an assembled project",
+          "middle": "Separate research, form and expression",
+          "end": "Resolve the composition and introduce services"
+        },
+        "art": "editorial",
+        "composition": "split"
+      },
+      {
+        "sectionId": "services",
+        "effect": "pointer-depth",
+        "layers": [
+          {
+            "id": "service-grid",
+            "label": "Service context",
+            "depth": "background",
+            "direction": "horizontal",
+            "travel": 0.12
+          },
+          {
+            "id": "service-shape",
+            "label": "Focal service shape",
+            "depth": "midground",
+            "direction": "horizontal",
+            "travel": 0.3
+          },
+          {
+            "id": "service-frame",
+            "label": "Near service frame",
+            "depth": "foreground",
+            "direction": "horizontal",
+            "travel": 0.5
+          }
+        ],
+        "beats": {
+          "start": "Establish a calm service composition",
+          "middle": "Explore separate planes with the pointer",
+          "end": "Keep the primary action clear"
+        },
+        "art": "editorial",
+        "composition": "immersive"
+      }
+    ],
+    "mobileBehavior": "Reduce travel by half; keep native scrolling",
+    "reducedMotionBehavior": "Static layers and fully visible content",
+    "visual": {
+      "brand": "Field Studio",
+      "tagline": "Objects with a story",
+      "typography": "editorial",
+      "palette": {
+        "background": "#f3eee4",
+        "ink": "#263d37",
+        "accent": "#a85b39",
+        "sky": "#c4d3c9",
+        "surface": "#fff7e7"
+      }
+    }
+  },
+  "assetPlan": {
+    "provider": "none",
+    "mode": "import",
+    "items": [
+      {
+        "id": "geometry",
+        "purpose": "Preview depth layers",
+        "status": "placeholder",
+        "provenance": "Original geometric shapes"
+      }
+    ]
+  }
 }

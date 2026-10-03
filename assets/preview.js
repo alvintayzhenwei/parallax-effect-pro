@@ -1,4 +1,11 @@
 (() => {
+  const mode = document.querySelector("#review-toggle");
+  mode?.addEventListener("click", () => {
+    const review = document.body.dataset.mode !== "review";
+    document.body.dataset.mode = review ? "review" : "site";
+    mode.setAttribute("aria-expanded", String(review));
+    mode.textContent = review ? "Return to site" : "Review design";
+  });
   const reduce = document.querySelector("#reduce"),
     intensity = document.querySelector("#intensity"),
     view = document.querySelector("#view"),
@@ -14,17 +21,32 @@
   const reduced = () => preference.matches || reduce.checked;
   function update() {
     frame = 0;
-    const off = reduced();
-    document.body.dataset.reduced = String(off);
     const amount = Number(intensity.value);
+    const off = reduced() || amount === 0;
+    document.body.dataset.enhanced = "true";
+    document.body.dataset.reduced = String(off);
     const mobile = innerWidth < 700 || document.body.dataset.view === "mobile";
     for (const scene of scenes) {
       const box = scene.getBoundingClientRect();
       const visible = box.bottom > 0 && box.top < innerHeight;
+      const kind = scene.dataset.effect;
+      const stageHeight = scene.querySelector(".scene-stage").offsetHeight;
       const progress = Math.max(
-        -1,
-        Math.min(1, (innerHeight / 2 - box.top - box.height / 2) / innerHeight),
+        0,
+        Math.min(
+          1,
+          kind === "sticky-reveal" && !mobile
+            ? (96 - box.top) / Math.max(1, box.height - stageHeight)
+            : (innerHeight - box.top) / (innerHeight + box.height),
+        ),
       );
+      const signed = progress * 2 - 1;
+      const beat = progress < 0.33 ? 0 : progress < 0.67 ? 1 : 2;
+      scene.dataset.beat = ["start", "middle", "end"][beat];
+      for (const [i, item] of [
+        ...scene.querySelectorAll(".narrative-beats li"),
+      ].entries())
+        item.dataset.active = String(!off && i === beat);
       for (const layer of scene.querySelectorAll(".layer")) {
         if (
           off ||
@@ -38,22 +60,35 @@
         }
         const travel =
           Number(layer.dataset.travel) * amount * (mobile ? 0.5 : 1);
-        const isPointer = scene.dataset.effect === "pointer-depth";
-        const x = isPointer
-          ? coarse.matches
-            ? 0
-            : pointer.x * travel * 35
-          : layer.dataset.direction === "horizontal"
-            ? progress * travel * 160
-            : 0;
-        const y = isPointer
-          ? coarse.matches
-            ? 0
-            : pointer.y * travel * 35
-          : layer.dataset.direction === "vertical"
-            ? progress * travel * 160
-            : 0;
-        layer.style.transform = `translate(${x}px, ${y}px)`;
+        if (kind === "background-drift") {
+          // Only the distant plane travels; the subject and reading plane stay steady.
+          layer.style.transform =
+            layer.dataset.depth === "background"
+              ? `translate(${layer.dataset.direction === "horizontal" ? signed * travel * 800 : 0}px, ${layer.dataset.direction === "vertical" ? signed * travel * 800 : 0}px)`
+              : "none";
+        } else if (kind === "pointer-depth") {
+          layer.style.transform = coarse.matches
+            ? "none"
+            : `translate(${pointer.x * travel * 160}px, ${pointer.y * travel * 160}px) rotate(${pointer.x * travel * 8}deg)`;
+        } else if (kind === "sticky-reveal") {
+          // Assemble, fan apart, then resolve. Travel magnitude remains authored in the record.
+          const spread = Math.sin(progress * Math.PI);
+          const plane = { background: -1, midground: 0.35, foreground: 1 }[
+            layer.dataset.depth
+          ];
+          const distance = spread * travel * 800 * plane;
+          const x =
+            layer.dataset.direction === "horizontal"
+              ? distance
+              : spread * travel * 160 * plane;
+          const y =
+            layer.dataset.direction === "vertical"
+              ? distance
+              : -spread * travel * 160 * plane;
+          layer.style.transform = `translate(${x}px, ${y}px) rotate(${spread * travel * 16 * plane}deg) scale(${1 + spread * Math.abs(travel) * 0.2})`;
+        } else {
+          layer.style.transform = `translate(${layer.dataset.direction === "horizontal" ? signed * travel * 800 : 0}px, ${layer.dataset.direction === "vertical" ? signed * travel * 800 : 0}px)`;
+        }
       }
     }
   }
@@ -68,7 +103,9 @@
     reduce.disabled = preference.matches;
     status.textContent = reduced()
       ? "Reduced motion: static composition. Content remains available."
-      : "Exploratory settings changed. Ask your agent to save and regenerate before approval.";
+      : effect.value === "planned" && Number(intensity.value) === 1
+        ? "Showing the recorded motion plan. Approve this revision in your agent chat."
+        : "Exploratory override: save effect and scaled travel in the plan, then regenerate before approval.";
     schedule();
   }
   reduce.addEventListener("change", controls);
