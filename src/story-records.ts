@@ -366,6 +366,24 @@ export const storySchema = z
           fail("Keyframes must be strictly ordered");
       });
     }
+    const trackGroups = new Map<string, typeof p.tracks>();
+    for (const track of p.tracks) {
+      const key = `${track.stageId}:${track.target.kind}:${track.target.id}:${track.property}`;
+      const group = trackGroups.get(key) ?? [];
+      group.push(track);
+      trackGroups.set(key, group);
+    }
+    for (const group of trackGroups.values()) {
+      group.sort((a, b) => a.keyframes[0]!.progress - b.keyframes[0]!.progress);
+      for (let i = 1; i < group.length; i++) {
+        const prior = group[i - 1]!.keyframes.at(-1)!,
+          next = group[i]!.keyframes[0]!;
+        if (next.progress < prior.progress)
+          fail("Tracks cannot overlap writes to the same property");
+        if (next.progress === prior.progress && next.value !== prior.value)
+          fail("Adjacent track boundary values must match");
+      }
+    }
     function allowed(kind: string): readonly string[] {
       return kind === "actor"
         ? actorChannels

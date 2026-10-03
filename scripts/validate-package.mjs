@@ -11,7 +11,9 @@ export function validateFiles(files) {
       "assets/preview.css",
       "assets/preview.js",
     ].includes(p) ||
-    /^dist\/(cli|mcp|project|records|preview|story-records)\.js$/.test(p) ||
+    /^dist\/(cli|mcp|project|records|preview|story-records|timeline)\.js$/.test(
+      p,
+    ) ||
     /^skills\/parallax-effect-pro\/(SKILL\.md|references\/[a-z-]+\.md|templates\/[a-z-]+\.(md|json))$/.test(
       p,
     );
