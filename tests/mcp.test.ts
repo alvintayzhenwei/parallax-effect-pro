@@ -104,3 +104,75 @@ test("stdio discovery, preview, validation and unsafe path rejection", async (t)
     await client.close();
   }
 });
+
+test("version 2 stdio preview, approval validation and scoped handoff", async (t) => {
+  const { readFile, writeFile } = await import("node:fs/promises");
+  const root = await mkdtemp(join(tmpdir(), "mcp-story-"));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  const story = JSON.parse(
+    await readFile(new URL("fixtures/story.json", import.meta.url), "utf8"),
+  );
+  await writeFile(join(root, "story.json"), JSON.stringify(story));
+  const client = new Client({ name: "story-sdk-test", version: "1.0.0" });
+  await client.connect(
+    new StdioClientTransport({
+      command: process.execPath,
+      args: [
+        new URL("../dist/cli.js", import.meta.url).pathname,
+        "mcp",
+        "--root",
+        root,
+      ],
+      stderr: "pipe",
+    }),
+  );
+  try {
+    const preview = await client.callTool({
+      name: "parallax_create_preview",
+      arguments: { recordPath: "story.json", outputPath: "stage.html" },
+    });
+    assert.ok(!preview.isError);
+    const output = preview.structuredContent as any;
+    story.preview = {
+      revision: output.revision,
+      file: "stage.html",
+      fileDigest: output.digest,
+    };
+    story.approval = {
+      revision: output.revision,
+      previewDigest: output.digest,
+      scope: "motion",
+      decision: "approved",
+      source: "human-message",
+      evidence: "Synthetic SDK test evidence, not owner acceptance",
+      approvedAt: "2026-10-04T01:00:00Z",
+    };
+    await writeFile(join(root, "story.json"), JSON.stringify(story));
+    const validation = await client.callTool({
+      name: "parallax_validate_project",
+      arguments: { recordPath: "story.json" },
+    });
+    assert.equal(
+      (validation.structuredContent as any).approvalStatus,
+      "recorded",
+    );
+    const handoff = await client.callTool({
+      name: "parallax_export_handoff",
+      arguments: { recordPath: "story.json", outputPath: "handoff.md" },
+    });
+    assert.ok(!handoff.isError);
+    assert.ok(
+      (await readFile(join(root, "handoff.md"), "utf8")).includes(
+        "Full-site UI is not approved",
+      ),
+    );
+    await writeFile(join(root, "stage.html"), "changed");
+    const stale = await client.callTool({
+      name: "parallax_validate_project",
+      arguments: { recordPath: "story.json" },
+    });
+    assert.equal((stale.structuredContent as any).approvalStatus, "stale");
+  } finally {
+    await client.close();
+  }
+});
