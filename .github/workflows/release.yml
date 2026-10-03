@@ -1,0 +1,40 @@
+name: Release preparation
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Expected package version; artifact preparation only"
+        required: true
+        type: string
+permissions:
+  contents: read
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "24"
+      - run: node --input-type=module -e 'import fs from "node:fs"; const p=JSON.parse(fs.readFileSync("package.json")); if(p.version!==process.env.EXPECTED_VERSION) process.exit(1)'
+        env:
+          EXPECTED_VERSION: ${{ inputs.version }}
+      - run: npm ci
+      - run: npm run check
+      - run: npm run smoke
+      - run: npm audit --audit-level=high
+      - run: npm run plugins
+      - run: npm pack --ignore-scripts
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: reviewed-release-candidate
+          path: |
+            *.tgz
+            plugins/
+          retention-days: 14
+# Deliberately no publish step. Enable publishing only after user release approval,
+# registry ownership/trusted-publisher setup, and verified environment protections.
