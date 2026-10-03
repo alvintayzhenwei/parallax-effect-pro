@@ -1,0 +1,39 @@
+{
+  "name": "parallax-effect-pro",
+  "version": "0.1.0",
+  "description": "Local parallax design previews, approved handoffs, and portable coding-agent skills",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=24"
+  },
+  "bin": {
+    "parallax-effect-pro": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "assets",
+    "skills",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "node --experimental-strip-types --test tests/*.test.ts",
+    "check": "npm run typecheck && npm run build && npm test && node scripts/validate-package.mjs",
+    "plugins": "node scripts/package-plugins.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alvintayzhenwei/parallax-effect-pro.git"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.1",
+    "typescript": "^7.0.2"
+  }
+}
