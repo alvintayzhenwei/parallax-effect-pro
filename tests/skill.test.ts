@@ -1,2 +1,15 @@
-import {test} from 'node:test';import assert from 'node:assert/strict';import {readFile,access} from 'node:fs/promises';import {projectSchema} from '../src/records.ts';
-test('portable template validates and workflow references resolve',async()=>{const root=new URL('../skills/parallax-effect-pro/',import.meta.url);projectSchema.parse(JSON.parse(await readFile(new URL('templates/project.json',root),'utf8')));const skill=await readFile(new URL('SKILL.md',root),'utf8');assert.match(skill,/^---\nname: parallax-effect-pro\n/);const links=[...skill.matchAll(/\]\(([^)]+\.md)\)/g)].map(m=>m[1]!);assert.ok(links.length>=5);for(const link of links)await access(new URL(link,root));});
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import { readFile, access } from "node:fs/promises";
+import { projectSchema } from "../src/records.ts";
+test("portable template validates and workflow references resolve", async () => {
+  const root = new URL("../skills/parallax-effect-pro/", import.meta.url);
+  projectSchema.parse(
+    JSON.parse(await readFile(new URL("templates/project.json", root), "utf8")),
+  );
+  const skill = await readFile(new URL("SKILL.md", root), "utf8");
+  assert.match(skill, /^---\nname: parallax-effect-pro\n/);
+  const links = [...skill.matchAll(/\]\(([^)]+\.md)\)/g)].map((m) => m[1]!);
+  assert.ok(links.length >= 5);
+  for (const link of links) await access(new URL(link, root));
+});

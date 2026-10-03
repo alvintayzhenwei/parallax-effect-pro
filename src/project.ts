@@ -1,25 +1,221 @@
-import {lstat,realpath,mkdir,open,readFile} from 'node:fs/promises';
-import {constants} from 'node:fs';
-import {isAbsolute,resolve,relative,sep,dirname} from 'node:path';
-import {createHash} from 'node:crypto';
-import {projectSchema,type ProjectRecord,type ValidationReport} from './records.ts';
-export const sha256=(data:string|Buffer)=>createHash('sha256').update(data).digest('hex');
-function canonical(value:unknown):string {if(Array.isArray(value))return '['+value.map(canonical).join(',')+']';if(value!==null&&typeof value==='object')return '{'+Object.entries(value).sort(([a],[b])=>a.localeCompare(b,'en')).map(([k,v])=>JSON.stringify(k)+':'+canonical(v)).join(',')+'}';return JSON.stringify(value);}
-export function designRevision(p:ProjectRecord):string {return sha256(canonical({concept:p.concepts.find(c=>c.id===p.selectedConceptId),motionPlan:p.motionPlan}));}
-async function contained(root:string,path:string,createParents=false):Promise<string>{
- if(!isAbsolute(root))throw new Error('Project root must be absolute');
- const stat=await lstat(root); if(stat.isSymbolicLink()||!stat.isDirectory())throw new Error('Project root must be an existing directory, not a symlink');
- const base=await realpath(root);
- if(!path||isAbsolute(path)||path.includes('\0')||path.split(/[\\/]/).some(p=>p==='..')||path.includes('\\'))throw new Error('Use a contained relative path without traversal');
- const target=resolve(base,path),rel=relative(base,target);if(!rel||rel==='..'||rel.startsWith('..'+sep))throw new Error('Path escapes project root');
- const parts=rel.split(sep);let current=base;
- for(let i=0;i<parts.length;i++){current=resolve(current,parts[i]!);let s;try{s=await lstat(current);}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;if(i<parts.length-1&&createParents){await mkdir(current);s=await lstat(current);}else if(i<parts.length-1)throw new Error('Parent directory does not exist');}
- if(s?.isSymbolicLink())throw new Error('Symlinks are not allowed in project paths');if(i<parts.length-1&&s&&!s.isDirectory())throw new Error('Parent path must be a directory');}
- return target;
+import { lstat, realpath, mkdir, open, readFile } from "node:fs/promises";
+import { constants } from "node:fs";
+import { isAbsolute, resolve, relative, sep, dirname } from "node:path";
+import { createHash } from "node:crypto";
+import {
+  projectSchema,
+  type ProjectRecord,
+  type ValidationReport,
+} from "./records.ts";
+export const sha256 = (data: string | Buffer) =>
+  createHash("sha256").update(data).digest("hex");
+function canonical(value: unknown): string {
+  if (Array.isArray(value)) return "[" + value.map(canonical).join(",") + "]";
+  if (value !== null && typeof value === "object")
+    return (
+      "{" +
+      Object.entries(value)
+        .sort(([a], [b]) => a.localeCompare(b, "en"))
+        .map(([k, v]) => JSON.stringify(k) + ":" + canonical(v))
+        .join(",") +
+      "}"
+    );
+  return JSON.stringify(value);
 }
-export async function readContained(root:string,path:string,maxBytes=1024*1024):Promise<Buffer>{const target=await contained(root,path);const handle=await open(target,constants.O_RDONLY|constants.O_NOFOLLOW);try{const s=await handle.stat();if(!s.isFile()||s.size>maxBytes)throw new Error('File must be regular and within size limit');const b=await handle.readFile();if(b.length>maxBytes)throw new Error('File exceeds size limit');return b;}finally{await handle.close();}}
-export async function readProject(root:string,path:string):Promise<ProjectRecord>{try{return projectSchema.parse(JSON.parse((await readContained(root,path)).toString('utf8')));}catch(e){if(e instanceof SyntaxError)throw new Error('Project record is not valid JSON');if((e as Error).name==='ZodError')throw new Error('Project record does not match schema; check templates and required fields');throw e;}}
-export async function writeContained(root:string,path:string,data:string):Promise<string>{const target=await contained(root,path,true);const handle=await open(target,constants.O_CREAT|constants.O_EXCL|constants.O_WRONLY|constants.O_NOFOLLOW,0o600);try{await handle.writeFile(data,'utf8');}finally{await handle.close();}return target;}
-async function approvalStatus(root:string,p:ProjectRecord):Promise<ValidationReport['approvalStatus']>{if(!p.approval)return 'missing';const revision=designRevision(p);if(!p.preview||p.approval.revision!==revision||p.preview.revision!==revision||p.approval.previewDigest!==p.preview.fileDigest)return 'stale';try{return sha256(await readContained(root,p.preview.file,5*1024*1024))===p.preview.fileDigest?'recorded':'stale';}catch{return 'stale';}}
-export async function validateProject(root:string,path:string):Promise<ValidationReport>{const p=await readProject(root,path);const status=await approvalStatus(root,p);return {valid:true,issues:status==='stale'?['Approval does not match current design and preview']:[],revision:designRevision(p),approvalStatus:status};}
-export async function exportHandoff(root:string,path:string,output:string):Promise<{path:string;revision:string}>{const p=await readProject(root,path);if(await approvalStatus(root,p)!=='recorded')throw new Error('Matching human approval record and unchanged preview required; return to preview review');const c=p.concepts.find(c=>c.id===p.selectedConceptId)!;const checks=p.qualityReport?.checks??[];const blocked=checks.some(c=>c.critical&&c.outcome==='failed');const md=['# Approved design handoff',`Concept: ${c.title}`,`Revision: ${designRevision(p)}`,'Approval is recorded from human-message evidence; this file is not authenticated proof.',`Decision evidence: ${p.approval!.evidence}`,`Deployment: ${blocked?'BLOCKED by critical failures':'Requires executed quality checks and separate user approval'}`,'## Brief',p.brief.goal,`Audience: ${p.brief.audience}`,`Primary action: ${p.brief.primaryAction}`,'## Sections',...p.motionPlan.sections.map(s=>`### ${s.title}\n${s.copy}\nAction: ${s.action?.label??'None'} ${s.action?.target??''}`),'## Motion map',JSON.stringify(p.motionPlan.scenes,null,2),`Mobile: ${p.motionPlan.mobileBehavior}`,`Reduced motion: ${p.motionPlan.reducedMotionBehavior}`,'## Asset plan',JSON.stringify(p.assetPlan,null,2),'## Quality checks',checks.length?JSON.stringify(checks,null,2):'Not run. No quality or deployment readiness claim.','## Build instructions','Preserve existing stack. Build the complete agreed website. Review draft copy and asset rights. Call separately connected Runway MCP only after paid-run approval. Do not publish without destination-specific approval.'].join('\n\n');return {path:await writeContained(root,output,md),revision:designRevision(p)};}
+export function designRevision(p: ProjectRecord): string {
+  return sha256(
+    canonical({
+      concept: p.concepts.find((c) => c.id === p.selectedConceptId),
+      motionPlan: p.motionPlan,
+    }),
+  );
+}
+async function contained(
+  root: string,
+  path: string,
+  createParents = false,
+): Promise<string> {
+  if (!isAbsolute(root)) throw new Error("Project root must be absolute");
+  const stat = await lstat(root);
+  if (stat.isSymbolicLink() || !stat.isDirectory())
+    throw new Error(
+      "Project root must be an existing directory, not a symlink",
+    );
+  const base = await realpath(root);
+  if (
+    !path ||
+    isAbsolute(path) ||
+    path.includes("\0") ||
+    path.split(/[\\/]/).some((p) => p === "..") ||
+    path.includes("\\")
+  )
+    throw new Error("Use a contained relative path without traversal");
+  const target = resolve(base, path),
+    rel = relative(base, target);
+  if (!rel || rel === ".." || rel.startsWith(".." + sep))
+    throw new Error("Path escapes project root");
+  const parts = rel.split(sep);
+  let current = base;
+  for (let i = 0; i < parts.length; i++) {
+    current = resolve(current, parts[i]!);
+    let s;
+    try {
+      s = await lstat(current);
+    } catch (e) {
+      if ((e as NodeJS.ErrnoException).code !== "ENOENT") throw e;
+      if (i < parts.length - 1 && createParents) {
+        await mkdir(current);
+        s = await lstat(current);
+      } else if (i < parts.length - 1)
+        throw new Error("Parent directory does not exist");
+    }
+    if (s?.isSymbolicLink())
+      throw new Error("Symlinks are not allowed in project paths");
+    if (i < parts.length - 1 && s && !s.isDirectory())
+      throw new Error("Parent path must be a directory");
+  }
+  return target;
+}
+export async function readContained(
+  root: string,
+  path: string,
+  maxBytes = 1024 * 1024,
+): Promise<Buffer> {
+  const target = await contained(root, path);
+  const handle = await open(target, constants.O_RDONLY | constants.O_NOFOLLOW);
+  try {
+    const s = await handle.stat();
+    if (!s.isFile() || s.size > maxBytes)
+      throw new Error("File must be regular and within size limit");
+    const b = await handle.readFile();
+    if (b.length > maxBytes) throw new Error("File exceeds size limit");
+    return b;
+  } finally {
+    await handle.close();
+  }
+}
+export async function readProject(
+  root: string,
+  path: string,
+): Promise<ProjectRecord> {
+  try {
+    return projectSchema.parse(
+      JSON.parse((await readContained(root, path)).toString("utf8")),
+    );
+  } catch (e) {
+    if (e instanceof SyntaxError)
+      throw new Error("Project record is not valid JSON");
+    if ((e as Error).name === "ZodError")
+      throw new Error(
+        "Project record does not match schema; check templates and required fields",
+      );
+    throw e;
+  }
+}
+export async function writeContained(
+  root: string,
+  path: string,
+  data: string,
+): Promise<string> {
+  const target = await contained(root, path, true);
+  const handle = await open(
+    target,
+    constants.O_CREAT |
+      constants.O_EXCL |
+      constants.O_WRONLY |
+      constants.O_NOFOLLOW,
+    0o600,
+  );
+  try {
+    await handle.writeFile(data, "utf8");
+  } finally {
+    await handle.close();
+  }
+  return target;
+}
+async function approvalStatus(
+  root: string,
+  p: ProjectRecord,
+): Promise<ValidationReport["approvalStatus"]> {
+  if (!p.approval) return "missing";
+  const revision = designRevision(p);
+  if (
+    !p.preview ||
+    p.approval.revision !== revision ||
+    p.preview.revision !== revision ||
+    p.approval.previewDigest !== p.preview.fileDigest
+  )
+    return "stale";
+  try {
+    return sha256(
+      await readContained(root, p.preview.file, 5 * 1024 * 1024),
+    ) === p.preview.fileDigest
+      ? "recorded"
+      : "stale";
+  } catch {
+    return "stale";
+  }
+}
+export async function validateProject(
+  root: string,
+  path: string,
+): Promise<ValidationReport> {
+  const p = await readProject(root, path);
+  const status = await approvalStatus(root, p);
+  return {
+    valid: true,
+    issues:
+      status === "stale"
+        ? ["Approval does not match current design and preview"]
+        : [],
+    revision: designRevision(p),
+    approvalStatus: status,
+  };
+}
+export async function exportHandoff(
+  root: string,
+  path: string,
+  output: string,
+): Promise<{ path: string; revision: string }> {
+  const p = await readProject(root, path);
+  if ((await approvalStatus(root, p)) !== "recorded")
+    throw new Error(
+      "Matching human approval record and unchanged preview required; return to preview review",
+    );
+  const c = p.concepts.find((c) => c.id === p.selectedConceptId)!;
+  const checks = p.qualityReport?.checks ?? [];
+  const blocked = checks.some((c) => c.critical && c.outcome === "failed");
+  const md = [
+    "# Approved design handoff",
+    `Concept: ${c.title}`,
+    `Revision: ${designRevision(p)}`,
+    "Approval is recorded from human-message evidence; this file is not authenticated proof.",
+    `Decision evidence: ${p.approval!.evidence}`,
+    `Deployment: ${blocked ? "BLOCKED by critical failures" : "Requires executed quality checks and separate user approval"}`,
+    "## Brief",
+    p.brief.goal,
+    `Audience: ${p.brief.audience}`,
+    `Primary action: ${p.brief.primaryAction}`,
+    "## Sections",
+    ...p.motionPlan.sections.map(
+      (s) =>
+        `### ${s.title}\n${s.copy}\nAction: ${s.action?.label ?? "None"} ${s.action?.target ?? ""}`,
+    ),
+    "## Motion map",
+    JSON.stringify(p.motionPlan.scenes, null, 2),
+    `Mobile: ${p.motionPlan.mobileBehavior}`,
+    `Reduced motion: ${p.motionPlan.reducedMotionBehavior}`,
+    "## Asset plan",
+    JSON.stringify(p.assetPlan, null, 2),
+    "## Quality checks",
+    checks.length
+      ? JSON.stringify(checks, null, 2)
+      : "Not run. No quality or deployment readiness claim.",
+    "## Build instructions",
+    "Preserve existing stack. Build the complete agreed website. Review draft copy and asset rights. Call separately connected Runway MCP only after paid-run approval. Do not publish without destination-specific approval.",
+  ].join("\n\n");
+  return {
+    path: await writeContained(root, output, md),
+    revision: designRevision(p),
+  };
+}

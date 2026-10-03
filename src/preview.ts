@@ -1,13 +1,54 @@
-import {readFile} from 'node:fs/promises';
-import {createHash} from 'node:crypto';
-import {readProject,designRevision,sha256,writeContained} from './project.ts';
-const escape=(value:string)=>value.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]!));
-export async function createPreview(root:string,recordPath:string,outputPath:string):Promise<{path:string;revision:string;digest:string}>{
- const p=await readProject(root,recordPath);const c=p.concepts.find(c=>c.id===p.selectedConceptId)!;const revision=designRevision(p);
- const css=await readFile(new URL('../assets/preview.css',import.meta.url),'utf8');const js=await readFile(new URL('../assets/preview.js',import.meta.url),'utf8');
- const sections=p.motionPlan.sections.map((s,i)=>{const scene=p.motionPlan.scenes.find(c=>c.sectionId===s.id);const advanced=scene&&['video-scrub','three-dimensional'].includes(scene.effect);return `<section id="${s.id}" class="scene" data-effect="${scene?.effect??'none'}"><div class="scene-copy"><p class="eyebrow">${String(i+1).padStart(2,'0')} / ${escape(c.title)}</p><${i===0?'h1':'h2'}>${escape(s.title)}</${i===0?'h1':'h2'}><p>${escape(s.copy)}</p>${s.action?`<a class="action" href="${s.action.target}">${escape(s.action.label)} <span aria-hidden="true">↗</span></a>`:''}<p class="effect-note">${escape(scene?.effect??'Static content')}${advanced?' · Storyboard placeholder — detailed media/3D not generated':''}</p></div><div class="scene-art" aria-hidden="true">${scene?.layers.map((l,j)=>`<div class="layer ${l.depth}" data-travel="${l.travel}" data-direction="${l.direction}" style="--index:${j}"><span>${escape(l.label)}</span></div>`).join('')??''}</div></section>`;}).join('\n');
- const map=p.motionPlan.scenes.map(s=>`<tr><th scope="row">${s.sectionId}</th><td>${s.effect}</td><td>${s.layers.map(l=>`${escape(l.label)}: ${l.depth}, ${l.direction}, ${l.travel}`).join('<br>')}</td></tr>`).join('');
- const hash=(s:string)=>createHash('sha256').update(s).digest('base64');
- const html=`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-${hash(js)}'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'; connect-src 'none'"><title>${escape(c.title)} — Motion wireframe</title><style>${css}</style></head><body><a class="skip" href="#canvas">Skip to wireframe</a><header class="toolbar"><div><strong>PARALLAX / PRO</strong><span>Motion wireframe · ${escape(c.title)}</span></div><div class="controls"><label>View <select id="view"><option value="desktop">Desktop</option><option value="mobile">Mobile</option></select></label><label>Intensity <input id="intensity" type="range" min="0" max="1" step="0.1" value="0.6"></label><label><input id="reduce" type="checkbox"> Reduced motion</label><a href="#motion-map">Motion map</a></div></header><p class="notice" id="status" role="status">Exploratory preview. Approve layout and motion in your coding-agent chat.</p><main id="canvas"><nav class="site-nav" aria-label="Wireframe navigation"><span>STUDIO / PLACEHOLDER</span>${p.motionPlan.sections.map(s=>`<a href="#${s.id}">${escape(s.title)}</a>`).join('')}</nav>${sections}<footer>Complete website wireframe · Copy and visuals require review</footer></main><aside id="motion-map"><p class="eyebrow">Design notes</p><h2>Motion map</h2><p>${escape(c.story)}</p><div class="table-wrap"><table><thead><tr><th>Section</th><th>Effect</th><th>Layers / travel</th></tr></thead><tbody>${map}</tbody></table></div><p><strong>Mobile:</strong> ${escape(p.motionPlan.mobileBehavior)}</p><p><strong>Reduced motion:</strong> ${escape(p.motionPlan.reducedMotionBehavior)}</p><p>Start: establish composition. Middle: compare layer travel. End: keep content and actions reachable.</p><details><summary>Approval reference</summary><p>Revision <code>${revision}</code></p><p>Control changes are exploratory and do not update this record. Tell your agent which settings to retain; regenerate and approve that revision.</p></details><h2>Asset route — after approval</h2><fieldset id="providers"><legend>Choose a route to discuss with your agent</legend><label><input type="radio" name="provider" value="import" checked> Import existing assets</label><label><input type="radio" name="provider" value="runway"> Runway MCP — connected generation when available</label><label><input type="radio" name="provider" value="higgsfield"> Higgsfield / Seedance — manual generation</label><label><input type="radio" name="provider" value="luma"> Luma — manual generation</label></fieldset><p id="provider-note" role="status">Use reviewed local assets or keep placeholders. No generation runs from this preview.</p></aside><noscript><p>Motion controls require JavaScript. All content remains available in this static view.</p></noscript><script>${js}</script></body></html>`;
- return {path:await writeContained(root,outputPath,html),revision,digest:sha256(html)};
+import { readFile } from "node:fs/promises";
+import { createHash } from "node:crypto";
+import {
+  readProject,
+  designRevision,
+  sha256,
+  writeContained,
+} from "./project.ts";
+const escape = (value: string) =>
+  value.replace(
+    /[&<>"']/g,
+    (c) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[
+        c
+      ]!,
+  );
+export async function createPreview(
+  root: string,
+  recordPath: string,
+  outputPath: string,
+): Promise<{ path: string; revision: string; digest: string }> {
+  const p = await readProject(root, recordPath);
+  const c = p.concepts.find((c) => c.id === p.selectedConceptId)!;
+  const revision = designRevision(p);
+  const css = await readFile(
+    new URL("../assets/preview.css", import.meta.url),
+    "utf8",
+  );
+  const js = await readFile(
+    new URL("../assets/preview.js", import.meta.url),
+    "utf8",
+  );
+  const sections = p.motionPlan.sections
+    .map((s, i) => {
+      const scene = p.motionPlan.scenes.find((c) => c.sectionId === s.id);
+      const advanced =
+        scene && ["video-scrub", "three-dimensional"].includes(scene.effect);
+      return `<section id="${s.id}" class="scene" data-effect="${scene?.effect ?? "none"}"><div class="scene-copy"><p class="eyebrow">${String(i + 1).padStart(2, "0")} / ${escape(c.title)}</p><${i === 0 ? "h1" : "h2"}>${escape(s.title)}</${i === 0 ? "h1" : "h2"}><p>${escape(s.copy)}</p>${s.action ? `<a class="action" href="${s.action.target}">${escape(s.action.label)} <span aria-hidden="true">↗</span></a>` : ""}<p class="effect-note">${escape(scene?.effect ?? "Static content")}${advanced ? " · Storyboard placeholder — detailed media/3D not generated" : ""}</p></div><div class="scene-art" aria-hidden="true">${scene?.layers.map((l, j) => `<div class="layer ${l.depth}" data-travel="${l.travel}" data-direction="${l.direction}" style="--index:${j}"><span>${escape(l.label)}</span></div>`).join("") ?? ""}</div></section>`;
+    })
+    .join("\n");
+  const map = p.motionPlan.scenes
+    .map(
+      (s) =>
+        `<tr><th scope="row">${s.sectionId}</th><td>${s.effect}</td><td>${s.layers.map((l) => `${escape(l.label)}: ${l.depth}, ${l.direction}, ${l.travel}`).join("<br>")}</td></tr>`,
+    )
+    .join("");
+  const hash = (s: string) => createHash("sha256").update(s).digest("base64");
+  const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-${hash(js)}'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'; connect-src 'none'"><title>${escape(c.title)} — Motion wireframe</title><style>${css}</style></head><body><a class="skip" href="#canvas">Skip to wireframe</a><header class="toolbar"><div><strong>PARALLAX / PRO</strong><span>Motion wireframe · ${escape(c.title)}</span></div><div class="controls"><label>View <select id="view"><option value="desktop">Desktop</option><option value="mobile">Mobile</option></select></label><label>Intensity <input id="intensity" type="range" min="0" max="1" step="0.1" value="0.6"></label><label><input id="reduce" type="checkbox"> Reduced motion</label><a href="#motion-map">Motion map</a></div></header><p class="notice" id="status" role="status">Exploratory preview. Approve layout and motion in your coding-agent chat.</p><main id="canvas"><nav class="site-nav" aria-label="Wireframe navigation"><span>STUDIO / PLACEHOLDER</span>${p.motionPlan.sections.map((s) => `<a href="#${s.id}">${escape(s.title)}</a>`).join("")}</nav>${sections}<footer>Complete website wireframe · Copy and visuals require review</footer></main><aside id="motion-map"><p class="eyebrow">Design notes</p><h2>Motion map</h2><p>${escape(c.story)}</p><div class="table-wrap"><table><thead><tr><th>Section</th><th>Effect</th><th>Layers / travel</th></tr></thead><tbody>${map}</tbody></table></div><p><strong>Mobile:</strong> ${escape(p.motionPlan.mobileBehavior)}</p><p><strong>Reduced motion:</strong> ${escape(p.motionPlan.reducedMotionBehavior)}</p><p>Start: establish composition. Middle: compare layer travel. End: keep content and actions reachable.</p><details><summary>Approval reference</summary><p>Revision <code>${revision}</code></p><p>Control changes are exploratory and do not update this record. Tell your agent which settings to retain; regenerate and approve that revision.</p></details><h2>Asset route — after approval</h2><fieldset id="providers"><legend>Choose a route to discuss with your agent</legend><label><input type="radio" name="provider" value="import" checked> Import existing assets</label><label><input type="radio" name="provider" value="runway"> Runway MCP — connected generation when available</label><label><input type="radio" name="provider" value="higgsfield"> Higgsfield / Seedance — manual generation</label><label><input type="radio" name="provider" value="luma"> Luma — manual generation</label></fieldset><p id="provider-note" role="status">Use reviewed local assets or keep placeholders. No generation runs from this preview.</p></aside><noscript><p>Motion controls require JavaScript. All content remains available in this static view.</p></noscript><script>${js}</script></body></html>`;
+  return {
+    path: await writeContained(root, outputPath, html),
+    revision,
+    digest: sha256(html),
+  };
 }

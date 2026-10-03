@@ -1,5 +1,58 @@
-import {test} from 'node:test';import assert from 'node:assert/strict';import {readFile,mkdtemp,rm,access} from 'node:fs/promises';import {tmpdir} from 'node:os';import {join} from 'node:path';import {spawnSync} from 'node:child_process';import {validateFiles} from '../scripts/validate-package.mjs';
-test('package validator rejects missing assets and secret/unrelated files',()=>{assert.throws(()=>validateFiles([{path:'package.json'}]));assert.throws(()=>validateFiles([{path:'dist/.env'}]));assert.throws(()=>validateFiles([{path:'examples/customer.json'}]));});
-test('host wrappers include canonical skill and synchronized manifests',async t=>{const output=await mkdtemp(join(tmpdir(),'plugins '));t.after(()=>rm(output,{recursive:true,force:true}));const r=spawnSync(process.execPath,['scripts/package-plugins.mjs','--output',output],{encoding:'utf8'});assert.equal(r.status,0,r.stderr);const canonical=await readFile('skills/parallax-effect-pro/SKILL.md','utf8');for(const host of ['codex','claude']){const root=join(output,`parallax-effect-pro-${host}`);assert.equal(await readFile(join(root,'skills/parallax-effect-pro/SKILL.md'),'utf8'),canonical);const manifest=JSON.parse(await readFile(join(root,host==='codex'?'plugin.json':'.claude-plugin/plugin.json'),'utf8'));assert.equal(manifest.version,JSON.parse(await readFile('package.json','utf8')).version);}});
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import { readFile, mkdtemp, rm, access } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { spawnSync } from "node:child_process";
+import { validateFiles } from "../scripts/validate-package.mjs";
+test("package validator rejects missing assets and secret/unrelated files", () => {
+  assert.throws(() => validateFiles([{ path: "package.json" }]));
+  assert.throws(() => validateFiles([{ path: "dist/.env" }]));
+  assert.throws(() => validateFiles([{ path: "examples/customer.json" }]));
+});
+test("host wrappers include canonical skill and synchronized manifests", async (t) => {
+  const output = await mkdtemp(join(tmpdir(), "plugins "));
+  t.after(() => rm(output, { recursive: true, force: true }));
+  const r = spawnSync(
+    process.execPath,
+    ["scripts/package-plugins.mjs", "--output", output],
+    { encoding: "utf8" },
+  );
+  assert.equal(r.status, 0, r.stderr);
+  const canonical = await readFile(
+    "skills/parallax-effect-pro/SKILL.md",
+    "utf8",
+  );
+  for (const host of ["codex", "claude"]) {
+    const root = join(output, `parallax-effect-pro-${host}`);
+    assert.equal(
+      await readFile(join(root, "skills/parallax-effect-pro/SKILL.md"), "utf8"),
+      canonical,
+    );
+    const manifest = JSON.parse(
+      await readFile(
+        join(
+          root,
+          host === "codex" ? "plugin.json" : ".claude-plugin/plugin.json",
+        ),
+        "utf8",
+      ),
+    );
+    assert.equal(
+      manifest.version,
+      JSON.parse(await readFile("package.json", "utf8")).version,
+    );
+  }
+});
 
-test('Codex marketplace resolves plugins inside its root',async t=>{const out=await mkdtemp(join(tmpdir(),'marketplace '));t.after(()=>rm(out,{recursive:true,force:true}));spawnSync(process.execPath,['scripts/package-plugins.mjs','--output',out]);const m=JSON.parse(await readFile(join(out,'.agents/plugins/marketplace.json'),'utf8'));assert.equal(m.plugins[0].source.source,'local');assert.ok(m.plugins[0].source.path.startsWith('./'));await access(join(out,m.plugins[0].source.path,'plugin.json'));});
+test("Codex marketplace resolves plugins inside its root", async (t) => {
+  const out = await mkdtemp(join(tmpdir(), "marketplace "));
+  t.after(() => rm(out, { recursive: true, force: true }));
+  spawnSync(process.execPath, ["scripts/package-plugins.mjs", "--output", out]);
+  const m = JSON.parse(
+    await readFile(join(out, ".agents/plugins/marketplace.json"), "utf8"),
+  );
+  assert.equal(m.plugins[0].source.source, "local");
+  assert.ok(m.plugins[0].source.path.startsWith("./"));
+  await access(join(out, m.plugins[0].source.path, "plugin.json"));
+});
