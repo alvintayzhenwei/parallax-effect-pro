@@ -1,7 +1,7 @@
 # Parallax Effect Pro: continuous motion storytelling
 
 Date: 2026-10-04, Asia/Singapore.
-Status: direction approved; written specification awaiting owner review. This document is not an implemented feature or a passing release gate.
+Status: written specification approved by the owner on 2026-10-04. Implementation plan awaits review. This document is not an implemented feature or a passing release gate.
 
 ## Problem and intended outcome
 
