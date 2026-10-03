@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { storySchema } from "./story-records.ts";
 const text = z.string().trim().min(1).max(8000);
 const id = z.string().regex(/^[a-z][a-z0-9-]{0,63}$/);
 const list = z.array(text).max(50);
@@ -96,7 +97,7 @@ const check = z.strictObject({
   evidence: text,
   environment: text,
 });
-export const projectSchema = z
+export const legacyProjectSchema = z
   .strictObject({
     schemaVersion: z.literal(1),
     brief: z.strictObject({
@@ -159,6 +160,8 @@ export const projectSchema = z
         add("Action target does not exist");
     }
   });
+export const projectSchema = z.union([legacyProjectSchema, storySchema]);
+export type LegacyProjectRecord = z.infer<typeof legacyProjectSchema>;
 export type ProjectRecord = z.infer<typeof projectSchema>;
 export type MotionPlan = z.infer<typeof motionPlanSchema>;
 export type ApprovalRecord = z.infer<typeof approvalSchema>;

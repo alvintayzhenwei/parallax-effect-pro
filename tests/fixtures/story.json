@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 2,
+  "brief": {
+    "goal": "Show a fictional design studio's work",
+    "audience": "Potential clients",
+    "primaryAction": "Explore services",
+    "startingPoint": "An editorial studio with subtle depth",
+    "assumptions": ["All content is fictional"]
+  },
+  "concepts": [
+    {
+      "id": "editorial",
+      "title": "Quiet depth",
+      "story": "An editorial studio with layered geometry",
+      "sections": ["arrival", "reveal", "action"],
+      "effects": ["layered-depth", "sticky-reveal", "pointer-depth"],
+      "assetNeeds": ["Geometric placeholders"],
+      "mobile": "Simpler layers",
+      "reducedMotion": "Static composition",
+      "effort": "low"
+    },
+    {
+      "id": "journey",
+      "title": "Creative journey",
+      "story": "Reveal each stage of a project",
+      "sections": ["arrival", "reveal", "action"],
+      "effects": ["background-drift"],
+      "assetNeeds": ["Project stills"],
+      "mobile": "Short scenes",
+      "reducedMotion": "Sequential content",
+      "effort": "medium"
+    },
+    {
+      "id": "cinema",
+      "title": "Cinematic studio",
+      "story": "A film-led introduction",
+      "sections": ["arrival", "reveal", "action"],
+      "effects": ["video-scrub"],
+      "assetNeeds": ["Video and poster"],
+      "mobile": "Poster fallback",
+      "reducedMotion": "Static poster",
+      "effort": "high"
+    }
+  ],
+  "selectedConceptId": "editorial",
+  "designContext": {
+    "owner": "host UI/UX tool",
+    "references": [],
+    "tokens": {},
+    "boundaries": ["Do not change navigation or forms"]
+  },
+  "assets": [],
+  "chapters": [
+    {
+      "id": "arrival",
+      "title": "arrival",
+      "copy": "Complete explanation"
+    },
+    {
+      "id": "reveal",
+      "title": "reveal",
+      "copy": "Complete explanation"
+    },
+    {
+      "id": "action",
+      "title": "action",
+      "copy": "Complete explanation"
+    }
+  ],
+  "stages": [
+    {
+      "id": "journey",
+      "renderer": "2d",
+      "chapterIds": ["arrival", "reveal", "action"],
+      "scrollVh": 400,
+      "allocation": {
+        "desktop": {
+          "width": 1,
+          "height": 1
+        },
+        "mobile": {
+          "width": 1,
+          "height": 0.6
+        }
+      },
+      "readingZones": [
+        {
+          "x": 0,
+          "y": 0,
+          "width": 0.3,
+          "height": 1
+        }
+      ],
+      "camera": {
+        "id": "camera",
+        "initial": {
+          "z": 5,
+          "fov": 45
+        }
+      },
+      "lights": []
+    }
+  ],
+  "actors": [
+    {
+      "id": "subject",
+      "stageId": "journey",
+      "role": "Persistent subject",
+      "initial": {
+        "x": 0.6,
+        "y": 0.5,
+        "scaleX": 1,
+        "scaleY": 1,
+        "opacity": 1
+      },
+      "visual": {
+        "kind": "primitive",
+        "shape": "box",
+        "dimensions": [1, 1, 1],
+        "color": "#cf733e",
+        "metalness": 0,
+        "roughness": 0.6
+      }
+    }
+  ],
+  "beats": [
+    {
+      "id": "discover",
+      "stageId": "journey",
+      "start": 0,
+      "end": 1,
+      "chapterId": "arrival",
+      "focusIds": ["subject"],
+      "purpose": "Discover the subject"
+    }
+  ],
+  "tracks": [
+    {
+      "id": "turn",
+      "stageId": "journey",
+      "target": {
+        "kind": "actor",
+        "id": "subject"
+      },
+      "property": "rotationY",
+      "keyframes": [
+        {
+          "progress": 0,
+          "value": 0,
+          "easing": "linear"
+        },
+        {
+          "progress": 1,
+          "value": 360,
+          "easing": "linear"
+        }
+      ]
+    }
+  ],
+  "fallbackViews": [
+    {
+      "stageId": "journey",
+      "progress": 0.5,
+      "label": "Conceptual diagram",
+      "description": "Persistent subject connects all chapters"
+    }
+  ]
+}

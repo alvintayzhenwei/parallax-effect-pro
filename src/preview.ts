@@ -99,6 +99,8 @@ export async function createPreview(
   outputPath: string,
 ): Promise<{ path: string; revision: string; digest: string }> {
   const p = await readProject(root, recordPath);
+  if (p.schemaVersion === 2)
+    throw new Error("Version 2 preview is not yet available");
   const c = p.concepts.find((c) => c.id === p.selectedConceptId)!;
   const revision = designRevision(p);
   const visual = p.motionPlan.visual ?? {

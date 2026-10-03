@@ -23,6 +23,10 @@ function canonical(value: unknown): string {
   return JSON.stringify(value);
 }
 export function designRevision(p: ProjectRecord): string {
+  if (p.schemaVersion === 2) {
+    const { preview, integrationPreview, approval, ...authored } = p;
+    return sha256(canonical(authored));
+  }
   return sha256(
     canonical({
       concept: p.concepts.find((c) => c.id === p.selectedConceptId),
@@ -144,6 +148,7 @@ async function approvalStatus(
   p: ProjectRecord,
 ): Promise<ValidationReport["approvalStatus"]> {
   if (!p.approval) return "missing";
+  if (p.schemaVersion === 2) return "stale";
   const revision = designRevision(p);
   if (
     !p.preview ||
@@ -180,6 +185,8 @@ export async function validateProject(
   };
 }
 function motionWarnings(p: ProjectRecord): string[] {
+  if (p.schemaVersion === 2)
+    return ["Story runtime and visual acceptance require verification."];
   return p.motionPlan.scenes.flatMap((scene) => {
     if (["video-scrub", "three-dimensional"].includes(scene.effect))
       return [
@@ -224,6 +231,8 @@ export async function exportHandoff(
     throw new Error(
       "Matching human approval record and unchanged preview required; return to preview review",
     );
+  if (p.schemaVersion === 2)
+    throw new Error("Version 2 handoff is not yet available");
   const c = p.concepts.find((c) => c.id === p.selectedConceptId)!;
   const checks = p.qualityReport?.checks ?? [];
   const blocked = checks.some((c) => c.critical && c.outcome === "failed");
