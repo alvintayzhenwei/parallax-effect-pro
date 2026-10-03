@@ -49,7 +49,6 @@
     if (!frame) frame = requestAnimationFrame(update);
   };
   function sync() {
-    control.checked = preference.matches;
     control.disabled = preference.matches;
     schedule();
   }

@@ -1,3 +1,4 @@
+import { execFileSync, spawnSync } from "node:child_process";
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { mkdtemp, readFile, writeFile, symlink, rm } from "node:fs/promises";
@@ -94,4 +95,21 @@ test("staleMotionApproval and editedPreviewInvalidatesApproval", async (t) => {
 test("missing approval blocks handoff", async (t) => {
   const root = await project(t);
   await assert.rejects(exportHandoff(root, "project.json", "handoff.md"));
+});
+
+test("reject FIFO without blocking", async (t) => {
+  const root = await project(t);
+  execFileSync("mkfifo", [join(root, "pipe")]);
+  const moduleUrl = new URL("../src/project.ts", import.meta.url).href;
+  const result = spawnSync(
+    process.execPath,
+    [
+      "--experimental-strip-types",
+      "--input-type=module",
+      "-e",
+      `import { readContained } from ${JSON.stringify(moduleUrl)}; try { await readContained(${JSON.stringify(root)}, "pipe"); process.exit(1); } catch { process.exit(0); }`,
+    ],
+    { timeout: 2000 },
+  );
+  assert.equal(result.status, 0, "nonregular reads must reject promptly");
 });

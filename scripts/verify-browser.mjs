@@ -61,7 +61,6 @@ try {
     await page.waitForFunction(
       () => document.querySelector(".layer").style.transform === "none",
     );
-    await page.locator("#reduce").uncheck();
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.waitForFunction(
       () =>
@@ -75,6 +74,21 @@ try {
       "none",
     );
     await page.emulateMedia({ reducedMotion: "no-preference" });
+    assert.equal(await page.locator("#reduce").isChecked(), true);
+    await page.evaluate(() => scrollTo(0, 450));
+    await page.waitForFunction(
+      () => document.querySelector(".layer").style.transform === "none",
+    );
+    await page.locator("#reduce").uncheck();
+    if (label === "wireframe") {
+      await page.locator("#effect").selectOption("none");
+      await page.waitForFunction(() =>
+        [...document.querySelectorAll(".layer")].every(
+          (e) => e.style.transform === "none",
+        ),
+      );
+      await page.locator("#effect").selectOption("planned");
+    }
     await page.evaluate(() => scrollTo(0, 0));
     await page.screenshot({ path: join(capture, label + "-desktop.png") });
     for (const href of await page

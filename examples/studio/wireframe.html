@@ -1,22 +1,450 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-RBCXOeF4V9cFKBPiy3PngeT40T1/cVDM8cAbqeAsj5M='; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'; connect-src 'none'"><title>Quiet depth — Motion wireframe</title><style>:root{color-scheme:light;font-family:Arial,Helvetica,sans-serif;color:#202020;background:#efefed;line-height:1.55}*{box-sizing:border-box}body{margin:0}a{color:inherit}button,input,select{font:inherit}input,select{accent-color:#222}:focus-visible{outline:3px solid #333;outline-offset:4px}.skip{position:fixed;top:-100px;left:10px;z-index:10;background:white;padding:12px}.skip:focus{top:10px}.toolbar{position:sticky;top:0;z-index:5;background:#fafaf8;border-bottom:1px solid #aaa;padding:16px 28px;display:flex;gap:24px;justify-content:space-between;align-items:center}.toolbar strong{font-size:14px;letter-spacing:2px}.toolbar span{display:block;font-size:12px;color:#555}.controls{display:flex;flex-wrap:wrap;gap:18px;align-items:center;font-size:13px}.controls label{display:flex;align-items:center;gap:6px}.controls input[type=range]{width:85px}.controls select{max-width:100px}.notice{margin:0;padding:10px 28px;border-bottom:1px solid #ccc;background:#e5e5e1;font-size:12px}main{width:100%;max-width:1400px;margin:auto;background:#f7f7f4;overflow:clip;border-inline:1px solid #ccc}.site-nav{display:flex;gap:24px;justify-content:flex-end;flex-wrap:wrap;padding:28px 5%;border-bottom:1px solid #aaa;font-size:12px}.site-nav span{margin-right:auto;font-weight:bold}.scene{position:relative;display:grid;grid-template-columns:1fr 1fr;align-items:center;min-height:90vh;gap:5%;padding:8% 6%;border-bottom:1px solid #aaa;scroll-margin-top:150px;overflow:clip}.eyebrow{text-transform:uppercase;letter-spacing:2px;font-size:11px}.scene h1{font-family:Georgia,serif;font-weight:normal;font-size:clamp(3rem,6vw,6.5rem);line-height:1.02;letter-spacing:-3px;margin:25px 0}.scene h2{font-family:Georgia,serif;font-weight:normal;font-size:clamp(2.5rem,4vw,4rem);line-height:1.08;letter-spacing:-1px}.scene-copy{position:relative;z-index:2}.scene-copy>p:not(.eyebrow){max-width:420px}.action{display:inline-flex;gap:30px;text-decoration:none;border-bottom:1px solid;padding:12px 0;margin:12px 0;font-size:14px}.effect-note{font-size:11px;color:#555}.scene-art{position:relative;height:420px;overflow:clip}.layer{position:absolute;display:flex;align-items:flex-end;padding:15px;font-size:10px;background:#d7d7d2;border:1px solid #888;inset:calc(3% + var(--index)*8%);pointer-events:none}.layer span{background:#f7f7f4;padding:3px 6px}.layer.background{background:#e9e9e4;border-style:dashed}.layer.midground{border-radius:50%;background:#c2c2bc;inset:15% 10%}.layer.foreground{background:transparent;border:12px solid #686863;inset:35% 0 0 40%;transform-origin:center}.scene:nth-of-type(even){background:#e8e8e2}.scene[data-effect=sticky-reveal] .scene-art{position:sticky;top:160px}.scene[data-effect=sticky-reveal]{min-height:120vh}.scene[data-effect=sticky-reveal] .layer{inset:10%;border-radius:0}.scene[data-effect=pointer-depth] .layer{inset:10%;border-radius:50%}footer{padding:30px 6%;font-size:12px}aside{padding:60px 6%;max-width:1200px;margin:auto;scroll-margin-top:150px}aside h2{font-family:Georgia,serif;font-size:2rem}table{border-collapse:collapse;width:100%;text-align:left;font-size:13px}th,td{padding:14px;border-bottom:1px solid #aaa;vertical-align:top}.table-wrap{overflow-x:auto}code{overflow-wrap:anywhere;font-size:11px}fieldset{border:1px solid #999;padding:20px;display:grid;gap:15px}details{padding:20px 0}body[data-view=mobile] main{max-width:390px}body[data-view=mobile] .scene{grid-template-columns:1fr;gap:24px;padding:50px 24px}body[data-view=mobile] .scene-art{height:260px}body[data-view=mobile] .scene h1{font-size:3.4rem}body[data-view=mobile] .site-nav{gap:12px;padding:20px}body[data-view=mobile] .site-nav span{width:100%}body[data-reduced=true] .layer{transform:none!important}body[data-reduced=true] .scene-art{position:relative}noscript p{padding:20px}@media(max-width:700px){.toolbar{position:relative;flex-direction:column;align-items:flex-start;padding:18px}.controls{gap:14px}.notice{padding:12px 18px}.scene{grid-template-columns:1fr;padding:45px 24px;min-height:auto;gap:24px}.scene-art{height:280px}.scene h1{font-size:3.4rem;letter-spacing:-2px}.site-nav{padding:20px;gap:12px}.site-nav span{width:100%}.scene[data-effect=sticky-reveal]{min-height:auto}.scene[data-effect=sticky-reveal] .scene-art{position:relative}aside{padding:35px 20px}}@media(prefers-reduced-motion:reduce){.layer{transform:none!important}.scene-art{position:relative!important}}
-</style></head><body><a class="skip" href="#canvas">Skip to wireframe</a><header class="toolbar"><div><strong>PARALLAX / PRO</strong><span>Motion wireframe · Quiet depth</span></div><div class="controls"><label>View <select id="view"><option value="desktop">Desktop</option><option value="mobile">Mobile</option></select></label><label>Intensity <input id="intensity" type="range" min="0" max="1" step="0.1" value="0.6"></label><label><input id="reduce" type="checkbox"> Reduced motion</label><a href="#motion-map">Motion map</a></div></header><p class="notice" id="status" role="status">Exploratory preview. Approve layout and motion in your coding-agent chat.</p><main id="canvas"><nav class="site-nav" aria-label="Wireframe navigation"><span>STUDIO / PLACEHOLDER</span><a href="#hero">Ideas with depth</a><a href="#work">Make room for the idea.</a><a href="#services">Make the idea tangible</a></nav><section id="hero" class="scene" data-effect="layered-depth"><div class="scene-copy"><p class="eyebrow">01 / Quiet depth</p><h1>Ideas with depth</h1><p>A fictional studio exploring identity, digital spaces, and thoughtful motion.</p><a class="action" href="#work">Explore our work <span aria-hidden="true">↗</span></a><p class="effect-note">layered-depth</p></div><div class="scene-art" aria-hidden="true"><div class="layer background" data-travel="0.12" data-direction="vertical" style="--index:0"><span>Background plane</span></div><div class="layer midground" data-travel="0.25" data-direction="vertical" style="--index:1"><span>Midground shape</span></div><div class="layer foreground" data-travel="0.4" data-direction="vertical" style="--index:2"><span>Foreground frame</span></div></div></section>
-<section id="work" class="scene" data-effect="sticky-reveal"><div class="scene-copy"><p class="eyebrow">02 / Quiet depth</p><h2>Make room for the idea.</h2><p>Form, rhythm, and space. Three fictional projects show how a clear idea becomes a memorable experience.</p><a class="action" href="#services">View services <span aria-hidden="true">↗</span></a><p class="effect-note">sticky-reveal</p></div><div class="scene-art" aria-hidden="true"><div class="layer midground" data-travel="0.2" data-direction="horizontal" style="--index:0"><span>Work placeholder</span></div></div></section>
-<section id="services" class="scene" data-effect="pointer-depth"><div class="scene-copy"><p class="eyebrow">03 / Quiet depth</p><h2>Make the idea tangible</h2><p>Identity, websites, and motion systems. This is a demonstration, not a real business.</p><a class="action" href="#hero">Back to introduction <span aria-hidden="true">↗</span></a><p class="effect-note">pointer-depth</p></div><div class="scene-art" aria-hidden="true"><div class="layer background" data-travel="0.15" data-direction="horizontal" style="--index:0"><span>Decorative shape</span></div></div></section><footer>Complete website wireframe · Copy and visuals require review</footer></main><aside id="motion-map"><p class="eyebrow">Design notes</p><h2>Motion map</h2><p>An editorial studio with layered geometry</p><div class="table-wrap"><table><thead><tr><th>Section</th><th>Effect</th><th>Layers / travel</th></tr></thead><tbody><tr><th scope="row">hero</th><td>layered-depth</td><td>Background plane: background, vertical, 0.12<br>Midground shape: midground, vertical, 0.25<br>Foreground frame: foreground, vertical, 0.4</td></tr><tr><th scope="row">work</th><td>sticky-reveal</td><td>Work placeholder: midground, horizontal, 0.2</td></tr><tr><th scope="row">services</th><td>pointer-depth</td><td>Decorative shape: background, horizontal, 0.15</td></tr></tbody></table></div><p><strong>Mobile:</strong> Reduce travel by half; keep native scrolling</p><p><strong>Reduced motion:</strong> Static layers and fully visible content</p><p>Start: establish composition. Middle: compare layer travel. End: keep content and actions reachable.</p><details><summary>Approval reference</summary><p>Revision <code>820b9ce1c0ea9cfdd653ecf6038dcb0ed62cd056c1ace2c5f2c623a8d81e0223</code></p><p>Control changes are exploratory and do not update this record. Tell your agent which settings to retain; regenerate and approve that revision.</p></details><h2>Asset route — after approval</h2><fieldset id="providers"><legend>Choose a route to discuss with your agent</legend><label><input type="radio" name="provider" value="import" checked> Import existing assets</label><label><input type="radio" name="provider" value="runway"> Runway MCP — connected generation when available</label><label><input type="radio" name="provider" value="higgsfield"> Higgsfield / Seedance — manual generation</label><label><input type="radio" name="provider" value="luma"> Luma — manual generation</label></fieldset><p id="provider-note" role="status">Use reviewed local assets or keep placeholders. No generation runs from this preview.</p></aside><noscript><p>Motion controls require JavaScript. All content remains available in this static view.</p></noscript><script>(()=>{
- const reduce=document.querySelector('#reduce'),intensity=document.querySelector('#intensity'),view=document.querySelector('#view'),status=document.querySelector('#status');
- const preference=matchMedia('(prefers-reduced-motion: reduce)'),coarse=matchMedia('(pointer: coarse)');
- const scenes=[...document.querySelectorAll('.scene')];let frame=0,pointer={x:0,y:0};
- const reduced=()=>preference.matches||reduce.checked;
- function update(){frame=0;const off=reduced();document.body.dataset.reduced=String(off);const amount=Number(intensity.value);const mobile=innerWidth<700||document.body.dataset.view==='mobile';
-  for(const scene of scenes){const box=scene.getBoundingClientRect();const visible=box.bottom>0&&box.top<innerHeight;const progress=Math.max(-1,Math.min(1,(innerHeight/2-box.top-box.height/2)/innerHeight));for(const layer of scene.querySelectorAll('.layer')){if(off||!visible||['video-scrub','three-dimensional'].includes(scene.dataset.effect)){layer.style.transform='none';continue;}
-   const travel=Number(layer.dataset.travel)*amount*(mobile?0.5:1);const isPointer=scene.dataset.effect==='pointer-depth';const x=isPointer?(coarse.matches?0:pointer.x*travel*35):(layer.dataset.direction==='horizontal'?progress*travel*160:0);const y=isPointer?(coarse.matches?0:pointer.y*travel*35):(layer.dataset.direction==='vertical'?progress*travel*160:0);layer.style.transform=`translate(${x}px, ${y}px)`;
-  }}
- }
- const schedule=()=>{if(!frame)frame=requestAnimationFrame(update);};
- function controls(){document.body.dataset.view=view.value;reduce.disabled=preference.matches;if(preference.matches)reduce.checked=true;status.textContent=reduced()?'Reduced motion: static composition. Content remains available.':'Exploratory settings changed. Ask your agent to save and regenerate before approval.';schedule();}
- reduce.addEventListener('change',controls);intensity.addEventListener('input',controls);view.addEventListener('change',controls);preference.addEventListener('change',()=>{reduce.checked=preference.matches;controls();});coarse.addEventListener('change',schedule);
- addEventListener('scroll',schedule,{passive:true});addEventListener('resize',schedule,{passive:true});addEventListener('pointermove',e=>{if(reduced()||coarse.matches)return;pointer={x:e.clientX/innerWidth*2-1,y:e.clientY/innerHeight*2-1};schedule();},{passive:true});
- const providerNote=document.querySelector('#provider-note');const notes={import:'Use reviewed local assets or keep placeholders. No generation runs from this preview.',runway:'Ask your agent to verify Runway MCP connection and available tools. Approve prompt, references, settings and credit use before generation.',higgsfield:'Manual route: ask your agent for tailored Higgsfield / Seedance prompts and current settings. Import reviewed outputs.',luma:'Manual route: ask your agent for Luma prompts and current settings. Import reviewed outputs.'};
- document.querySelector('#providers').addEventListener('change',e=>{providerNote.textContent=notes[e.target.value]??notes.import;});
- reduce.checked=preference.matches;reduce.disabled=preference.matches;document.body.dataset.view=view.value;update();
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-bhzMo+okNJepK8vzTc61MTZNGnqKFhSwhdDhdaS7AqU='; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'; connect-src 'none'"><title>Quiet depth — Motion wireframe</title><style>:root {
+  color-scheme: light;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #202020;
+  background: #efefed;
+  line-height: 1.55;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+a {
+  color: inherit;
+}
+button,
+input,
+select {
+  font: inherit;
+}
+input,
+select {
+  accent-color: #222;
+}
+:focus-visible {
+  outline: 3px solid #333;
+  outline-offset: 4px;
+}
+.skip {
+  position: fixed;
+  top: -100px;
+  left: 10px;
+  z-index: 10;
+  background: white;
+  padding: 12px;
+}
+.skip:focus {
+  top: 10px;
+}
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: #fafaf8;
+  border-bottom: 1px solid #aaa;
+  padding: 16px 28px;
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  align-items: center;
+}
+.toolbar strong {
+  font-size: 14px;
+  letter-spacing: 2px;
+}
+.toolbar span {
+  display: block;
+  font-size: 12px;
+  color: #555;
+}
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  align-items: center;
+  font-size: 13px;
+}
+.controls label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.controls input[type="range"] {
+  width: 85px;
+}
+.controls select {
+  max-width: 100px;
+}
+.notice {
+  margin: 0;
+  padding: 10px 28px;
+  border-bottom: 1px solid #ccc;
+  background: #e5e5e1;
+  font-size: 12px;
+}
+main {
+  width: 100%;
+  max-width: 1400px;
+  margin: auto;
+  background: #f7f7f4;
+  overflow: clip;
+  border-inline: 1px solid #ccc;
+}
+.site-nav {
+  display: flex;
+  gap: 24px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  padding: 28px 5%;
+  border-bottom: 1px solid #aaa;
+  font-size: 12px;
+}
+.site-nav span {
+  margin-right: auto;
+  font-weight: bold;
+}
+.scene {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  min-height: 90vh;
+  gap: 5%;
+  padding: 8% 6%;
+  border-bottom: 1px solid #aaa;
+  scroll-margin-top: 150px;
+  overflow: clip;
+}
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 11px;
+}
+.scene h1 {
+  font-family: Georgia, serif;
+  font-weight: normal;
+  font-size: clamp(3rem, 6vw, 6.5rem);
+  line-height: 1.02;
+  letter-spacing: -3px;
+  margin: 25px 0;
+}
+.scene h2 {
+  font-family: Georgia, serif;
+  font-weight: normal;
+  font-size: clamp(2.5rem, 4vw, 4rem);
+  line-height: 1.08;
+  letter-spacing: -1px;
+}
+.scene-copy {
+  position: relative;
+  z-index: 2;
+}
+.scene-copy > p:not(.eyebrow) {
+  max-width: 420px;
+}
+.action {
+  display: inline-flex;
+  gap: 30px;
+  text-decoration: none;
+  border-bottom: 1px solid;
+  padding: 12px 0;
+  margin: 12px 0;
+  font-size: 14px;
+}
+.effect-note {
+  font-size: 11px;
+  color: #555;
+}
+.scene-art {
+  position: relative;
+  height: 420px;
+  overflow: clip;
+}
+.layer {
+  position: absolute;
+  display: flex;
+  align-items: flex-end;
+  padding: 15px;
+  font-size: 10px;
+  background: #d7d7d2;
+  border: 1px solid #888;
+  inset: calc(3% + var(--index) * 8%);
+  pointer-events: none;
+}
+.layer span {
+  background: #f7f7f4;
+  padding: 3px 6px;
+}
+.layer.background {
+  background: #e9e9e4;
+  border-style: dashed;
+}
+.layer.midground {
+  border-radius: 50%;
+  background: #c2c2bc;
+  inset: 15% 10%;
+}
+.layer.foreground {
+  background: transparent;
+  border: 12px solid #686863;
+  inset: 35% 0 0 40%;
+  transform-origin: center;
+}
+.scene:nth-of-type(even) {
+  background: #e8e8e2;
+}
+.scene[data-effect="sticky-reveal"] .scene-art {
+  position: sticky;
+  top: 160px;
+}
+.scene[data-effect="sticky-reveal"] {
+  min-height: 120vh;
+}
+.scene[data-effect="sticky-reveal"] .layer {
+  inset: 10%;
+  border-radius: 0;
+}
+.scene[data-effect="pointer-depth"] .layer {
+  inset: 10%;
+  border-radius: 50%;
+}
+footer {
+  padding: 30px 6%;
+  font-size: 12px;
+}
+aside {
+  padding: 60px 6%;
+  max-width: 1200px;
+  margin: auto;
+  scroll-margin-top: 150px;
+}
+aside h2 {
+  font-family: Georgia, serif;
+  font-size: 2rem;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  text-align: left;
+  font-size: 13px;
+}
+th,
+td {
+  padding: 14px;
+  border-bottom: 1px solid #aaa;
+  vertical-align: top;
+}
+.table-wrap {
+  overflow-x: auto;
+}
+code {
+  overflow-wrap: anywhere;
+  font-size: 11px;
+}
+fieldset {
+  border: 1px solid #999;
+  padding: 20px;
+  display: grid;
+  gap: 15px;
+}
+details {
+  padding: 20px 0;
+}
+body[data-view="mobile"] main {
+  max-width: 390px;
+}
+body[data-view="mobile"] .scene {
+  grid-template-columns: 1fr;
+  gap: 24px;
+  padding: 50px 24px;
+}
+body[data-view="mobile"] .scene-art {
+  height: 260px;
+}
+body[data-view="mobile"] .scene h1 {
+  font-size: 3.4rem;
+}
+body[data-view="mobile"] .site-nav {
+  gap: 12px;
+  padding: 20px;
+}
+body[data-view="mobile"] .site-nav span {
+  width: 100%;
+}
+body[data-reduced="true"] .layer {
+  transform: none !important;
+}
+body[data-reduced="true"] .scene-art {
+  position: relative;
+}
+noscript p {
+  padding: 20px;
+}
+@media (max-width: 700px) {
+  .toolbar {
+    position: relative;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 18px;
+  }
+  .controls {
+    gap: 14px;
+  }
+  .notice {
+    padding: 12px 18px;
+  }
+  .scene {
+    grid-template-columns: 1fr;
+    padding: 45px 24px;
+    min-height: auto;
+    gap: 24px;
+  }
+  .scene-art {
+    height: 280px;
+  }
+  .scene h1 {
+    font-size: 3.4rem;
+    letter-spacing: -2px;
+  }
+  .site-nav {
+    padding: 20px;
+    gap: 12px;
+  }
+  .site-nav span {
+    width: 100%;
+  }
+  .scene[data-effect="sticky-reveal"] {
+    min-height: auto;
+  }
+  .scene[data-effect="sticky-reveal"] .scene-art {
+    position: relative;
+  }
+  aside {
+    padding: 35px 20px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .layer {
+    transform: none !important;
+  }
+  .scene-art {
+    position: relative !important;
+  }
+}
+</style></head><body><a class="skip" href="#canvas">Skip to wireframe</a><header class="toolbar"><div><strong>PARALLAX / PRO</strong><span>Motion wireframe · Quiet depth</span></div><div class="controls"><label>View <select id="view"><option value="desktop">Desktop</option><option value="mobile">Mobile</option></select></label><label>Effect <select id="effect"><option value="planned">Planned effects</option><option value="layered-depth">Scroll depth</option><option value="pointer-depth">Pointer depth</option><option value="none">Static</option></select></label><label>Intensity <input id="intensity" type="range" min="0" max="1" step="0.1" value="0.6"></label><label><input id="reduce" type="checkbox"> Reduced motion</label><a href="#motion-map">Motion map</a></div></header><p class="notice" id="status" role="status">Exploratory preview. Approve layout and motion in your coding-agent chat.</p><main id="canvas"><nav class="site-nav" aria-label="Wireframe navigation"><span>STUDIO / PLACEHOLDER</span><a href="#scene-hero">Ideas with depth</a><a href="#scene-work">Make room for the idea.</a><a href="#scene-services">Make the idea tangible</a></nav><section id="scene-hero" class="scene" data-effect="layered-depth"><div class="scene-copy"><p class="eyebrow">01 / Quiet depth</p><h1>Ideas with depth</h1><p>A fictional studio exploring identity, digital spaces, and thoughtful motion.</p><a class="action" href="#scene-work">Explore our work <span aria-hidden="true">↗</span></a><p class="effect-note">layered-depth</p></div><div class="scene-art" aria-hidden="true"><div class="layer background" data-travel="0.12" data-direction="vertical" style="--index:0"><span>Background plane</span></div><div class="layer midground" data-travel="0.25" data-direction="vertical" style="--index:1"><span>Midground shape</span></div><div class="layer foreground" data-travel="0.4" data-direction="vertical" style="--index:2"><span>Foreground frame</span></div></div></section>
+<section id="scene-work" class="scene" data-effect="sticky-reveal"><div class="scene-copy"><p class="eyebrow">02 / Quiet depth</p><h2>Make room for the idea.</h2><p>Form, rhythm, and space. Three fictional projects show how a clear idea becomes a memorable experience.</p><a class="action" href="#scene-services">View services <span aria-hidden="true">↗</span></a><p class="effect-note">sticky-reveal</p></div><div class="scene-art" aria-hidden="true"><div class="layer midground" data-travel="0.2" data-direction="horizontal" style="--index:0"><span>Work placeholder</span></div></div></section>
+<section id="scene-services" class="scene" data-effect="pointer-depth"><div class="scene-copy"><p class="eyebrow">03 / Quiet depth</p><h2>Make the idea tangible</h2><p>Identity, websites, and motion systems. This is a demonstration, not a real business.</p><a class="action" href="#scene-hero">Back to introduction <span aria-hidden="true">↗</span></a><p class="effect-note">pointer-depth</p></div><div class="scene-art" aria-hidden="true"><div class="layer background" data-travel="0.15" data-direction="horizontal" style="--index:0"><span>Decorative shape</span></div></div></section><footer>Complete website wireframe · Copy and visuals require review</footer></main><aside id="motion-map"><p class="eyebrow">Design notes</p><h2>Motion map</h2><p>An editorial studio with layered geometry</p><div class="table-wrap"><table><thead><tr><th>Section</th><th>Effect</th><th>Layers / travel</th></tr></thead><tbody><tr><th scope="row">hero</th><td>layered-depth</td><td>Background plane: background, vertical, 0.12<br>Midground shape: midground, vertical, 0.25<br>Foreground frame: foreground, vertical, 0.4</td></tr><tr><th scope="row">work</th><td>sticky-reveal</td><td>Work placeholder: midground, horizontal, 0.2</td></tr><tr><th scope="row">services</th><td>pointer-depth</td><td>Decorative shape: background, horizontal, 0.15</td></tr></tbody></table></div><p><strong>Mobile:</strong> Reduce travel by half; keep native scrolling</p><p><strong>Reduced motion:</strong> Static layers and fully visible content</p><p>Start: establish composition. Middle: compare layer travel. End: keep content and actions reachable.</p><details><summary>Approval reference</summary><p>Revision <code>820b9ce1c0ea9cfdd653ecf6038dcb0ed62cd056c1ace2c5f2c623a8d81e0223</code></p><p>Control changes are exploratory and do not update this record. Tell your agent which settings to retain; regenerate and approve that revision.</p></details><h2>Asset route — after approval</h2><fieldset id="providers"><legend>Choose a route to discuss with your agent</legend><label><input type="radio" name="provider" value="import" checked> Import existing assets</label><label><input type="radio" name="provider" value="runway"> Runway MCP — connected generation when available</label><label><input type="radio" name="provider" value="higgsfield"> Higgsfield / Seedance — manual generation</label><label><input type="radio" name="provider" value="luma"> Luma — manual generation</label></fieldset><p id="provider-note" role="status">Use reviewed local assets or keep placeholders. No generation runs from this preview.</p></aside><noscript><p>Motion controls require JavaScript. All content remains available in this static view.</p></noscript><script>(() => {
+  const reduce = document.querySelector("#reduce"),
+    intensity = document.querySelector("#intensity"),
+    view = document.querySelector("#view"),
+    effect = document.querySelector("#effect"),
+    status = document.querySelector("#status");
+  const preference = matchMedia("(prefers-reduced-motion: reduce)"),
+    coarse = matchMedia("(pointer: coarse)");
+  const scenes = [...document.querySelectorAll(".scene")];
+  for (const scene of scenes)
+    scene.dataset.plannedEffect = scene.dataset.effect;
+  let frame = 0,
+    pointer = { x: 0, y: 0 };
+  const reduced = () => preference.matches || reduce.checked;
+  function update() {
+    frame = 0;
+    const off = reduced();
+    document.body.dataset.reduced = String(off);
+    const amount = Number(intensity.value);
+    const mobile = innerWidth < 700 || document.body.dataset.view === "mobile";
+    for (const scene of scenes) {
+      const box = scene.getBoundingClientRect();
+      const visible = box.bottom > 0 && box.top < innerHeight;
+      const progress = Math.max(
+        -1,
+        Math.min(1, (innerHeight / 2 - box.top - box.height / 2) / innerHeight),
+      );
+      for (const layer of scene.querySelectorAll(".layer")) {
+        if (
+          off ||
+          !visible ||
+          ["none", "video-scrub", "three-dimensional"].includes(
+            scene.dataset.effect,
+          )
+        ) {
+          layer.style.transform = "none";
+          continue;
+        }
+        const travel =
+          Number(layer.dataset.travel) * amount * (mobile ? 0.5 : 1);
+        const isPointer = scene.dataset.effect === "pointer-depth";
+        const x = isPointer
+          ? coarse.matches
+            ? 0
+            : pointer.x * travel * 35
+          : layer.dataset.direction === "horizontal"
+            ? progress * travel * 160
+            : 0;
+        const y = isPointer
+          ? coarse.matches
+            ? 0
+            : pointer.y * travel * 35
+          : layer.dataset.direction === "vertical"
+            ? progress * travel * 160
+            : 0;
+        layer.style.transform = `translate(${x}px, ${y}px)`;
+      }
+    }
+  }
+  const schedule = () => {
+    if (!frame) frame = requestAnimationFrame(update);
+  };
+  function controls() {
+    document.body.dataset.view = view.value;
+    for (const scene of scenes)
+      scene.dataset.effect =
+        effect.value === "planned" ? scene.dataset.plannedEffect : effect.value;
+    reduce.disabled = preference.matches;
+    status.textContent = reduced()
+      ? "Reduced motion: static composition. Content remains available."
+      : "Exploratory settings changed. Ask your agent to save and regenerate before approval.";
+    schedule();
+  }
+  reduce.addEventListener("change", controls);
+  intensity.addEventListener("input", controls);
+  view.addEventListener("change", controls);
+  effect.addEventListener("change", controls);
+  preference.addEventListener("change", () => {
+    controls();
+  });
+  coarse.addEventListener("change", schedule);
+  addEventListener("scroll", schedule, { passive: true });
+  addEventListener("resize", schedule, { passive: true });
+  addEventListener(
+    "pointermove",
+    (e) => {
+      if (reduced() || coarse.matches) return;
+      pointer = {
+        x: (e.clientX / innerWidth) * 2 - 1,
+        y: (e.clientY / innerHeight) * 2 - 1,
+      };
+      schedule();
+    },
+    { passive: true },
+  );
+  const providerNote = document.querySelector("#provider-note");
+  const notes = {
+    import:
+      "Use reviewed local assets or keep placeholders. No generation runs from this preview.",
+    runway:
+      "Ask your agent to verify Runway MCP connection and available tools. Approve prompt, references, settings and credit use before generation.",
+    higgsfield:
+      "Manual route: ask your agent for tailored Higgsfield / Seedance prompts and current settings. Import reviewed outputs.",
+    luma: "Manual route: ask your agent for Luma prompts and current settings. Import reviewed outputs.",
+  };
+  document.querySelector("#providers").addEventListener("change", (e) => {
+    providerNote.textContent = notes[e.target.value] ?? notes.import;
+  });
+  reduce.disabled = preference.matches;
+  document.body.dataset.view = view.value;
+  update();
 })();
 </script></body></html>

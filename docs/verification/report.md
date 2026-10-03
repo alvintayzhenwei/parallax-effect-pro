@@ -4,7 +4,7 @@ Checked: 2026-10-03, local macOS. This report records executed evidence and sepa
 
 ## Executed
 
-- Strict TypeScript build and behavior tests passed (15 tests at initial package verification; final count may grow with review fixes).
+- Strict TypeScript build and behavior tests passed (19 tests after review fixes).
 - Real MCP SDK stdio client listed three tools, created a preview, validated records and refused unsafe paths/unapproved handoff. Protocol stdout parsed cleanly.
 - Local tarball installed in an isolated temporary prefix; CLI doctor/preview and real stdio calls passed without source runtime paths.
 - Codex CLI 0.160.0 native app-server `plugin/read` resolved the generated marketplace/package and `skills/list` discovered the canonical skill. This was a read-only test without global installation or model inference.
@@ -34,3 +34,11 @@ npm run browser
 ```
 
 To use an existing browser, set `PARALLAX_BROWSER_EXECUTABLE`. Set `PARALLAX_CAPTURE_DIR` only when intentionally replacing development screenshots. Browser uses a fresh profile.
+
+## Final review
+
+One independent review found three demonstrated bugs. Regression tests first reproduced all three failures. Section DOM IDs and navigation now use a dedicated namespace. Manual reduced-motion choices survive OS preference changes in both outputs. Nonregular inputs are rejected before opening, with nonblocking descriptor access and descriptor validation retained. All 19 tests pass, including a bounded FIFO subprocess regression.
+
+The missing exploratory effect selector was added. Planned, scroll-depth, pointer-depth, and static modes remain preview-only; users must save, regenerate, and approve a changed design record before building.
+
+Implementation rulings: sandbox restrictions required a dedicated branch rather than the attempted managed worktree; approval metadata records evidence rather than authenticating identity; Node 24 native TypeScript tests avoid another runner; host wrappers require separately configured stdio roots; Playwright and Prettier remain development-only; live OS reduction is verified through rendered CSS, while checkbox event delivery under browser emulation is not claimed. No review findings were refused or deferred.

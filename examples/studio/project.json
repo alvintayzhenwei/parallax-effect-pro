@@ -146,11 +146,11 @@
   "preview": {
     "revision": "820b9ce1c0ea9cfdd653ecf6038dcb0ed62cd056c1ace2c5f2c623a8d81e0223",
     "file": "wireframe.html",
-    "fileDigest": "07f699bd456d14617380ee7b85da7a3dccd04cabe882d640f7e134934b56ca72"
+    "fileDigest": "810a06247237fbeb5d80c117df98c0594fe4fd5d221cfd22242f0b6d3543e690"
   },
   "approval": {
     "revision": "820b9ce1c0ea9cfdd653ecf6038dcb0ed62cd056c1ace2c5f2c623a8d81e0223",
-    "previewDigest": "07f699bd456d14617380ee7b85da7a3dccd04cabe882d640f7e134934b56ca72",
+    "previewDigest": "810a06247237fbeb5d80c117df98c0594fe4fd5d221cfd22242f0b6d3543e690",
     "scope": ["layout", "motion"],
     "decision": "approved",
     "source": "human-message",

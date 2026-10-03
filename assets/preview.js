@@ -2,10 +2,13 @@
   const reduce = document.querySelector("#reduce"),
     intensity = document.querySelector("#intensity"),
     view = document.querySelector("#view"),
+    effect = document.querySelector("#effect"),
     status = document.querySelector("#status");
   const preference = matchMedia("(prefers-reduced-motion: reduce)"),
     coarse = matchMedia("(pointer: coarse)");
   const scenes = [...document.querySelectorAll(".scene")];
+  for (const scene of scenes)
+    scene.dataset.plannedEffect = scene.dataset.effect;
   let frame = 0,
     pointer = { x: 0, y: 0 };
   const reduced = () => preference.matches || reduce.checked;
@@ -26,7 +29,9 @@
         if (
           off ||
           !visible ||
-          ["video-scrub", "three-dimensional"].includes(scene.dataset.effect)
+          ["none", "video-scrub", "three-dimensional"].includes(
+            scene.dataset.effect,
+          )
         ) {
           layer.style.transform = "none";
           continue;
@@ -57,8 +62,10 @@
   };
   function controls() {
     document.body.dataset.view = view.value;
+    for (const scene of scenes)
+      scene.dataset.effect =
+        effect.value === "planned" ? scene.dataset.plannedEffect : effect.value;
     reduce.disabled = preference.matches;
-    if (preference.matches) reduce.checked = true;
     status.textContent = reduced()
       ? "Reduced motion: static composition. Content remains available."
       : "Exploratory settings changed. Ask your agent to save and regenerate before approval.";
@@ -67,8 +74,8 @@
   reduce.addEventListener("change", controls);
   intensity.addEventListener("input", controls);
   view.addEventListener("change", controls);
+  effect.addEventListener("change", controls);
   preference.addEventListener("change", () => {
-    reduce.checked = preference.matches;
     controls();
   });
   coarse.addEventListener("change", schedule);
@@ -99,7 +106,6 @@
   document.querySelector("#providers").addEventListener("change", (e) => {
     providerNote.textContent = notes[e.target.value] ?? notes.import;
   });
-  reduce.checked = preference.matches;
   reduce.disabled = preference.matches;
   document.body.dataset.view = view.value;
   update();

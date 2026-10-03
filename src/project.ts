@@ -82,7 +82,13 @@ export async function readContained(
   maxBytes = 1024 * 1024,
 ): Promise<Buffer> {
   const target = await contained(root, path);
-  const handle = await open(target, constants.O_RDONLY | constants.O_NOFOLLOW);
+  const stat = await lstat(target);
+  if (!stat.isFile() || stat.size > maxBytes)
+    throw new Error("File must be regular and within size limit");
+  const handle = await open(
+    target,
+    constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK,
+  );
   try {
     const s = await handle.stat();
     if (!s.isFile() || s.size > maxBytes)
