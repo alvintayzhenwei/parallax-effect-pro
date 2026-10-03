@@ -6,9 +6,38 @@
 [![Dependabot](https://img.shields.io/badge/Dependabot-configured-025E8C?logo=dependabot)](.github/dependabot.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Turn a rough idea into a complete parallax website through Codex or Claude Code. Compare three concepts, approve an inexpensive animated wireframe, then create assets and build the site.
+Direct creative parallax stories with your coding agent. Compare three distinct narratives, inspect a representative motion preview, then integrate approved choreography into the UI owned by your chosen design tools.
 
 **Development preview — visual and end-to-end acceptance are pending; npm publication is pending.** The repository stays private. Private workflow badges and screenshots may require GitHub authentication. Dependabot's label describes configuration; the linked workflow badges report actual run state, not guaranteed security.
+
+## Continuous motion, version 2
+
+One subject can persist across chapters: turn through 360 degrees, open, isolate a part, transfer the spotlight and reassemble. DOM/CSS handles persistent 2D actors; locally bundled Three.js handles real groups, cameras and lights. Preview and exported integration use the same deterministic timeline. Other UI/UX tools retain ownership of layout, typography, palette, components and forms.
+
+[Open the fictional camera composite](examples/continuous-camera/index.html) after building locally. [Its authored story](examples/continuous-camera/story.json) produces [the MCP stage artifact](examples/continuous-camera/motion-r3.html) through the actual stdio tool. The procedural camera is conceptual, not final photography or engineering-accurate hardware. Mechanical checks do not establish owner creative acceptance.
+
+![Continuous camera assembled pose](docs/screenshots/continuous-camera/assembled.png)
+
+![Sensor focus across the same persistent stage](docs/screenshots/continuous-camera/sensor-inspection.png)
+
+### Step by step
+
+1. Let your coding agent inspect the subject, existing site, assets and UI/UX decisions. Clarify discovery, reveal, climax and visitor action.
+2. Ask for three different motion narratives. Choose or combine them before detailed assets or full implementation.
+3. Start a version 2 record from `skills/parallax-effect-pro/templates/story.json`; replace its fictional example with your actual brief and chapters. Declare stage allocation, reading zones, persistent actors, fixed parents and numeric tracks.
+4. Call `parallax_create_preview` with contained relative record/output paths. Inspect native scroll, key and transition poses, direct seek, reverse and mobile/static behavior. Save adjustments in the record and generate a new filename.
+5. Record actual human approval for the exact revision/digest. `motion` approves only the stage. `integration` additionally binds the saved host-owned composite and reviewed context files; unseen site UI is not approved.
+6. Call `parallax_export_handoff`. Version 2 produces Markdown plus an exclusive adjacent `.motion/` directory containing authored data, verified assets, local runtime and completion manifest. A partial error is not a complete export.
+7. Mount with `ParallaxMotion.mountMotionStage(element, story, stageId, assets)`. Use `seek(progress)` with native scroll measurements; await `ready` and `dispose()` on teardown. Keep complete semantic content and host styles outside the mount. Review conservative projected bounds, clipping and reading-zone conflicts after resizing.
+8. Review the actual integrated site and owner creative verdict before release/deployment. Existing-site and real Claude-host acceptance are separate evidence gates.
+
+### Video prompts without a video MCP
+
+Use the portable skill alone or ask the `assets` guidance phase for a [copyable video prompt pack](skills/parallax-effect-pro/templates/video-prompts.md). Tailor the subject, service, reveal, shot sequence, camera/subject motion, copy-safe region, continuity, loops, mobile crop, poster and export checklist. Choose Runway, Seedance, Higgsfield or another provider; verify its actual supported settings. [Camera-specific draft prompts](examples/continuous-camera/video-prompts.md) illustrate this route.
+
+No account connection or provider call is required to prepare prompts. Direct generation is optional and requires applicable credit/cost approval. The stage currently imports reviewed PNG/JPEG/WebP and self-contained GLB; video playback or rendered frame sequences belong to the host stack. A generated movie does not provide detachable 3D parts.
+
+Version 1 records and their historical previews remain supported without migration. The wireframe screenshots below document that earlier workflow; its separate-section recipes are not the version 2 creative ceiling.
 
 ## What you get
 
@@ -16,7 +45,7 @@ Turn a rough idea into a complete parallax website through Codex or Claude Code.
 - Three tailored concepts with a motion story, asset requirements and effort tradeoffs.
 - Local animated visual previews with a clean site view, optional review controls, illustrative scenery, desktop/mobile views and reduced-motion fallback.
 - A visual asset-route chooser and optional direct generation through your separately connected Runway MCP.
-- Revision-bound approval records and validated handoffs for a complete website.
+- Revision-bound motion or integration approval and exact-data runtime handoffs; legacy layout/motion records remain supported.
 - A TypeScript CLI, local stdio MCP, Codex/Claude skill packages, a fictional complete-site example and release checks.
 
 The MCP serves phase-specific guidance from the packaged skill, creates previews, and validates handoffs. The host model conducts the conversation and authors the final design; MCP does not run a model or guarantee aesthetic quality. Your coding agent writes the actual website in its existing stack, calls approved provider tools and performs approved deployment. It is not a hosted site builder or an autonomous publisher.

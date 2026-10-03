@@ -2,7 +2,7 @@
 
 Checked: 2026-10-03. Capabilities are vendor claims and may change; discover current tools/models before use. Do not hard-code pricing or imply all models support every feature.
 
-| Route | v1 automation | Appropriate use |
+| Route | Optional automation | Appropriate use |
 | --- | --- | --- |
 | Runway generation MCP | Host agent calls connected tools directly | Image-to-video/text-to-video, images or edits when exposed by actual connection |
 | Higgsfield / Seedance | Manual prompts/settings/import | Camera-led clips or supported multimodal reference workflow |
@@ -36,3 +36,10 @@ Separate prompt prose from parameters; use only real model settings. For layered
 ## Manual route
 
 Offer provider link, tailored prompt, supported settings to verify, asset checklist and import destination. Review exported files and provenance. No API keys are needed by this package. Provider cards select an option to discuss, not a connected account or a generation action.
+
+
+## Manual prompts are a first-class route
+
+Use `templates/video-prompts.md` to generate a complete, service-specific prompt pack without any video MCP. This also works through the skill alone. Offer provider choices through the host's available selection UI or conversation; a choice does not connect an account or spend credits. Provide a master prompt, complete per-shot prompts, start/end compositions, copy-safe regions, continuity constraints, loop/scrub alternatives, mobile crop and poster/export guidance. Keep prose separate from actual supported provider parameters. Verify capabilities when a provider is selected; never promise exact detachable parts from a flattened movie.
+
+Current version 2 stage assets support reviewed raster images and self-contained GLB. The host's existing media pipeline owns video/frame-sequence playback. Generated clips require output review and new preview approval when they alter the experience; prompt generation itself makes no provider request.

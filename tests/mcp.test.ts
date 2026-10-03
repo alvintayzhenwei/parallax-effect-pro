@@ -118,7 +118,8 @@ test("version 2 stdio preview, approval validation and scoped handoff", async (t
     new StdioClientTransport({
       command: process.execPath,
       args: [
-        new URL("../dist/cli.js", import.meta.url).pathname,
+        process.env.PARALLAX_TEST_CLI ??
+          new URL("../dist/cli.js", import.meta.url).pathname,
         "mcp",
         "--root",
         root,
@@ -172,6 +173,49 @@ test("version 2 stdio preview, approval validation and scoped handoff", async (t
       arguments: { recordPath: "story.json" },
     });
     assert.equal((stale.structuredContent as any).approvalStatus, "stale");
+  } finally {
+    await client.close();
+  }
+});
+
+test("creative and manual-video guidance serves fixed version 2 templates", async (t) => {
+  const root = await mkdtemp(join(tmpdir(), "story-guidance-"));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  const client = new Client({ name: "guidance-test", version: "1.0.0" });
+  await client.connect(
+    new StdioClientTransport({
+      command: process.execPath,
+      args: [
+        process.env.PARALLAX_TEST_CLI ??
+          new URL("../dist/cli.js", import.meta.url).pathname,
+        "mcp",
+        "--root",
+        root,
+      ],
+      stderr: "pipe",
+    }),
+  );
+  try {
+    for (const phase of ["discovery", "concepts", "preview"]) {
+      const result = await client.callTool({
+        name: "parallax_design_guidance",
+        arguments: { phase },
+      });
+      assert.equal(
+        (result.structuredContent as any).templates["story.json"].schemaVersion,
+        2,
+      );
+      assert.ok(/UI\/UX tool/.test((result.structuredContent as any).workflow));
+    }
+    const assets = await client.callTool({
+      name: "parallax_design_guidance",
+      arguments: { phase: "assets" },
+    });
+    assert.ok(
+      (assets.structuredContent as any).templates["video-prompts.md"].includes(
+        "No video MCP required",
+      ),
+    );
   } finally {
     await client.close();
   }

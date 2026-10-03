@@ -29,7 +29,7 @@ Fictional Form & Field studio content, original geometric assets, current demons
 ## Product Principles
 
 - The owner rejected both the MCP-assisted and matched baseline coastal builds for lacking creative storytelling. Stronger movement alone does not satisfy the product's visual quality gate.
-- The next design must support persistent objects, cross-chapter continuity, purposeful reveals, camera/composition changes and selective spotlighting. Section-bound recipes remain a documented limitation of the current renderer, not the intended creative ceiling.
+- The next design must support persistent objects, cross-chapter continuity, purposeful reveals, camera/composition changes and selective spotlighting. Version 1 section-bound recipes remain historical options. Version 2 now supports authored persistent actors, camera/light tracks and a shared preview/integration runtime; owner creative acceptance remains pending.
 - Make the scroll effect visually legible.
 - Preview the experience before expensive assets and production code.
 - Show the proposed customer-facing layout by default, with its intended palette, typography and representative local illustrations. Keep controls and effect explanations in an optional review view of the same design.

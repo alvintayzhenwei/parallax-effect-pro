@@ -12,6 +12,7 @@ export async function verifyStoryBrowser(browser, capture) {
     const story = JSON.parse(
       await readFile("tests/fixtures/story.json", "utf8"),
     );
+    const generic = structuredClone(story);
     story.stages[0].renderer = "3d";
     story.stages[0].camera.initial = { x: 0, y: 0, z: 5, fov: 45 };
     story.stages[0].lights = [
@@ -81,6 +82,60 @@ export async function verifyStoryBrowser(browser, capture) {
     });
     assert.ok(!result.isError);
     const file = result.structuredContent.path;
+    generic.actors[0].role = "Signal crossing a continuous space";
+    generic.actors[0].visual.dimensions = [0.12, 0.12, 0.12];
+    generic.actors[0].visual.shape = "cylinder";
+    generic.tracks[0].property = "rotationZ";
+    generic.tracks.push({
+      id: "signal-travel",
+      stageId: "journey",
+      target: { kind: "actor", id: "subject" },
+      property: "x",
+      keyframes: [
+        { progress: 0, value: 0.4, easing: "linear" },
+        { progress: 1, value: 0.8, easing: "linear" },
+      ],
+    });
+    await writeFile(join(root, "generic.json"), JSON.stringify(generic));
+    const genericPreview = await client.callTool({
+      name: "parallax_create_preview",
+      arguments: { recordPath: "generic.json", outputPath: "generic.html" },
+    });
+    assert.ok(!genericPreview.isError);
+    const genericPage = await browser.newPage();
+    await genericPage.goto(
+      pathToFileURL(genericPreview.structuredContent.path).href,
+    );
+    await genericPage.waitForFunction(
+      () =>
+        document.querySelector(".pep-mount").dataset.motionState === "animated",
+    );
+    await genericPage.evaluate(() => {
+      window.genericActor = document.querySelector('[data-actor-id="subject"]');
+    });
+    const transforms = [];
+    for (const p of [0, 0.5, 1, 0.5]) {
+      await genericPage.locator("#seek-journey").evaluate((e, p) => {
+        e.value = String(p);
+        e.dispatchEvent(new Event("input"));
+      }, p);
+      assert.ok(
+        await genericPage.evaluate(
+          () =>
+            window.genericActor ===
+            document.querySelector('[data-actor-id="subject"]'),
+        ),
+      );
+      transforms.push(
+        await genericPage
+          .locator('[data-actor-id="subject"]')
+          .evaluate((e) => e.style.transform),
+      );
+    }
+    assert.notEqual(transforms[0], transforms[2]);
+    assert.equal(transforms[1], transforms[3]);
+    await genericPage.screenshot({ path: join(capture, "story-2d.png") });
+    await genericPage.close();
     const page = await browser.newPage({
         viewport: { width: 1280, height: 800 },
       }),

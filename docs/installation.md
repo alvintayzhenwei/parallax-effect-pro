@@ -76,3 +76,12 @@ Codex 0.160.0 recognized generated marketplace/plugin and discovered the skill. 
 ## Bare MCP versus skill plus MCP
 
 Start with `parallax_design_guidance` in phase `discovery` when using a bare MCP connection. The server exposes phase-specific packaged knowledge and a preview template; your coding agent asks material questions and develops the design. The skill provides automatic workflow routing when installed. Neither a tool call nor a manifest/discovery test proves that the model follows the full interview or produces a visually superior site. See the product E2E acceptance plan before making those claims.
+
+
+## Version 2 and manual-provider use
+
+Installed phase guidance serves both `story.json` and legacy `project.json` from fixed package paths. Prefer version 2 for continuous actors, 3D groups and selective camera/light choreography. Browser runtime and evaluator are bundled locally; no CDN is required. Exported motion mounts inside the host's existing UI stack and does not impose a design system.
+
+The portable skill can interview, brainstorm and produce tailored video prompt packs without starting the MCP or connecting Runway. Ask for the `video-prompts.md` workflow, choose a provider, verify its supported settings and paste the final prompts manually. Asset-generation cost approval and output review remain separate. Current stage imports support PNG/JPEG/WebP and self-contained GLB; media playback stays in the host stack.
+
+Motion-only approval does not approve a full website. For integration, include reviewed UI source/asset references in `designContext`, save the actual composite and bind its digest alongside the MCP stage digest. External dependencies of a composite are bound only when the host declares their relevant local references; the MCP checks saved bytes and does not execute imported HTML.

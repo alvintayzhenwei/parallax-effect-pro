@@ -1,3 +1,4 @@
+import { verifyCameraBrowser } from "./verify-camera-browser.mjs";
 import { verifyStoryBrowser } from "./verify-story-browser.mjs";
 import { chromium } from "playwright";
 import assert from "node:assert/strict";
@@ -256,9 +257,15 @@ try {
     await page.close();
   }
   const storyEvidence = await verifyStoryBrowser(browser, capture);
+  const cameraEvidence = await verifyCameraBrowser(browser, capture);
   console.log(
     JSON.stringify(
-      { browser: await browser.version(), evidence, storyEvidence },
+      {
+        browser: await browser.version(),
+        evidence,
+        storyEvidence,
+        cameraEvidence,
+      },
       null,
       2,
     ),

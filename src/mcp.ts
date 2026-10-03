@@ -13,7 +13,7 @@ export async function startMcp(root: string): Promise<void> {
     },
     {
       instructions:
-        "Start with parallax_design_guidance phase discovery. The host coding agent interviews the human, proposes three concepts, creates and revises previews, and obtains explicit approval of the exact revision and digest before assets or full-site implementation. Read guidance for each phase. This server returns packaged knowledge and local deterministic artifacts; it does not run a model, authenticate human approval, connect providers, or deploy. Preview controls are exploratory: save changes in the record and regenerate before approval.",
+        "Start with parallax_design_guidance phase discovery. The host coding agent interviews the human, proposes three concepts, creates and revises previews, and obtains explicit approval of the exact revision and digest before paid asset generation or full-site implementation. Manual video prompt drafting needs no video MCP or preview approval; preserve other UI/UX tools’ ownership. Read guidance for each phase. This server returns packaged knowledge and local deterministic artifacts; it does not run a model, authenticate human approval, connect providers, or deploy. Preview controls are exploratory: save changes in the record and regenerate before approval.",
     },
   );
   const respond = async (operation: () => Promise<object>) => {
@@ -38,17 +38,20 @@ export async function startMcp(root: string): Promise<void> {
   const guides = {
     discovery: {
       references: ["theory", "effects"],
-      templates: ["project.json"],
+      templates: ["story.json", "project.json"],
     },
     concepts: {
       references: ["theory", "effects"],
-      templates: ["concepts.md", "project.json"],
+      templates: ["concepts.md", "story.json", "project.json"],
     },
     preview: {
       references: ["effects", "implementation"],
-      templates: ["project.json", "approval.md"],
+      templates: ["story.json", "project.json", "approval.md"],
     },
-    assets: { references: ["providers", "effects"], templates: ["assets.md"] },
+    assets: {
+      references: ["providers", "effects"],
+      templates: ["assets.md", "video-prompts.md"],
+    },
     build: {
       references: ["effects", "implementation", "quality-deployment"],
       templates: ["handoff.md", "quality-report.md"],
@@ -119,7 +122,7 @@ export async function startMcp(root: string): Promise<void> {
     "parallax_create_preview",
     {
       description:
-        "Create a local animated wireframe. Does not approve designs or generate paid assets.",
+        "Create a local versioned motion preview: continuous persistent 2D/3D stories for version 2, historical layered wireframes for version 1. Does not approve UI or generate paid assets.",
       inputSchema: z.strictObject({ recordPath: path, outputPath: path }),
       annotations: {
         readOnlyHint: false,
@@ -145,7 +148,7 @@ export async function startMcp(root: string): Promise<void> {
     "parallax_export_handoff",
     {
       description:
-        "Export a complete website brief only when recorded layout/motion approval matches the design and preview.",
+        "Export exact approved motion data/runtime with explicit motion or integration scope for version 2; preserve historical version 1 handoffs. Requires matching human evidence and unchanged artifacts.",
       inputSchema: z.strictObject({ recordPath: path, outputPath: path }),
       annotations: {
         readOnlyHint: false,
