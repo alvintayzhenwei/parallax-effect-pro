@@ -21,8 +21,12 @@
     "build": "tsc",
     "typecheck": "tsc --noEmit",
     "test": "node --experimental-strip-types --test tests/*.test.ts",
-    "check": "npm run typecheck && npm run build && npm test && node scripts/validate-package.mjs",
-    "plugins": "node scripts/package-plugins.mjs"
+    "check": "npm run format:check && npm run typecheck && npm run build && npm test && node scripts/validate-package.mjs",
+    "plugins": "node scripts/package-plugins.mjs",
+    "browser": "npm run build && node scripts/verify-browser.mjs",
+    "smoke": "npm run build && node scripts/smoke-package.mjs",
+    "prepack": "npm run build",
+    "format:check": "prettier --check \"src/**/*.ts\" \"tests/**/*.ts\" \"scripts/*.mjs\" \"assets/*.{js,css}\" \"examples/studio/*.{js,css,html,json}\" \"!examples/studio/wireframe.html\" package.json tsconfig.json \".github/**/*.{yml,yaml}\""
   },
   "repository": {
     "type": "git",
@@ -34,6 +38,8 @@
   },
   "devDependencies": {
     "@types/node": "^24.19.1",
+    "playwright": "^1.62.1",
+    "prettier": "^3.9.9",
     "typescript": "^7.0.2"
   }
 }
