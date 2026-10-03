@@ -1,7 +1,7 @@
 # Parallax Effect Pro — v1 design specification
 
 Date: 2026-10-03 (Asia/Singapore)
-Status: Design direction approved; this written specification awaits review.
+Status: Written specification approved by the user on 2026-10-03; implementation plan awaits review.
 Repository: https://github.com/alvintayzhenwei/parallax-effect-pro.git
 
 ## Purpose and success
@@ -149,4 +149,4 @@ No standalone hosted wizard, hosted MCP, custom Runway API client, mandatory clo
 
 ## Review and next step
 
-The user approved the summarized design. Review this written specification next. After approval, create a concrete implementation plan with files, tool schemas, dependencies, phased checks, host integration evidence, and release boundaries. Select an execution method before product implementation. No product code is authorized by approval of the design summary alone under the selected brainstorming workflow.
+The user approved this written specification. Create and review a concrete implementation plan with files, tool schemas, dependencies, phased checks, host integration evidence, and release boundaries. Select an execution method before product implementation.
