@@ -7,6 +7,7 @@ import {
   type ProjectRecord,
   type ValidationReport,
 } from "./records.ts";
+import { verifiedStoryRevision } from "./story-assets.ts";
 export const sha256 = (data: string | Buffer) =>
   createHash("sha256").update(data).digest("hex");
 function canonical(value: unknown): string {
@@ -179,7 +180,10 @@ export async function validateProject(
       status === "stale"
         ? ["Approval does not match current design and preview"]
         : [],
-    revision: designRevision(p),
+    revision:
+      p.schemaVersion === 2
+        ? await verifiedStoryRevision(root, p)
+        : designRevision(p),
     approvalStatus: status,
     motionWarnings: motionWarnings(p),
   };
