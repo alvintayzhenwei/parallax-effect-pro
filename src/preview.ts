@@ -1,3 +1,4 @@
+import { createStoryPreview } from "./story-preview.ts";
 import { readFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import {
@@ -100,7 +101,7 @@ export async function createPreview(
 ): Promise<{ path: string; revision: string; digest: string }> {
   const p = await readProject(root, recordPath);
   if (p.schemaVersion === 2)
-    throw new Error("Version 2 preview is not yet available");
+    return createStoryPreview(root, recordPath, outputPath);
   const c = p.concepts.find((c) => c.id === p.selectedConceptId)!;
   const revision = designRevision(p);
   const visual = p.motionPlan.visual ?? {

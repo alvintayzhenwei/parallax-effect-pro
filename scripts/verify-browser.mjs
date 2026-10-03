@@ -1,3 +1,4 @@
+import { verifyStoryBrowser } from "./verify-story-browser.mjs";
 import { chromium } from "playwright";
 import assert from "node:assert/strict";
 import { mkdtemp, writeFile, mkdir, rm, stat } from "node:fs/promises";
@@ -254,8 +255,13 @@ try {
     });
     await page.close();
   }
+  const storyEvidence = await verifyStoryBrowser(browser, capture);
   console.log(
-    JSON.stringify({ browser: await browser.version(), evidence }, null, 2),
+    JSON.stringify(
+      { browser: await browser.version(), evidence, storyEvidence },
+      null,
+      2,
+    ),
   );
 } finally {
   await browser.close();

@@ -6,3 +6,4 @@ plugins/
 .superpowers/
 .env*
 !.env.example
+assets/motion-runtime.js

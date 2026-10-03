@@ -10,8 +10,11 @@ export function validateFiles(files) {
       "LICENSE",
       "assets/preview.css",
       "assets/preview.js",
+      "assets/motion-runtime.js",
+      "assets/story-preview.css",
     ].includes(p) ||
-    /^dist\/(cli|mcp|project|records|preview|story-records|timeline|story-assets)\.js$/.test(
+    /^dist\/browser\/motion-runtime\.js$/.test(p) ||
+    /^dist\/(cli|mcp|project|records|preview|story-records|timeline|story-assets|story-preview)\.js$/.test(
       p,
     ) ||
     /^skills\/parallax-effect-pro\/(SKILL\.md|references\/[a-z-]+\.md|templates\/[a-z-]+\.(md|json))$/.test(
