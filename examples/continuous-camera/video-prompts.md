@@ -4,6 +4,10 @@ These prompts are a draft asset alternative for the fictional camera website, no
 
 Paste only text inside each marked block. Guidance and provider settings stay outside the prompt field.
 
+## GUIDE — choose a clip, do not combine all prompts
+
+This camera pack offers separate hero, exterior, detail and closing clips. Choose the clip needed by the website and paste its prompt alone. Generate multiple chosen clips separately if needed; the host developer integrates and reviews their transitions. This pack does not contain a single continuous master sequence. Mobile compositions and posters are optional separate variants. Video generation does not implement scroll seeking or structured product-part motion.
+
 ## Hero atmosphere
 
 **COPY FROM HERE — paste only the block below**

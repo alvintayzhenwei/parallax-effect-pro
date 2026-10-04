@@ -2,6 +2,16 @@
 
 No video MCP required. This template also works through the portable skill alone: interview, tailor the prompts, and let the user paste them into their chosen AI-video service. Do not call a provider unless asked and authorized. MCP availability must never block prompt generation.
 
+## GUIDE — choose one route
+
+**Do not combine all prompts into one input.** Present two alternative routes and recommend the one that fits the selected website concept and the provider's verified capabilities.
+
+- **Route A — one continuous video:** Copy only the Master prompt into the editor. Do not append the individual shot prompts. For a continuous journey, start here if the provider supports the required duration and control; otherwise choose the multi-clip route.
+- **Route B — multiple clips:** Generate each shot prompt separately. The host web agent edits or places the returned clips and checks continuity at every join. Shot prompts are an alternative to the Master prompt, not extra instructions to concatenate with it.
+- **Optional variants:** Generate mobile and poster prompts separately only when needed. They are not additional main-story shots.
+
+The host web agent implements scroll-linked seeking or layered composition, prepares media and tests playback. Generated video alone does not implement a parallax website. This package's native stage accepts raster/GLB assets; video integration belongs to the host stack.
+
 ## GUIDE — do not paste into the video editor
 
 Each shot must have its own copy block. Paste only the text inside the block between **COPY FROM HERE** and **COPY ENDS HERE**. Keep purpose, timing notes, reference-upload instructions, provider controls, review checks and export guidance outside it. Resolve placeholders before presenting a final prompt.
