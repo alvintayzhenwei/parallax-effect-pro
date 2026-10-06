@@ -6,6 +6,8 @@ The repository is private and npm package is unpublished. Source push, CI succes
 
 `release.yml` prepares artifacts by default. Opt-in publication requires dispatch on `main`, `publish=true`, repository variable `NPM_PUBLISH_ENABLED=true`, and the `npm-publish` environment. It uses OIDC without stored npm tokens. The publish job rebuilds and retests the same immutable dispatch SHA before publishing its tarball. Runs are serialized.
 
+The npm package identity is `@alvintayzhenwei/parallax-effect-pro`, owned under the `alvintayzhenwei` organization. The CLI command and MCP name remain `parallax-effect-pro`.
+
 ## Owner setup
 
 1. Merge to `main` and confirm npm package ownership. Bootstrap the first package through your authenticated npm account if needed.

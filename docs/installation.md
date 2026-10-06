@@ -17,11 +17,11 @@ npm pack --ignore-scripts
 Install the reviewed tarball into an isolated prefix or your intended environment. Persistent installation:
 
 ```sh
-npm install -g /absolute/path/parallax-effect-pro-0.1.0.tgz
+npm install -g /absolute/path/alvintayzhenwei-parallax-effect-pro-0.1.0.tgz
 parallax-effect-pro doctor
 ```
 
-Only after approved registry publication, replace tarball installation with `npm install -g parallax-effect-pro@0.1.0`, or use temporary `npx --yes parallax-effect-pro@0.1.0 doctor`. The latter is not a persistent command installation. Name lookup returned registry E404 on 2026-10-03; ownership and publication are not established.
+Only after approved registry publication, replace tarball installation with `npm install -g @alvintayzhenwei/parallax-effect-pro@0.1.0`, or use temporary `npx --yes @alvintayzhenwei/parallax-effect-pro@0.1.0 doctor`. The latter is not a persistent command installation. Name lookup returned registry E404 on 2026-10-03; ownership and publication are not established.
 
 ## Skill/plugin
 

@@ -62,7 +62,7 @@ jobs:
         with:
           node-version: "24"
       - run: npm install --global npm@11.5.1
-      - run: node --input-type=module -e 'import fs from "node:fs"; const p=JSON.parse(fs.readFileSync("package.json")); if(p.name!=="parallax-effect-pro" || p.version!==process.env.EXPECTED_VERSION) process.exit(1)'
+      - run: node --input-type=module -e 'import fs from "node:fs"; const p=JSON.parse(fs.readFileSync("package.json")); if(p.name!=="@alvintayzhenwei/parallax-effect-pro" || p.version!==process.env.EXPECTED_VERSION) process.exit(1)'
         env:
           EXPECTED_VERSION: ${{ inputs.version }}
       - run: npm ci
@@ -70,9 +70,9 @@ jobs:
       - run: npm run smoke
       - run: npm audit --audit-level=high
       - run: npm pack --ignore-scripts
-      - run: npm publish "parallax-effect-pro-${EXPECTED_VERSION}.tgz" --access public --ignore-scripts
+      - run: npm publish "alvintayzhenwei-parallax-effect-pro-${EXPECTED_VERSION}.tgz" --access public --ignore-scripts
         env:
           EXPECTED_VERSION: ${{ inputs.version }}
-      - run: npm view "parallax-effect-pro@${EXPECTED_VERSION}" version
+      - run: npm view "@alvintayzhenwei/parallax-effect-pro@${EXPECTED_VERSION}" version
         env:
           EXPECTED_VERSION: ${{ inputs.version }}

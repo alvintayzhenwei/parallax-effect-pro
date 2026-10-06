@@ -133,9 +133,9 @@ The following commands are future registry usage, **not available until publicat
 
 ```sh
 # Temporary execution:
-npx --yes parallax-effect-pro@0.1.0 doctor
+npx --yes @alvintayzhenwei/parallax-effect-pro@0.1.0 doctor
 # Persistent command installation:
-npm install -g parallax-effect-pro@0.1.0
+npm install -g @alvintayzhenwei/parallax-effect-pro@0.1.0
 ```
 
 `npx` execution does not install a persistent PATH command. The last recorded registry lookup returned E404; this is not a current ownership check. Package name ownership and release configuration still need confirmation. See [release guide](docs/releasing.md).
