@@ -204,7 +204,7 @@ The [product E2E acceptance plan](docs/design/2026-10-04-product-e2e-acceptance.
 
 See [verification report](docs/verification/report.md) for actual evidence and limitations. Host manifest/discovery checks are separate from a full model-driven website session. Runway authentication is separate from a paid generation result. Physical-device checks and production-network performance require their own evidence.
 
-CI repeats local checks, package smoke and browser checks. Security workflow audits dependencies and checks package boundaries. CodeQL/secret-scanning service eligibility depends on private-repo account features; configuration is not a passed scan. Dependabot updates npm and GitHub Actions weekly. The release workflow prepares reviewed artifacts and never publishes automatically.
+CI repeats local checks, package smoke and browser checks. Security workflow audits dependencies and checks package boundaries. CodeQL/secret-scanning service eligibility depends on private-repo account features; configuration is not a passed scan. Dependabot updates npm and GitHub Actions weekly. The release workflow prepares artifacts by default. Opt-in npm publication requires `main`, the enable variable and `npm-publish` environment; see [owner setup](docs/releasing.md). Pushes and tags do not publish automatically.
 
 ## Troubleshooting
 
