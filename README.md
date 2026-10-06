@@ -8,7 +8,7 @@
 
 Direct creative parallax stories with your coding agent. Compare three distinct narratives, inspect a representative motion preview, then integrate approved choreography into the UI owned by your chosen design tools.
 
-**Development preview — visual and end-to-end acceptance are pending; npm publication is pending.** The repository stays private. Private workflow badges and screenshots may require GitHub authentication. Dependabot's label describes configuration; the linked workflow badges report actual run state, not guaranteed security.
+**Published development preview: [`@alvintayzhenwei/parallax-effect-pro@0.1.0`](https://www.npmjs.com/package/@alvintayzhenwei/parallax-effect-pro).** The repository is public. Visual and complete end-to-end acceptance remain pending. Dependabot's label describes configuration; the linked workflow badges report actual run state, not guaranteed security.
 
 ## Continuous motion, version 2
 
@@ -54,7 +54,7 @@ The MCP serves phase-specific guidance from the packaged skill, creates previews
 
 ![Mobile wireframe](docs/screenshots/wireframe-mobile.png)
 
-## Start from this private checkout
+## Start from a source checkout
 
 Requirements: Node.js 24+, npm, and Codex or Claude Code with local file access.
 
@@ -127,20 +127,21 @@ claude mcp add --transport stdio --scope local parallax-effect-pro -- parallax-e
 
 Restart/new chat where needed. Installation changes your host setup only when you run these commands. Use an absolute binary path if your host cannot find the installed CLI.
 
-### After npm release
+### Install from npm
 
-The following commands are future registry usage, **not available until publication**:
+Registry verification on 2026-10-06 confirms version `0.1.0` and the `latest` tag. Install the operational version explicitly; `0.0.0-stage` is a historical placeholder, not the application:
 
 ```sh
-# Temporary execution:
-npx --yes @alvintayzhenwei/parallax-effect-pro@0.1.0 doctor
+# Local installation (verified from the registry):
+npm install @alvintayzhenwei/parallax-effect-pro@0.1.0
+node node_modules/@alvintayzhenwei/parallax-effect-pro/dist/cli.js doctor
 # Persistent command installation:
 npm install -g @alvintayzhenwei/parallax-effect-pro@0.1.0
 ```
 
-`npx` execution does not install a persistent PATH command. The last recorded registry lookup returned E404; this is not a current ownership check. Package name ownership and release configuration still need confirmation. See [release guide](docs/releasing.md).
+`npx` execution does not install a persistent PATH command. Registry tarball SHA-1 is `a1258cc8ed1db146d3b651a43e049d782e0cf468`, matching the reviewed local tarball. In this host session, temporary npm execution returned `parallax-effect-pro: command not found`; temporary command resolution remains unresolved on this host. Fresh isolated registry installation and direct CLI `doctor` passed with Node 24.21.0 and runtime/assets present; host discovery and Runway remain unverified. See [release guide](docs/releasing.md) for future GitHub OIDC publishing; package publication does not prove that the trusted publisher is configured.
 
-The npm tarball ships the CLI, bundled motion runtime, preview styles and canonical portable skill/templates. Repository demos, screenshots, tests and generated host-plugin directories are not installed by npm. Install the CLI and register its stdio tools separately; npm installation alone does not enable a skill or connect Runway. Publication installs tooling, not a deployed website. On 2026-10-06, local checks passed (46 tests), the tarball allowlist contained 32 files, and an isolated tarball installation passed five CLI/stdio MCP smoke checks. This confirms local package readiness, not npm publication or host visual acceptance.
+The npm tarball ships the CLI, bundled motion runtime, preview styles and canonical portable skill/templates. Repository demos, screenshots, tests and generated host-plugin directories are not installed by npm. Install the CLI and register its stdio tools separately; npm installation alone does not enable a skill or connect Runway. Publication installs tooling, not a deployed website. On 2026-10-06, local checks passed (46 tests), the tarball allowlist contained 32 files, and an isolated tarball installation passed five CLI/stdio MCP smoke checks. These checks establish local package readiness. Registry publication is separately confirmed above; host visual acceptance remains pending.
 
 ## Your first website: step by step
 
