@@ -10,6 +10,35 @@ Direct creative parallax stories with your coding agent. Compare three distinct 
 
 **Published development preview: [`@alvintayzhenwei/parallax-effect-pro@0.1.0`](https://www.npmjs.com/package/@alvintayzhenwei/parallax-effect-pro).** The repository is public. Visual and complete end-to-end acceptance remain pending. Dependabot's label describes configuration; the linked workflow badges report actual run state, not guaranteed security.
 
+**Next release candidate: `0.1.1`.** This checkout includes the corrected install and Preview Mode guides. Registry verification above applies to `0.1.0`; `0.1.1` is not claimed published.
+
+## Install from npm
+
+Registry verification on 2026-10-06 confirms version `0.1.0` and the `latest` tag. Install the operational version explicitly; `0.0.0-stage` is a historical placeholder, not the application:
+
+```sh
+# Temporary execution from your customer project (not this package checkout):
+npx --yes @alvintayzhenwei/parallax-effect-pro@0.1.0 doctor
+# Local installation (verified from the registry):
+npm install @alvintayzhenwei/parallax-effect-pro@0.1.0
+node node_modules/@alvintayzhenwei/parallax-effect-pro/dist/cli.js doctor
+# Persistent command installation:
+npm install -g @alvintayzhenwei/parallax-effect-pro@0.1.0
+```
+
+`npx` execution does not install a persistent PATH command. Registry tarball SHA-1 is `a1258cc8ed1db146d3b651a43e049d782e0cf468`, matching the reviewed local tarball. Temporary `npx` execution and `doctor` passed from a directory outside this package's source checkout. Running from the checkout can resolve the local package instead and fail with `parallax-effect-pro: command not found`; use `node dist/cli.js doctor` there. Fresh isolated registry installation and direct CLI `doctor` also passed with Node 24.21.0 and runtime/assets present. See [release guide](docs/releasing.md) for future GitHub OIDC publishing; package publication does not prove that the trusted publisher is configured.
+
+The npm tarball includes the CLI, local runtime, preview styles and portable skill/templates. It excludes repository demos, screenshots, tests and generated host-plugin wrappers. npm installation alone does not enable a host skill, register MCP tools or connect Runway; complete [host setup](docs/installation.md) separately.
+
+Verified on 2026-10-06:
+
+- 46 local tests and the 32-file release allowlist passed.
+- Five CLI/actual stdio MCP tests passed against the registry-installed package.
+- Generated Codex plugin 0.1.0 installed and enabled in an isolated profile.
+- Generated Claude wrapper passed strict manifest validation.
+
+These checks establish installation and tool behavior. Full model-driven workflow, visual acceptance and GitHub OIDC publication remain separate checks. Generated wrappers were tested from this checkout; they are not installed by `npx`.
+
 ## Continuous motion, version 2
 
 One subject can persist across chapters: turn through 360 degrees, open, isolate a part, transfer the spotlight and reassemble. DOM/CSS handles persistent 2D actors; locally bundled Three.js handles real groups, cameras and lights. Preview and exported integration use the same deterministic timeline. Other UI/UX tools retain ownership of layout, typography, palette, components and forms.
@@ -50,7 +79,7 @@ Version 1 records and their historical previews remain supported without migrati
 
 The MCP serves phase-specific guidance from the packaged skill, creates previews, and validates handoffs. The host model conducts the conversation and authors the final design; MCP does not run a model or guarantee aesthetic quality. Your coding agent writes the actual website in its existing stack, calls approved provider tools and performs approved deployment. It is not a hosted site builder or an autonomous publisher.
 
-![Animated wireframe at desktop size](docs/screenshots/wireframe-desktop.png)
+![Static capture of the animated wireframe at desktop size](docs/screenshots/wireframe-desktop.png)
 
 ![Mobile wireframe](docs/screenshots/wireframe-mobile.png)
 
@@ -125,23 +154,7 @@ codex mcp add parallax-effect-pro -- parallax-effect-pro mcp --root /absolute/pr
 claude mcp add --transport stdio --scope local parallax-effect-pro -- parallax-effect-pro mcp --root /absolute/project
 ```
 
-Restart/new chat where needed. Installation changes your host setup only when you run these commands. Use an absolute binary path if your host cannot find the installed CLI.
-
-### Install from npm
-
-Registry verification on 2026-10-06 confirms version `0.1.0` and the `latest` tag. Install the operational version explicitly; `0.0.0-stage` is a historical placeholder, not the application:
-
-```sh
-# Local installation (verified from the registry):
-npm install @alvintayzhenwei/parallax-effect-pro@0.1.0
-node node_modules/@alvintayzhenwei/parallax-effect-pro/dist/cli.js doctor
-# Persistent command installation:
-npm install -g @alvintayzhenwei/parallax-effect-pro@0.1.0
-```
-
-`npx` execution does not install a persistent PATH command. Registry tarball SHA-1 is `a1258cc8ed1db146d3b651a43e049d782e0cf468`, matching the reviewed local tarball. In this host session, temporary npm execution returned `parallax-effect-pro: command not found`; temporary command resolution remains unresolved on this host. Fresh isolated registry installation and direct CLI `doctor` passed with Node 24.21.0 and runtime/assets present; host discovery and Runway remain unverified. See [release guide](docs/releasing.md) for future GitHub OIDC publishing; package publication does not prove that the trusted publisher is configured.
-
-The npm tarball ships the CLI, bundled motion runtime, preview styles and canonical portable skill/templates. Repository demos, screenshots, tests and generated host-plugin directories are not installed by npm. Install the CLI and register its stdio tools separately; npm installation alone does not enable a skill or connect Runway. Publication installs tooling, not a deployed website. On 2026-10-06, local checks passed (46 tests), the tarball allowlist contained 32 files, and an isolated tarball installation passed five CLI/stdio MCP smoke checks. These checks establish local package readiness. Registry publication is separately confirmed above; host visual acceptance remains pending.
+Restart/new chat where needed. Installation changes your host setup only when you run these commands. Use an absolute binary path if your host cannot find the installed CLI. For a project-local npm install, use `/absolute/project/node_modules/.bin/parallax-effect-pro` as the command; the bare command examples assume global installation.
 
 ## Your first website: step by step
 
@@ -160,7 +173,7 @@ The npm tarball ships the CLI, bundled motion runtime, preview styles and canoni
 | --- | --- |
 | Layered depth, background drift, pointer depth, sticky reveals | Video scrubbing, 3D and richer cinematic sequences when justified |
 
-Advanced wireframe scenes show annotated storyboards, not generated media or a working 3D renderer. The complete site needs actual assets and verified implementation. A video alone does not provide isolated depth layers or reliable seeking. Motion supports the story; it does not replace readable content.
+Legacy version 1 advanced scenes are annotated storyboards. Version 2 renders procedural or imported 3D subjects with the bundled runtime; video scrubbing remains a host-stack integration. The complete site needs actual assets and verified implementation. A video alone does not provide isolated depth layers or reliable seeking. Motion supports the story; it does not replace readable content.
 
 ## AI media: local orchestration, optional cloud generation
 
@@ -168,14 +181,14 @@ Runway is the first connected generation route through [Runway MCP](https://gith
 
 Higgsfield/Seedance and Luma are manual choices: the agent supplies prompts/settings guidance and reviews imported output. Provider capabilities and account availability are checked before use. Without any provider, discovery, wireframes and imported/static assets still work.
 
-Local records/previews remain local. Approved prompts/reference assets go to the chosen provider during generation. Website publication goes to your chosen destination after approval. Private GitHub source does not make those cloud operations offline.
+Local records/previews remain local. Approved prompts/reference assets go to the chosen provider during generation. Website publication goes to your chosen destination after approval. Repository visibility does not make those cloud operations offline.
 
 ## Tools and approval boundaries
 
 | Tool | Purpose |
 | --- | --- |
 | `parallax_design_guidance` | Retrieve requirements, concept, preview, asset, build, or review guidance from the installed package |
-| `parallax_create_preview` | Create a contained, self-contained animated HTML wireframe |
+| `parallax_create_preview` | Create a contained animated HTML preview: legacy wireframe or version 2 motion stage |
 | `parallax_validate_project` | Validate schema and report missing/stale/recorded approval |
 | `parallax_export_handoff` | Export complete-site specification after matching recorded approval |
 
@@ -215,7 +228,7 @@ CI repeats local checks, package smoke and browser checks. Security workflow aud
 - **CLI not found:** source execution uses `node dist/cli.js`; permanent installation needs npm global installation and correct host PATH.
 - **Runway unavailable:** continue with placeholders/imports. Check actual connection/model availability; never auto-upgrade or retry paid generation.
 - **Browser executable missing:** install Playwright Chromium or point the environment variable at an existing executable.
-- **Private badges unavailable:** authenticate on GitHub and inspect Actions directly. Do not infer a passed run from a badge cache.
+- **Workflow badge unavailable:** inspect Actions directly. Do not infer a passed run from a badge cache.
 
 ## Knowledge sources and license
 
