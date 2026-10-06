@@ -38,7 +38,7 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
-    "@types/node": "^24.19.1",
+    "@types/node": "^26.6.4",
     "@types/three": "0.186.0",
     "esbuild": "0.28.2",
     "playwright": "^1.62.1",
