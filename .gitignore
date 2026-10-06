@@ -1,0 +1,9 @@
+node_modules/
+dist/
+plugins/
+*.tgz
+*.zip
+.superpowers/
+.env*
+!.env.example
+assets/motion-runtime.js

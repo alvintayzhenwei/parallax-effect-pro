@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="A fictional studio demonstrating accessible parallax storytelling."
+    />
+    <title>Form & Field — Parallax demonstration</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <a class="skip" href="#canvas">Skip to content</a>
+    <header>
+      <a class="brand" href="#hero"
+        >form <span>&</span> field<span class="dot">●</span></a
+      >
+      <nav aria-label="Main navigation">
+        <a href="#work">Work</a><a href="#services">Approach</a>
+      </nav>
+      <label class="motion-control"
+        ><input id="reduce" type="checkbox" /> Reduced motion</label
+      >
+    </header>
+    <main id="canvas">
+      <section class="scene hero" id="hero" data-effect="layered-depth">
+        <div class="scene-copy">
+          <p class="eyebrow">Independent ideas / A fictional studio</p>
+          <h1>Ideas<br />with <em>depth.</em></h1>
+          <p class="intro">
+            A fictional studio exploring identity, digital spaces, and
+            thoughtful motion.
+          </p>
+          <a class="action" href="#work"
+            >Explore our work <span aria-hidden="true">↗</span></a
+          >
+        </div>
+        <div class="scene-art" aria-hidden="true">
+          <div class="layer atmosphere" data-travel="0.12">F / F</div>
+          <div class="layer disc" data-travel="0.25"></div>
+          <div class="layer frame" data-travel="0.4">
+            <span>FORM<br />FOLLOWS<br />FEELING.</span>
+          </div>
+          <p class="art-note">01 — Shape, space, movement</p>
+        </div>
+        <div class="hero-bottom">
+          <span>Brand identity · Digital experiences · Motion</span
+          ><span>Scroll to explore ↓</span>
+        </div>
+      </section>
+      <section class="scene work" id="work" data-effect="sticky-reveal">
+        <div class="scene-copy">
+          <p class="eyebrow">01 / Selected explorations</p>
+          <h2>Make room<br />for <em>the idea.</em></h2>
+          <p>
+            Form, rhythm, and space. Three fictional projects show how a clear
+            idea becomes a memorable experience.
+          </p>
+          <a class="action" href="#services"
+            >View services <span aria-hidden="true">↗</span></a
+          >
+          <ol class="work-list">
+            <li>
+              <strong>Field notes</strong><span>Editorial identity / Demo</span>
+            </li>
+            <li>
+              <strong>Open space</strong><span>Digital experience / Demo</span>
+            </li>
+            <li>
+              <strong>Common ground</strong><span>Motion study / Demo</span>
+            </li>
+          </ol>
+        </div>
+        <div class="scene-art work-art" aria-hidden="true">
+          <div class="layer work-card" data-travel="0.2">
+            <span class="card-number">01 / FIELD NOTES</span
+            ><span class="card-title"
+              >A new<br />point of<br /><em>view.</em></span
+            ><span class="card-footer">A fictional editorial exploration</span>
+          </div>
+        </div>
+      </section>
+      <section class="scene services" id="services" data-effect="pointer-depth">
+        <div class="scene-copy">
+          <p class="eyebrow">02 / Our approach</p>
+          <h2>Make the idea<br /><em>tangible.</em></h2>
+          <p>
+            Identity, websites, and motion systems. This is a demonstration, not
+            a real business.
+          </p>
+          <dl>
+            <dt>Find the story</dt>
+            <dd>Start with what matters to the audience.</dd>
+            <dt>Test the feeling</dt>
+            <dd>Preview structure and movement before detailed assets.</dd>
+            <dt>Build with care</dt>
+            <dd>Make the experience readable, responsive, and accessible.</dd>
+          </dl>
+          <a class="action" href="#hero"
+            >Back to introduction <span aria-hidden="true">↗</span></a
+          >
+        </div>
+        <div class="scene-art service-art" aria-hidden="true">
+          <div class="layer service-disc" data-travel="0.15">
+            <span>Less noise.<br />More meaning.</span>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <span>Form & Field / Fictional demonstration</span
+      ><span
+        >Built with Parallax Effect Pro · No business claims or paid media</span
+      >
+    </footer>
+    <noscript
+      ><p class="static-note">
+        Motion is unavailable. All content and navigation remain accessible.
+      </p></noscript
+    >
+  </body>
+</html>

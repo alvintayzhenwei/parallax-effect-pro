@@ -1,0 +1,48 @@
+{
+  "name": "parallax-effect-pro",
+  "version": "0.1.0",
+  "description": "Local parallax design previews, approved handoffs, and portable coding-agent skills",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=24"
+  },
+  "bin": {
+    "parallax-effect-pro": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "assets",
+    "skills",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc && node scripts/build-browser.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "node --experimental-strip-types --test tests/*.test.ts",
+    "check": "npm run format:check && npm run typecheck && npm run build && npm test && node scripts/validate-package.mjs",
+    "plugins": "node scripts/package-plugins.mjs",
+    "browser": "npm run build && node scripts/verify-browser.mjs",
+    "smoke": "npm run build && node scripts/smoke-package.mjs",
+    "prepack": "npm run build",
+    "format:check": "prettier --check \"src/**/*.ts\" \"tests/**/*.ts\" \"scripts/*.mjs\" \"assets/*.{js,css}\" \"!assets/motion-runtime.js\" \"examples/studio/*.{js,css,html,json}\" \"!examples/studio/wireframe.html\" package.json tsconfig.json \".github/**/*.{yml,yaml}\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alvintayzhenwei/parallax-effect-pro.git"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "three": "0.186.1",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.1",
+    "@types/three": "0.186.0",
+    "esbuild": "0.28.2",
+    "playwright": "^1.62.1",
+    "prettier": "^3.9.9",
+    "typescript": "^7.0.2"
+  }
+}

@@ -1,0 +1,384 @@
+:root {
+  --paper: #f2f0e9;
+  --ink: #24382b;
+  --orange: #d74320;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.55;
+  background: var(--paper);
+  color: var(--ink);
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+a {
+  color: inherit;
+}
+a:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--orange);
+  outline-offset: 5px;
+}
+.skip {
+  position: absolute;
+  top: -100px;
+  left: 12px;
+  z-index: 20;
+  background: var(--paper);
+  padding: 15px;
+}
+.skip:focus {
+  top: 12px;
+}
+header {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  border-bottom: 1px solid #24382b55;
+  padding: 25px 5%;
+  font-size: 13px;
+}
+.brand {
+  font-family: Georgia, serif;
+  font-size: 26px;
+  font-weight: bold;
+  text-decoration: none;
+  margin-right: auto;
+}
+.brand span {
+  font-style: italic;
+  font-weight: normal;
+}
+.brand .dot {
+  font-size: 12px;
+  color: var(--orange);
+  margin-left: 8px;
+}
+nav {
+  display: flex;
+  gap: 28px;
+}
+nav a {
+  text-decoration: none;
+}
+.motion-control {
+  font-size: 11px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+input {
+  accent-color: var(--ink);
+}
+.scene {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7%;
+  padding: 80px 6%;
+  position: relative;
+  overflow: clip;
+  scroll-margin-top: 15px;
+}
+.hero {
+  min-height: calc(100vh - 94px);
+  padding-top: 70px;
+  padding-bottom: 100px;
+}
+.eyebrow {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0 0 30px;
+}
+h1,
+h2 {
+  font-family: Georgia, serif;
+  font-weight: normal;
+  line-height: 1;
+  letter-spacing: -4px;
+  margin: 0 0 32px;
+}
+h1 {
+  font-size: clamp(4rem, 7.6vw, 7rem);
+}
+h2 {
+  font-size: clamp(3rem, 5vw, 5.5rem);
+  letter-spacing: -2px;
+}
+em {
+  font-weight: normal;
+}
+.scene-copy {
+  position: relative;
+  z-index: 2;
+}
+.scene-copy > p:not(.eyebrow) {
+  max-width: 350px;
+  font-size: 15px;
+}
+.action {
+  display: inline-flex;
+  gap: 50px;
+  margin-top: 15px;
+  padding: 13px 0;
+  border-bottom: 1px solid;
+  font-size: 13px;
+  text-decoration: none;
+}
+.action span {
+  font-size: 20px;
+}
+.scene-art {
+  height: 450px;
+  position: relative;
+  align-self: center;
+  overflow: clip;
+}
+.layer {
+  position: absolute;
+  pointer-events: none;
+}
+.atmosphere {
+  font-family: Georgia, serif;
+  font-size: 160px;
+  color: #24382b22;
+  top: -20px;
+  left: 0;
+  white-space: nowrap;
+}
+.disc {
+  width: 350px;
+  height: 350px;
+  border-radius: 50%;
+  background: var(--orange);
+  top: 70px;
+  left: 40px;
+}
+.frame {
+  border: 28px solid var(--ink);
+  width: 290px;
+  height: 360px;
+  top: 30px;
+  left: 150px;
+  padding: 25px;
+  display: flex;
+  align-items: center;
+}
+.frame span {
+  font-family: Arial, sans-serif;
+  font-weight: 900;
+  font-size: 33px;
+  line-height: 1.05;
+  color: var(--paper);
+  mix-blend-mode: difference;
+}
+.art-note {
+  position: absolute;
+  bottom: 0;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.hero-bottom {
+  position: absolute;
+  bottom: 28px;
+  left: 6%;
+  right: 6%;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  border-top: 1px solid #24382b55;
+  padding-top: 18px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.work {
+  background: var(--ink);
+  color: var(--paper);
+  min-height: 120vh;
+  align-items: start;
+  padding-top: 110px;
+}
+.work-art {
+  position: sticky;
+  top: 60px;
+  overflow: visible;
+}
+.work-card {
+  background: #e9cfa5;
+  color: var(--ink);
+  inset: 0 5% 0 0;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 15px 15px 0 #f2f0e920;
+}
+.card-number,
+.card-footer {
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.card-title {
+  font-family: Georgia, serif;
+  font-size: 75px;
+  line-height: 1;
+}
+.work-list {
+  list-style: none;
+  padding: 0;
+  max-width: 360px;
+  margin-top: 50px;
+}
+.work-list li {
+  padding: 18px 0;
+  border-top: 1px solid #f2f0e955;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.work-list strong {
+  font-size: 14px;
+  font-weight: normal;
+}
+.work-list span {
+  font-size: 11px;
+  color: #ddd;
+}
+.services {
+  padding-top: 100px;
+  padding-bottom: 100px;
+  min-height: 90vh;
+}
+.service-art {
+  height: 400px;
+}
+.service-disc {
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  inset: 5%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e0e4d4;
+}
+.service-disc span {
+  font-family: Georgia, serif;
+  font-size: 48px;
+  line-height: 1.1;
+  text-align: center;
+}
+dl {
+  max-width: 360px;
+  margin-top: 35px;
+}
+dt {
+  font-size: 13px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+dd {
+  font-size: 12px;
+  margin: 5px 0;
+}
+footer {
+  padding: 30px 6%;
+  border-top: 1px solid #24382b55;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  font-size: 11px;
+}
+.static-note {
+  padding: 20px;
+}
+.reduced .layer {
+  transform: none !important;
+}
+.reduced .work-art {
+  position: relative;
+}
+@media (max-width: 700px) {
+  header {
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 18px 24px;
+  }
+  .brand {
+    font-size: 23px;
+  }
+  .motion-control {
+    width: 100%;
+  }
+  .scene {
+    grid-template-columns: 1fr;
+    gap: 35px;
+    padding: 45px 24px;
+    min-height: auto;
+  }
+  .hero {
+    padding-bottom: 120px;
+  }
+  h1 {
+    font-size: 4.7rem;
+    letter-spacing: -3px;
+  }
+  h2 {
+    font-size: 3.6rem;
+  }
+  .scene-art {
+    height: 320px;
+  }
+  .atmosphere {
+    font-size: 100px;
+  }
+  .disc {
+    width: 240px;
+    height: 240px;
+    top: 50px;
+    left: 0;
+  }
+  .frame {
+    width: 200px;
+    height: 250px;
+    left: 100px;
+    border-width: 20px;
+  }
+  .frame span {
+    font-size: 25px;
+  }
+  .hero-bottom {
+    flex-direction: column;
+    left: 24px;
+    right: 24px;
+  }
+  .work-art {
+    position: relative;
+    top: 0;
+  }
+  .card-title {
+    font-size: 55px;
+  }
+  .service-art {
+    height: 300px;
+  }
+  .service-disc span {
+    font-size: 36px;
+  }
+  footer {
+    flex-direction: column;
+    padding: 25px 24px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .layer {
+    transform: none !important;
+  }
+  .work-art {
+    position: relative !important;
+  }
+}

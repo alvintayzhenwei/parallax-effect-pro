@@ -1,0 +1,15 @@
+{
+  "target": "file:///private/tmp/parallax-e2e-20261004-UQWrb5/tide-and-timber/site/index.html",
+  "desktop": "1280x800",
+  "mobile": "390x844",
+  "keyboard": "skip link and name-to-email focus",
+  "navigation": "all anchors resolve",
+  "motion": "scroll transform changes",
+  "reducedMotion": "live and initial OS preference",
+  "noJs": "all five scenes; enquiry disabled",
+  "enquiry": "invalid dates rejected; valid demo confirms no sending/saving",
+  "overflow": "none",
+  "pageErrors": [],
+  "externalRequests": [],
+  "captures": "/Users/zhenweitay/parallax-effect-pro/docs/screenshots/tide-and-timber/site"
+}

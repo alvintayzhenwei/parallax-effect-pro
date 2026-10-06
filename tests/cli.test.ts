@@ -1,0 +1,50 @@
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
+import { mkdtemp, copyFile, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+const cli =
+  process.env.PARALLAX_TEST_CLI ??
+  new URL("../dist/cli.js", import.meta.url).pathname;
+const run = (...args: string[]) =>
+  spawnSync(process.execPath, [cli, ...args], { encoding: "utf8" });
+test("CLI usage and doctor readiness", () => {
+  assert.equal(run("--help").status, 0);
+  assert.equal(run("preview").status, 2);
+  const d = run("doctor");
+  assert.equal(d.status, 0);
+  assert.equal(JSON.parse(d.stdout).runway, "unverified");
+});
+test("CLI creates preview and refuses unapproved handoff", async (t) => {
+  const root = await mkdtemp(join(tmpdir(), "cli with spaces "));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  await copyFile(
+    new URL("./fixtures/project.json", import.meta.url),
+    join(root, "project.json"),
+  );
+  assert.equal(
+    run(
+      "preview",
+      "--root",
+      root,
+      "--record",
+      "project.json",
+      "--output",
+      "wireframe.html",
+    ).status,
+    0,
+  );
+  assert.equal(
+    run(
+      "handoff",
+      "--root",
+      root,
+      "--record",
+      "project.json",
+      "--output",
+      "handoff.md",
+    ).status,
+    1,
+  );
+});

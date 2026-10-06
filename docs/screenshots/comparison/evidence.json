@@ -1,0 +1,79 @@
+{
+  "browser": "154.0.8037.93",
+  "results": [
+    {
+      "label": "A",
+      "url": "file:///private/tmp/parallax-e2e-20261004-UQWrb5/tide-and-timber/site/index.html",
+      "desktop": "1280x800",
+      "mobile": "390x844",
+      "assetsLoaded": true,
+      "reducedMotion": "passed",
+      "noJs": "five chapters",
+      "overflow": "none",
+      "errors": [],
+      "villaMoments": [
+        {
+          "moment": "start",
+          "transforms": [
+            "translate(0px, 0px) rotate(0deg) scale(1)",
+            "translate(0px, 0px) rotate(0deg) scale(1)",
+            "translate(0px, 0px) rotate(0deg) scale(1)"
+          ]
+        },
+        {
+          "moment": "middle",
+          "transforms": [
+            "translate(-63.6956px, 12.7391px) rotate(-1.27391deg) scale(1.01592)",
+            "translate(20.0641px, 100.321px) rotate(2.00641deg) scale(1.07166)",
+            "translate(350.326px, -70.0652px) rotate(7.00652deg) scale(1.08758)"
+          ]
+        },
+        {
+          "moment": "end",
+          "transforms": [
+            "translate(-9.94675px, 1.98935px) rotate(-0.198935deg) scale(1.00249)",
+            "translate(3.13323px, 15.6661px) rotate(0.313323deg) scale(1.01119)",
+            "translate(54.7071px, -10.9414px) rotate(1.09414deg) scale(1.01368)"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "B",
+      "url": "file:///Users/zhenweitay/Documents/Codex/2026-10-04/tide-and-timber-baseline/outputs/site/index.html",
+      "desktop": "1280x800",
+      "mobile": "390x844",
+      "assetsLoaded": true,
+      "reducedMotion": "passed",
+      "noJs": "five chapters",
+      "overflow": "none",
+      "errors": [],
+      "villaMoments": [
+        {
+          "moment": "start",
+          "transforms": [
+            "translateY(-1.60297px) scale(1)",
+            "translateY(-9.61781px) scale(1.03199)",
+            "translateY(-7.21336px) scale(1)"
+          ]
+        },
+        {
+          "moment": "middle",
+          "transforms": [
+            "translateY(0.147031px) scale(1)",
+            "translateY(0.882188px) scale(1.04074)",
+            "translateY(0.661641px) scale(1)"
+          ]
+        },
+        {
+          "moment": "end",
+          "transforms": [
+            "translateY(1.37703px) scale(1)",
+            "translateY(8.26219px) scale(1.04689)",
+            "translateY(6.19664px) scale(1)"
+          ]
+        }
+      ]
+    }
+  ]
+}

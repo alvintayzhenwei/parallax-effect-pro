@@ -1,0 +1,273 @@
+@font-face {
+  font-family: "Bodoni Moda";
+  src: url("fonts/bodoni-moda.ttf") format("truetype");
+  font-weight: 400 900;
+  font-display: swap;
+}
+:root {
+  color-scheme: light;
+  --paper: #eee7da;
+  --ink: #242b29;
+  --accent: #79532c;
+}
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: "Avenir Next", "Trebuchet MS", sans-serif;
+}
+* {
+  box-sizing: border-box;
+}
+::selection {
+  background: #b99a72;
+  color: #171e1c;
+}
+a {
+  color: inherit;
+  text-underline-offset: 0.25em;
+}
+button,
+input {
+  font: inherit;
+  accent-color: var(--accent);
+}
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 5px;
+}
+.skip {
+  position: fixed;
+  top: -5rem;
+  left: 1rem;
+  z-index: 30;
+  padding: 1rem;
+  background: var(--paper);
+}
+.skip:focus {
+  top: 1rem;
+}
+.site-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 1.6rem 4vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 5;
+  background: var(--paper);
+}
+.wordmark {
+  font-size: 1rem;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  font-weight: 600;
+}
+.site-nav .nav-link {
+  font-size: 0.85rem;
+}
+.journey {
+  position: relative;
+  min-height: 850vh;
+}
+.visual-stage {
+  position: sticky;
+  top: 0;
+  margin-left: 32%;
+  width: 68%;
+  height: 100vh;
+}
+.motion-mount {
+  width: 100%;
+  height: 100%;
+}
+.chapter-stream {
+  position: relative;
+  margin-top: -100vh;
+  pointer-events: none;
+}
+.chapter {
+  min-height: var(--chapter-length);
+  width: 32%;
+  padding: 30vh 1vw 8vh 4vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.chapter h1,
+.chapter h2 {
+  font-family: "Bodoni Moda", serif;
+  font-weight: 500;
+  font-size: clamp(2.6rem, 4.5vw, 5.8rem);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  margin: 0 0 1.5rem;
+  text-wrap: balance;
+}
+.chapter p {
+  max-width: 29ch;
+  line-height: 1.65;
+  font-size: 1rem;
+  margin: 0;
+}
+.chapter a {
+  pointer-events: auto;
+  margin-top: 2rem;
+  width: fit-content;
+  padding-bottom: 0.4rem;
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent);
+}
+.site-footer {
+  padding: 3rem 4vw;
+  border-top: 1px solid #c8bdab;
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  font-size: 0.85rem;
+}
+.review-toggle {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 10;
+  border: 1px solid #8c7d67;
+  border-radius: 0;
+  background: var(--paper);
+  color: var(--ink);
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+}
+.review-panel {
+  position: fixed;
+  bottom: 4.5rem;
+  left: 4vw;
+  right: 4vw;
+  background: #fbf7ee;
+  padding: 1.3rem;
+  z-index: 10;
+  border: 1px solid #c8bdab;
+}
+.review-panel[hidden],
+.pep-motion-surface[hidden],
+.pep-motion-fallback[hidden] {
+  display: none !important;
+}
+.review-panel input {
+  display: block;
+  width: 100%;
+  margin: 1rem 0;
+}
+.review-panel output {
+  display: block;
+  line-height: 1.5;
+}
+.review-panel p {
+  max-width: 70ch;
+}
+.pep-motion-fallback {
+  padding: 7rem 3vw 2rem;
+}
+body[data-static="true"] .visual-stage {
+  position: relative;
+  height: auto;
+}
+body[data-static="true"] .journey {
+  min-height: 0;
+}
+body[data-static="true"] .chapter-stream {
+  margin-top: 0;
+}
+body[data-static="true"] .chapter {
+  min-height: 0;
+  width: 100%;
+  padding: 2rem 4vw;
+}
+@media (max-width: 700px) {
+  .site-nav {
+    padding: 1.1rem 6vw;
+  }
+  .visual-stage {
+    margin-left: 0;
+    width: 100%;
+    height: 42vh;
+    top: 3rem;
+  }
+  .chapter-stream {
+    margin-top: -42vh;
+  }
+  .chapter {
+    width: 100%;
+    padding: 49vh 6vw 5rem;
+  }
+  .chapter h1,
+  .chapter h2 {
+    font-size: clamp(2.6rem, 12vw, 3.7rem);
+    max-width: 12ch;
+  }
+  .chapter p {
+    max-width: 34ch;
+  }
+  .site-footer {
+    flex-direction: column;
+    padding: 2rem 6vw 5rem;
+  }
+  body[data-static="true"] .visual-stage {
+    margin-top: 3rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .journey {
+    min-height: 0;
+  }
+  .visual-stage {
+    position: relative;
+    height: auto;
+    margin-top: 3rem;
+  }
+  .chapter-stream {
+    margin-top: 0;
+  }
+  .chapter {
+    min-height: 0;
+    width: 100%;
+    padding: 2rem 4vw;
+  }
+}
+/* The host keeps chapter copy still while the persistent subject changes. */
+body[data-playing="true"] .chapter {
+  padding: 0;
+}
+body[data-playing="true"] .chapter-copy {
+  position: fixed;
+  top: 30vh;
+  left: 4vw;
+  width: 27%;
+  visibility: hidden;
+  pointer-events: none;
+}
+body[data-playing="true"] .chapter[data-active="true"] .chapter-copy {
+  visibility: visible;
+  pointer-events: auto;
+}
+@media (max-width: 700px) {
+  body[data-playing="true"] .chapter-copy {
+    top: 49vh;
+    left: 6vw;
+    width: 88%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  body[data-playing="true"] .chapter {
+    padding: 2rem 6vw;
+    min-height: 0;
+  }
+  body[data-playing="true"] .chapter-copy {
+    position: static;
+    width: 100%;
+    visibility: visible;
+    pointer-events: auto;
+  }
+}

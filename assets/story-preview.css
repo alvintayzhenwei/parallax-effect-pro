@@ -1,0 +1,155 @@
+/* Preview-owned presentation only. The exported runtime does not include these styles. */
+.pep-preview {
+  margin: 0;
+  background: #111719;
+  color: #eee7db;
+  font-family: "Avenir Next", "Trebuchet MS", sans-serif;
+}
+.pep-preview * {
+  box-sizing: border-box;
+}
+.pep-preview a {
+  color: inherit;
+}
+.pep-preview header {
+  padding: 3rem 5vw;
+  max-width: 70rem;
+}
+.pep-preview header h1 {
+  font-size: clamp(2.5rem, 7vw, 6rem);
+  margin: 0 0 1rem;
+  line-height: 1;
+}
+.pep-preview header p {
+  max-width: 40rem;
+  line-height: 1.6;
+}
+.pep-story {
+  position: relative;
+}
+.pep-stage {
+  position: sticky;
+  top: 0;
+  height: var(--pep-desktop-height, 100vh);
+  width: var(--pep-desktop-width, 100%);
+  margin-left: auto;
+}
+.pep-mount {
+  height: 100%;
+  width: 100%;
+}
+.pep-chapters {
+  position: relative;
+  pointer-events: none;
+  margin-top: calc(-1 * var(--pep-desktop-height, 100vh));
+}
+.pep-chapter {
+  min-height: 100vh;
+  padding: 30vh 5vw 6rem;
+  max-width: 34vw;
+}
+.pep-chapter h2 {
+  font-size: clamp(1.8rem, 3vw, 3rem);
+  line-height: 1.05;
+}
+.pep-chapter p {
+  line-height: 1.7;
+}
+.pep-chapter a {
+  pointer-events: auto;
+  display: inline-block;
+  padding: 1rem;
+  border: 1px solid currentColor;
+}
+.pep-review-toggle {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 10;
+}
+.pep-review {
+  position: fixed;
+  left: 1rem;
+  right: 1rem;
+  bottom: 4rem;
+  background: #f1ede3;
+  color: #152127;
+  padding: 1rem;
+  z-index: 10;
+}
+.pep-review [hidden] {
+  display: none;
+}
+.pep-review label {
+  display: block;
+}
+.pep-review input {
+  width: 100%;
+}
+.pep-review output {
+  display: block;
+}
+.pep-motion-fallback {
+  padding: 2rem;
+  max-width: 50rem;
+}
+.pep-motion-fallback[hidden],
+.pep-motion-surface[hidden] {
+  display: none !important;
+}
+.pep-static {
+  padding: 3rem 5vw;
+}
+.pep-static article {
+  max-width: 42rem;
+  margin-bottom: 3rem;
+}
+.pep-preview[data-static="true"] .pep-stage {
+  position: relative;
+  height: auto !important;
+}
+.pep-preview[data-static="true"] .pep-story {
+  min-height: 0 !important;
+}
+.pep-preview[data-static="true"] .pep-chapters {
+  margin-top: 0;
+}
+.pep-preview[data-static="true"] .pep-chapter {
+  min-height: 0 !important;
+  max-width: 48rem;
+  padding: 2rem 5vw;
+}
+@media (max-width: 700px) {
+  .pep-stage {
+    height: var(--pep-mobile-height, 60vh);
+    width: var(--pep-mobile-width, 100%);
+  }
+  .pep-chapters {
+    margin-top: calc(-1 * var(--pep-mobile-height, 60vh));
+  }
+  .pep-chapter {
+    max-width: 100%;
+    padding: 64vh 6vw 8rem;
+  }
+  .pep-chapter h2,
+  .pep-chapter p {
+    max-width: 30rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pep-stage {
+    position: relative;
+    height: auto !important;
+  }
+  .pep-story {
+    min-height: 0 !important;
+  }
+  .pep-chapters {
+    margin-top: 0;
+  }
+  .pep-chapter {
+    min-height: 0 !important;
+    max-width: 48rem;
+    padding: 2rem 5vw;
+  }
+}

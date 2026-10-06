@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "brief": {
+    "goal": "Show a fictional design studio's work",
+    "audience": "Potential clients",
+    "primaryAction": "Explore services",
+    "startingPoint": "An editorial studio with subtle depth",
+    "assumptions": ["All content is fictional"]
+  },
+  "concepts": [
+    {
+      "id": "editorial",
+      "title": "Quiet depth",
+      "story": "An editorial studio with layered geometry",
+      "sections": ["hero", "work", "services"],
+      "effects": ["layered-depth", "sticky-reveal"],
+      "assetNeeds": ["Geometric placeholders"],
+      "mobile": "Simpler layers",
+      "reducedMotion": "Static composition",
+      "effort": "low"
+    },
+    {
+      "id": "journey",
+      "title": "Creative journey",
+      "story": "Reveal each stage of a project",
+      "sections": ["hero", "work", "services"],
+      "effects": ["background-drift"],
+      "assetNeeds": ["Project stills"],
+      "mobile": "Short scenes",
+      "reducedMotion": "Sequential content",
+      "effort": "medium"
+    },
+    {
+      "id": "cinema",
+      "title": "Cinematic studio",
+      "story": "A film-led introduction",
+      "sections": ["hero", "work", "services"],
+      "effects": ["video-scrub"],
+      "assetNeeds": ["Video and poster"],
+      "mobile": "Poster fallback",
+      "reducedMotion": "Static poster",
+      "effort": "high"
+    }
+  ],
+  "selectedConceptId": "editorial",
+  "motionPlan": {
+    "sections": [
+      {
+        "id": "hero",
+        "title": "Ideas with depth",
+        "copy": "A fictional studio exploring identity, digital spaces, and thoughtful motion.",
+        "action": {
+          "label": "Explore our work",
+          "target": "#work"
+        }
+      },
+      {
+        "id": "work",
+        "title": "Make room for the idea.",
+        "copy": "Form, rhythm, and space. Three fictional projects show how a clear idea becomes a memorable experience.",
+        "action": {
+          "label": "View services",
+          "target": "#services"
+        }
+      },
+      {
+        "id": "services",
+        "title": "Make the idea tangible",
+        "copy": "Identity, websites, and motion systems. This is a demonstration, not a real business.",
+        "action": {
+          "label": "Back to introduction",
+          "target": "#hero"
+        }
+      }
+    ],
+    "scenes": [
+      {
+        "sectionId": "hero",
+        "effect": "layered-depth",
+        "layers": [
+          {
+            "id": "sky",
+            "label": "Background plane",
+            "depth": "background",
+            "direction": "vertical",
+            "travel": 0.12
+          },
+          {
+            "id": "shape",
+            "label": "Midground shape",
+            "depth": "midground",
+            "direction": "vertical",
+            "travel": 0.25
+          },
+          {
+            "id": "frame",
+            "label": "Foreground frame",
+            "depth": "foreground",
+            "direction": "vertical",
+            "travel": 0.4
+          }
+        ]
+      },
+      {
+        "sectionId": "work",
+        "effect": "sticky-reveal",
+        "layers": [
+          {
+            "id": "work-card",
+            "label": "Work placeholder",
+            "depth": "midground",
+            "direction": "horizontal",
+            "travel": 0.2
+          }
+        ]
+      },
+      {
+        "sectionId": "services",
+        "effect": "pointer-depth",
+        "layers": [
+          {
+            "id": "service-shape",
+            "label": "Decorative shape",
+            "depth": "background",
+            "direction": "horizontal",
+            "travel": 0.15
+          }
+        ]
+      }
+    ],
+    "mobileBehavior": "Reduce travel by half; keep native scrolling",
+    "reducedMotionBehavior": "Static layers and fully visible content"
+  },
+  "assetPlan": {
+    "provider": "none",
+    "mode": "import",
+    "items": [
+      {
+        "id": "geometry",
+        "purpose": "Preview depth layers",
+        "status": "placeholder",
+        "provenance": "Original geometric shapes"
+      }
+    ]
+  },
+  "preview": {
+    "revision": "820b9ce1c0ea9cfdd653ecf6038dcb0ed62cd056c1ace2c5f2c623a8d81e0223",
+    "file": "wireframe.html",
+    "fileDigest": "810a06247237fbeb5d80c117df98c0594fe4fd5d221cfd22242f0b6d3543e690"
+  },
+  "approval": {
+    "revision": "820b9ce1c0ea9cfdd653ecf6038dcb0ed62cd056c1ace2c5f2c623a8d81e0223",
+    "previewDigest": "810a06247237fbeb5d80c117df98c0594fe4fd5d221cfd22242f0b6d3543e690",
+    "scope": ["layout", "motion"],
+    "decision": "approved",
+    "source": "human-message",
+    "evidence": "SYNTHETIC FIXTURE ONLY: sample approval for demonstrating validation; not a real human decision.",
+    "approvedAt": "2026-10-03T15:00:00Z"
+  }
+}
