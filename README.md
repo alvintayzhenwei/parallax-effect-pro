@@ -103,6 +103,8 @@ Open the returned HTML path in your browser or host file preview. Scroll to insp
 
 ## Preview Mode: pinpoint a change
 
+Open the [ready-to-run Preview Mode sample](examples/preview-mode/index.html) after cloning or downloading this repository. This self-contained camera demo needs no build step. GitHub displays the HTML source; open the downloaded file in your browser to see the motion and review controls.
+
 For a version 2 sample using only files shipped in the npm package, follow the [packaged preview guide](skills/parallax-effect-pro/templates/preview-review.md). From this checkout:
 
 ```sh
