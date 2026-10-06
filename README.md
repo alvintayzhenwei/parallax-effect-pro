@@ -72,9 +72,32 @@ node dist/cli.js preview --root "$PWD" --record tests/fixtures/project.json --ou
 
 Open the returned HTML path in your browser or host file preview. Scroll to inspect real motion. The clean site view opens first. Open review controls to try mobile view, intensity and reduced motion, or inspect the motion map and asset routes. No cloud calls or generation occur from the preview. Choose a fresh filename for each revision; existing files are preserved.
 
+## Preview Mode: pinpoint a change
+
+For a version 2 sample using only files shipped in the npm package, follow the [packaged preview guide](skills/parallax-effect-pro/templates/preview-review.md). From this checkout:
+
+```sh
+node dist/cli.js preview --root "$PWD" --record skills/parallax-effect-pro/templates/story.json --output previews/story-review-r1.html
+```
+
+Open the HTML, scroll to the stage you want to review, then select **Review motion**. Drag that stage's **Seek** slider to freeze a pose. Keyboard arrow keys adjust the slider. The displayed percentage identifies the stage-local motion point, not the percentage of the entire page. Select **Resume native scroll** to check the change in context and in reverse.
+
+Give the agent feedback like this:
+
+> Preview: story-review-r1.html; revision: paste the displayed revision; stage: paste the Seek label; pose: 62%; viewport: 1280 × 800. The foreground grass covers the enquiry text. Reduce its movement between 55% and 70%, preserve the villa/path relationship, and keep the approach before 55% unchanged. Show a new preview before integration.
+
+Include the object, requested change, affected range, and what must stay fixed. The slider is a review aid: it does not save a change or grant approval. The agent edits the source record, generates a fresh filename, and checks the adjacent and reverse poses before requesting approval of the new revision. Use mobile and static/reduced-motion views too. Host-authored video previews may use different controls; include their filename and video time as well as scroll position.
+
+### Latest visual study
+
+The Tide & Timber study now explores a full-bleed, scroll-seeked owner-supplied video beneath site copy, rather than framed still images. Actual MCP asset/preview/build guidance was used; host HTML video APIs handle playback. Native MCP video import is not implemented. Frame decoding and seek-logic checks passed; live browser rendering, mobile cropping and owner visual acceptance remain pending. This study is local acceptance evidence, not a packaged demo or approved finished site.
+
+The earlier without-MCP baseline used different media, so a comparison cannot isolate the MCP's contribution. Animated website capture is blocked by browser policy; no GIF comparison is claimed until genuine captures are available.
+
 ## Install skill and stdio tools
 
 ```sh
+npm run build
 npm run plugins
 npm pack --ignore-scripts
 ```
@@ -115,7 +138,9 @@ npx --yes parallax-effect-pro@0.1.0 doctor
 npm install -g parallax-effect-pro@0.1.0
 ```
 
-`npx` execution does not install a persistent PATH command. Registry lookup currently returns E404; package name ownership and release configuration still need confirmation. See [release guide](docs/releasing.md).
+`npx` execution does not install a persistent PATH command. The last recorded registry lookup returned E404; this is not a current ownership check. Package name ownership and release configuration still need confirmation. See [release guide](docs/releasing.md).
+
+The npm tarball ships the CLI, bundled motion runtime, preview styles and canonical portable skill/templates. Repository demos, screenshots, tests and generated host-plugin directories are not installed by npm. Install the CLI and register its stdio tools separately; npm installation alone does not enable a skill or connect Runway. Publication installs tooling, not a deployed website. On 2026-10-06, local checks passed (46 tests), the tarball allowlist contained 32 files, and an isolated tarball installation passed five CLI/stdio MCP smoke checks. This confirms local package readiness, not npm publication or host visual acceptance.
 
 ## Your first website: step by step
 

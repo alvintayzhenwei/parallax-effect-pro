@@ -39,6 +39,7 @@ export function validateFiles(files) {
     "skills/parallax-effect-pro/SKILL.md",
     "skills/parallax-effect-pro/templates/story.json",
     "skills/parallax-effect-pro/templates/video-prompts.md",
+    "skills/parallax-effect-pro/templates/preview-review.md",
     "skills/parallax-effect-pro/templates/project.json",
   ])
     if (!files.some((f) => f.path === required))
