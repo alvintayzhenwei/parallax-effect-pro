@@ -8,7 +8,7 @@ const html = fs.readFileSync(
   "utf8",
 );
 const scripts = [
-  ...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g),
+  ...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi),
 ].map((match) => match[1]);
 for (const script of scripts) {
   if (!script.trim() || script.trim().startsWith("{")) continue;
