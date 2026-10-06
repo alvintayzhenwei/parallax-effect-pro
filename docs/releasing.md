@@ -1,22 +1,23 @@
 # Release preparation and publication
 
-The repository is private and npm package is unpublished. Source push, CI success, package preparation and npm publication are distinct events.
+The repository is public and `@alvintayzhenwei/parallax-effect-pro@0.1.0` is published (registry verified 2026-10-06). GitHub trusted-publisher configuration and actual workflow publication remain unverified. Source push, CI success, package preparation and npm publication are distinct events.
 
 ## Current workflow
 
-`release.yml` is manual, checks its dispatch SHA and expected package version, repeats tests/tarball smoke/audit, and uploads a release candidate. It contains no publish step and requests no registry token/OIDC permission. There is no automatic release from a push or tag.
+`release.yml` prepares artifacts by default. Opt-in publication requires dispatch on `main`, `publish=true`, repository variable `NPM_PUBLISH_ENABLED=true`, and the `npm-publish` environment. It uses OIDC without stored npm tokens. The publish job rebuilds and retests the same immutable dispatch SHA before publishing its tarball. Runs are serialized.
 
-Prepare locally with `npm run check`, `npm run smoke`, `npm run browser`, `npm audit`, and `npm pack --ignore-scripts`. Review tarball contents and generated host packages. Obtain explicit approval of version, artifact, package visibility and release scope before publication. Package name lookup alone establishes neither ownership nor authorization.
+The npm package identity is `@alvintayzhenwei/parallax-effect-pro`, owned under the `alvintayzhenwei` organization. The CLI command and MCP name remain `parallax-effect-pro`.
 
-## Enable publishing when ready
+## Owner setup
 
-1. Confirm intended npm account/scope and name ownership; select scoped name if necessary. Synchronize package identity/version and regenerate host packages.
-2. Complete any initial registry bootstrap through the owner's normal authenticated npm flow. Keep credentials out of chat and repository. No bootstrap is performed by development tasks.
-3. Configure GitHub trusted publishing for the exact owner/repository/workflow/environment using npm's current requirements. Verify GitHub environment protections actually require the intended approval for this private repo/account. A manual dispatch or an unprotected environment label is not independent approval enforcement.
-4. Only after release approval and verified controls, add a publish job with minimal `id-token: write` permission, exact artifact/version validation and trusted publishing. If protection is unavailable, leave artifact-only workflow and perform an explicitly approved owner-run release.
-5. Verify publication and tarball CLI/stdio startup from the registry. Then update README from future commands to verified install commands. Never mark it published merely because a job prepared artifacts.
+1. Merge to `main` and confirm npm package ownership. Bootstrap the first package through your authenticated npm account if needed.
+2. Create GitHub environment `npm-publish`: restrict to `main`, require human reviewers and prevent self-review. Verify protection is supported and enforced; an environment name alone is not a gate.
+3. Configure npm Trusted publishing: GitHub user `alvintayzhenwei`, repository `parallax-effect-pro`, workflow filename `release.yml`, environment `npm-publish`, with direct publishing allowed.
+4. Enable Actions repository variable `NPM_PUBLISH_ENABLED=true` only after verifying protection and ownership. Otherwise leave it disabled and use an explicitly approved owner-run release.
+5. Dispatch on `main` with the exact package version and `publish=true`. Review preparation artifacts, then approve the environment job. Existing versions cannot be overwritten.
+6. Verify registry installation and real stdio discovery in a fresh project. The workflow's registry lookup checks existence only.
 
-[npm trusted publishing](https://docs.npmjs.com/trusted-publishers/) supports private-repository workflows, but automatic provenance is not supported for private repositories. Do not make this repo public to obtain provenance without the user's instruction. Verify current CLI requirements and any needed provenance configuration before the first release.
+Node 24 and npm 11.5.1 meet [trusted publishing requirements](https://docs.npmjs.com/trusted-publishers/). Public access is explicit; provenance depends on repository visibility. This workflow does not change visibility. Environment protection, npm account setup and actual publication remain unverified until configured and exercised.
 
 ## Security services
 

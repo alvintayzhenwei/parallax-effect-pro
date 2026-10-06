@@ -4,7 +4,7 @@ Requires Node.js 24+, npm, and a local Codex or Claude Code host. Generated site
 
 ## Development installation
 
-The registry package is not published yet. From this private checkout:
+Version `@alvintayzhenwei/parallax-effect-pro@0.1.0` is published. From the source checkout:
 
 ```sh
 npm ci
@@ -17,11 +17,17 @@ npm pack --ignore-scripts
 Install the reviewed tarball into an isolated prefix or your intended environment. Persistent installation:
 
 ```sh
-npm install -g /absolute/path/parallax-effect-pro-0.1.0.tgz
+npm install -g /absolute/path/alvintayzhenwei-parallax-effect-pro-0.1.1.tgz
 parallax-effect-pro doctor
 ```
 
-Only after approved registry publication, replace tarball installation with `npm install -g parallax-effect-pro@0.1.0`, or use temporary `npx --yes parallax-effect-pro@0.1.0 doctor`. The latter is not a persistent command installation. Name lookup returned registry E404 on 2026-10-03; ownership and publication are not established.
+Registry installation is available with `npm install -g @alvintayzhenwei/parallax-effect-pro@0.1.0`. Temporary execution:
+
+```sh
+npx --yes @alvintayzhenwei/parallax-effect-pro@0.1.0 doctor
+```
+
+Run this from your customer project or another directory outside this package's source checkout. Inside the checkout, npm can resolve the local package without its PATH binary; use `node dist/cli.js doctor`. The registry-installed CLI and npx startup passed on 2026-10-06. npm installs the CLI and canonical skill, not generated host-plugin wrappers. Generate those separately with the repository's `npm run plugins` step below.
 
 ## Skill/plugin
 

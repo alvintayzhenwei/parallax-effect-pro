@@ -7,11 +7,11 @@ This sample is included in the npm tarball. It uses procedural actors and no pro
 From your trusted project directory after a local npm installation:
 
 ```sh
-cp node_modules/parallax-effect-pro/skills/parallax-effect-pro/templates/story.json story-review.json
+cp node_modules/@alvintayzhenwei/parallax-effect-pro/skills/parallax-effect-pro/templates/story.json story-review.json
 ./node_modules/.bin/parallax-effect-pro preview --root "$PWD" --record story-review.json --output previews/story-review-r1.html
 ```
 
-Before registry publication, install a reviewed local tarball with `npm install /absolute/path/parallax-effect-pro-0.1.0.tgz`. After publication, use the reviewed registry version instead. Node.js 24 or later is required. Existing output files are never overwritten.
+Before registry publication, install a reviewed local tarball with `npm install /absolute/path/alvintayzhenwei-parallax-effect-pro-0.1.1.tgz`. After publication, use the reviewed registry version instead. Node.js 24 or later is required. Existing output files are never overwritten.
 
 ## Pinpoint feedback
 

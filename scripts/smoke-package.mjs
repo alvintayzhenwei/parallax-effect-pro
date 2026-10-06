@@ -27,7 +27,10 @@ try {
     ],
     { env, stdio: "pipe", timeout: 120000 },
   );
-  const cli = join(stage, "node_modules/parallax-effect-pro/dist/cli.js");
+  const cli = join(
+    stage,
+    "node_modules/@alvintayzhenwei/parallax-effect-pro/dist/cli.js",
+  );
   execFileSync(
     process.execPath,
     [

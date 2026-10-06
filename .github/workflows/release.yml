@@ -1,11 +1,19 @@
-name: Release preparation
+name: Release preparation and npm publication
 on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Expected package version; artifact preparation only"
+        description: "Expected package version"
         required: true
         type: string
+      publish:
+        description: "Publish publicly after environment approval"
+        required: true
+        default: false
+        type: boolean
+concurrency:
+  group: npm-release
+  cancel-in-progress: false
 permissions:
   contents: read
 jobs:
@@ -36,5 +44,35 @@ jobs:
             *.tgz
             plugins/
           retention-days: 14
-# Deliberately no publish step. Enable publishing only after user release approval,
-# registry ownership/trusted-publisher setup, and verified environment protections.
+  publish:
+    if: ${{ inputs.publish && github.ref == 'refs/heads/main' && vars.NPM_PUBLISH_ENABLED == 'true' }}
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: npm-publish
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "24"
+      - run: npm install --global npm@11.5.1
+      - run: node --input-type=module -e 'import fs from "node:fs"; const p=JSON.parse(fs.readFileSync("package.json")); if(p.name!=="@alvintayzhenwei/parallax-effect-pro" || p.version!==process.env.EXPECTED_VERSION) process.exit(1)'
+        env:
+          EXPECTED_VERSION: ${{ inputs.version }}
+      - run: npm ci
+      - run: npm run check
+      - run: npm run smoke
+      - run: npm audit --audit-level=high
+      - run: npm pack --ignore-scripts
+      - run: npm publish "alvintayzhenwei-parallax-effect-pro-${EXPECTED_VERSION}.tgz" --access public --ignore-scripts
+        env:
+          EXPECTED_VERSION: ${{ inputs.version }}
+      - run: npm view "@alvintayzhenwei/parallax-effect-pro@${EXPECTED_VERSION}" version
+        env:
+          EXPECTED_VERSION: ${{ inputs.version }}
