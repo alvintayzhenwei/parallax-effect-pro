@@ -7,9 +7,9 @@ const html = fs.readFileSync(
   new URL("../examples/preview-mode/index.html", import.meta.url),
   "utf8",
 );
-const scripts = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(
-  (match) => match[1],
-);
+const scripts = [
+  ...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g),
+].map((match) => match[1]);
 for (const script of scripts) {
   if (!script.trim() || script.trim().startsWith("{")) continue;
   new vm.Script(script);
@@ -24,7 +24,8 @@ assert(uuid.includes("crypto.getRandomValues"));
 assert(!uuid.includes("Math.random"));
 const context = vm.createContext({ crypto, Uint32Array });
 vm.runInContext(
-  'const Nt=Array.from({length:256},(_,i)=>i.toString(16).padStart(2,"0"));' + uuid,
+  'const Nt=Array.from({length:256},(_,i)=>i.toString(16).padStart(2,"0"));' +
+    uuid,
   context,
 );
 const ids = new Set();
@@ -37,4 +38,6 @@ for (let index = 0; index < 100; index++) {
   ids.add(id);
 }
 assert.equal(ids.size, 100);
-console.log("Sample script syntax, CSP hashes and cryptographic UUID checks passed");
+console.log(
+  "Sample script syntax, CSP hashes and cryptographic UUID checks passed",
+);
