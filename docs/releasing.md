@@ -1,6 +1,6 @@
 # Release preparation and publication
 
-The repository is public and `@alvintayzhenwei/parallax-effect-pro@0.1.0` is published (registry verified 2026-10-06). GitHub trusted-publisher configuration and actual workflow publication remain unverified. Source push, CI success, package preparation and npm publication are distinct events.
+The repository is public and `@alvintayzhenwei/parallax-effect-pro@0.1.1` is published (registry verified 2026-10-08). GitHub trusted-publisher configuration and actual workflow publication remain unverified. Source push, CI success, package preparation and npm publication are distinct events.
 
 ## Current workflow
 

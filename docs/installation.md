@@ -4,7 +4,7 @@ Requires Node.js 24+, npm, and a local Codex or Claude Code host. Generated site
 
 ## Development installation
 
-Version `@alvintayzhenwei/parallax-effect-pro@0.1.0` is published. From the source checkout:
+Version `@alvintayzhenwei/parallax-effect-pro@0.1.1` is published (registry verified 2026-10-08). From the source checkout:
 
 ```sh
 npm ci
@@ -21,13 +21,13 @@ npm install -g /absolute/path/alvintayzhenwei-parallax-effect-pro-0.1.1.tgz
 parallax-effect-pro doctor
 ```
 
-Registry installation is available with `npm install -g @alvintayzhenwei/parallax-effect-pro@0.1.0`. Temporary execution:
+Registry installation is available with `npm install -g @alvintayzhenwei/parallax-effect-pro@0.1.1`. Temporary execution:
 
 ```sh
-npx --yes @alvintayzhenwei/parallax-effect-pro@0.1.0 doctor
+npx --yes @alvintayzhenwei/parallax-effect-pro@0.1.1 doctor
 ```
 
-Run this from your customer project or another directory outside this package's source checkout. Inside the checkout, npm can resolve the local package without its PATH binary; use `node dist/cli.js doctor`. The registry-installed CLI and npx startup passed on 2026-10-06. npm installs the CLI and canonical skill, not generated host-plugin wrappers. Generate those separately with the repository's `npm run plugins` step below.
+Run this from your customer project or another directory outside this package's source checkout. Inside the checkout, npm can resolve the local package without its PATH binary; use `node dist/cli.js doctor`. Temporary `npx` execution of version `0.1.1 doctor` passed outside this checkout on 2026-10-08 with supported runtime and assets present. Host and Runway connections remain unverified. npm installs the CLI and canonical skill, not generated host-plugin wrappers. Generate those separately with the repository's `npm run plugins` step below.
 
 ## Skill/plugin
 
