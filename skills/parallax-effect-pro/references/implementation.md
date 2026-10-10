@@ -1,5 +1,7 @@
 # Local tools, records and implementation
 
+For existing-site motion, first read [Existing-site revamp](revamp.md). The record/preview/export commands below apply to packaged stages. Native host effects can reuse existing hooks/CSS and are verified in the real local page without package records or export.
+
 ## Commands
 
 Before registry release, build from source or install the reviewed local tarball. After publication, a pinned `npx parallax-effect-pro@VERSION` provides temporary execution; `npm install -g parallax-effect-pro@VERSION` installs a persistent command. Never describe unpublished registry commands as verified.

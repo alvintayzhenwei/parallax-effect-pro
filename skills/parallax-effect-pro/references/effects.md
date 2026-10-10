@@ -29,4 +29,4 @@ The wireframe maps recorded direction and normalized travel to effect-specific t
 
 A useful comparison includes one restrained concept, one expressive narrative and one ambitious direction when suitable. Relative effort must reflect asset creation, fallback and verification—not just coding time.
 
-Controls in the preview change only exploratory viewing. Retain chosen values in the motion plan, create a fresh preview and approve the corresponding revision before implementation. Never attach approval to a screenshot with unknown settings.
+Controls in a packaged preview change only exploratory viewing. Retain chosen values in the motion plan, create a fresh preview and approve the corresponding revision before package export. For native host effects, follow [Existing-site revamp](revamp.md) and review the authorized integrated local preview. Never attach approval to a screenshot with unknown settings.

@@ -12,7 +12,7 @@ Direct creative parallax stories with your coding agent. Compare three distinct 
 
 **Published development preview: [`@alvintayzhenwei/parallax-effect-pro@0.1.1`](https://www.npmjs.com/package/@alvintayzhenwei/parallax-effect-pro).** The repository is public. Visual and complete end-to-end acceptance remain pending. Dependabot's label describes configuration; the linked workflow badges report actual run state, not guaranteed security.
 
-Version `0.1.1` is published and tagged `latest` (registry verified 2026-10-08). This checkout includes the corrected install and Preview Mode guides.
+This checkout prepares release `0.1.2`, including existing-site revamp guidance. npm publication is pending; the registry commands below use the previously verified `0.1.1` preview.
 
 ## Install from npm
 
@@ -69,6 +69,14 @@ Use the portable skill alone or ask the `assets` guidance phase for a [copyable 
 No account connection or provider call is required to prepare prompts. Direct generation is optional and requires applicable credit/cost approval. The stage currently imports reviewed PNG/JPEG/WebP and self-contained GLB; video playback or rendered frame sequences belong to the host stack. A generated movie does not provide detachable 3D parts.
 
 Version 1 records and their historical previews remain supported without migration. The wireframe screenshots below document that earlier workflow; its separate-section recipes are not the version 2 creative ceiling.
+
+## Revamp an existing website
+
+Release `0.1.2` includes [existing-site revamp guidance](../skills/parallax-effect-pro/references/revamp.md), a runnable nested-scroll example and a [revamp evidence template](../skills/parallax-effect-pro/templates/revamp.md). Until npm publication, install a reviewed source-generated skill package to use it; the published `0.1.1` preview does not include this update.
+
+Ask: “Use Parallax Effect Pro to revamp motion in my existing website. Inspect the current components and actual scroll container. Compare directions before editing, then integrate the selected effect into a local preview and show matched before/after evidence.”
+
+The agent chooses native host effects, packaged actors or host-owned video according to the site. Existing hooks/CSS need no story record or MCP export. Packaged stages retain exact revision approval and export requirements. A separate stage preview does not complete a requested revamp implementation; an integrated preview is the deliverable when that is all you requested. Missing MCP tools do not block native host work, and no package validation is claimed for it.
 
 ## What you get
 
@@ -217,6 +225,8 @@ npm run browser     # Real browser layout/motion checks; requires Playwright Chr
 ```
 
 Install the development browser with `npx playwright install chromium`. Alternatively set `PARALLAX_BROWSER_EXECUTABLE` to an existing isolated-compatible Chromium executable. Browser checks include desktop/mobile, native scrolling, keyboard skip link, manual/live/initial OS reduced motion, no-JavaScript content, navigation targets, overflow and page errors. No personal browser profile is used.
+
+The source-checkout browser suite also executes the HTML example from the revamp reference: nested scrolling while window scroll stays unchanged, reverse movement, content resize, initial/live reduced motion, disposal and mobile overflow. These are example checks, not acceptance of a customer's revamp or a physical-device test.
 
 The [product E2E acceptance plan](design/2026-10-04-product-e2e-acceptance.md) requires a fresh project and actual packaged MCP calls, real interview answers and preview approval, complete build, and a matched baseline without this package. Existing-site revamp and the other coding host are separate scenarios. A fresh chat on a shared host is not hermetic isolation; inherited configuration must be disclosed.
 

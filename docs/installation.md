@@ -4,7 +4,7 @@ Requires Node.js 24+, npm, and a local Codex or Claude Code host. Generated site
 
 ## Development installation
 
-Version `@alvintayzhenwei/parallax-effect-pro@0.1.1` is published (registry verified 2026-10-08). From the source checkout:
+This checkout prepares `@alvintayzhenwei/parallax-effect-pro@0.1.2`; npm publication is pending. Version `0.1.1` was verified in the registry on 2026-10-08. From the source checkout:
 
 ```sh
 npm ci
@@ -17,7 +17,7 @@ npm pack --ignore-scripts
 Install the reviewed tarball into an isolated prefix or your intended environment. Persistent installation:
 
 ```sh
-npm install -g /absolute/path/alvintayzhenwei-parallax-effect-pro-0.1.1.tgz
+npm install -g /absolute/path/alvintayzhenwei-parallax-effect-pro-0.1.2.tgz
 parallax-effect-pro doctor
 ```
 

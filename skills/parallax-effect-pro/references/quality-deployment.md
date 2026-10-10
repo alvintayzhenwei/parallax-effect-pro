@@ -1,6 +1,6 @@
 # Complete-site quality and deployment
 
-Build the entire approved website, not only an animated hero. Preserve the project's existing stack. For new sites, native HTML/CSS/JavaScript is suitable for small static sites; choose additional tooling only for demonstrated content or interaction needs.
+For a complete-site request, build the entire approved website, not only an animated hero. For a scoped revamp, integrate the selected changes into the existing site and check affected routes; do not rebuild unrelated pages. Preview-only requests stop at the requested local preview. Follow [Existing-site revamp](revamp.md) for native host integration and required matched baseline evidence. Preserve the project's existing stack. For new sites, native HTML/CSS/JavaScript is suitable for small static sites; choose additional tooling only for demonstrated content or interaction needs.
 
 ## Critical checks
 

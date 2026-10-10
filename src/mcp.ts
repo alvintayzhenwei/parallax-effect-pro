@@ -13,7 +13,7 @@ export async function startMcp(root: string): Promise<void> {
     },
     {
       instructions:
-        "Start with parallax_design_guidance phase discovery. The host coding agent interviews the human, proposes three concepts, creates and revises previews, and obtains explicit approval of the exact revision and digest before paid asset generation or full-site implementation. Manual video prompt drafting needs no video MCP or preview approval; preserve other UI/UX tools’ ownership. Read guidance for each phase. This server returns packaged knowledge and local deterministic artifacts; it does not run a model, authenticate human approval, connect providers, or deploy. Preview controls are exploratory: save changes in the record and regenerate before approval.",
+        "Start with parallax_design_guidance phase discovery. For an existing-site revamp, read references/revamp.md: trace the real scroll owner, reuse existing hooks/CSS when suitable, and verify the authorized local integrated site against its baseline. Native host effects need no story record or package export; a standalone stage or handoff does not complete an implementation request. Respect preview-only scope and existing authorization. For packaged stages, obtain exact revision/digest approval before export; paid assets and deployment need their own authorization. Manual video prompt drafting needs no video MCP or preview approval; preserve other UI/UX tools’ ownership. Read guidance for each phase. This server returns packaged knowledge and local deterministic artifacts; it does not run a model, authenticate human approval, connect providers, or deploy. Preview controls are exploratory: save changes in the record and regenerate before approval.",
     },
   );
   const respond = async (operation: () => Promise<object>) => {
@@ -37,35 +37,35 @@ export async function startMcp(root: string): Promise<void> {
   };
   const guides = {
     discovery: {
-      references: ["theory", "effects"],
-      templates: ["story.json", "project.json"],
+      references: ["theory", "effects", "revamp"],
+      templates: ["story.json", "project.json", "revamp.md"],
     },
     concepts: {
       references: ["theory", "effects"],
       templates: ["concepts.md", "story.json", "project.json"],
     },
     preview: {
-      references: ["effects", "implementation"],
-      templates: ["story.json", "project.json", "approval.md"],
+      references: ["effects", "implementation", "revamp"],
+      templates: ["story.json", "project.json", "approval.md", "revamp.md"],
     },
     assets: {
       references: ["providers", "effects"],
       templates: ["assets.md", "video-prompts.md"],
     },
     build: {
-      references: ["effects", "implementation", "quality-deployment"],
-      templates: ["handoff.md", "quality-report.md"],
+      references: ["effects", "implementation", "quality-deployment", "revamp"],
+      templates: ["handoff.md", "quality-report.md", "revamp.md"],
     },
     review: {
-      references: ["effects", "quality-deployment"],
-      templates: ["quality-report.md"],
+      references: ["effects", "quality-deployment", "revamp"],
+      templates: ["quality-report.md", "revamp.md"],
     },
   } as const;
   server.registerTool(
     "parallax_design_guidance",
     {
       description:
-        "Start here for a new website or revamp. Read canonical phase guidance and templates; ask the human about audience, purpose, action, content/assets, desired motion, incumbent stack and constraints. Propose three concepts, preview and adjust through MCP, then obtain exact revision approval before building. No model inference or arbitrary file reads.",
+        "Start here for a new website or revamp. Read canonical phase guidance and templates. For existing sites, trace current components and the real scroller, select native host effects or packaged stages, and verify authorized local integration. Packaged stages require exact revision approval; native effects do not require MCP preview/export. Ask missing material questions and compare concepts when no direction is selected. No model inference or arbitrary file reads.",
       inputSchema: z.strictObject({
         phase: z.enum([
           "discovery",
