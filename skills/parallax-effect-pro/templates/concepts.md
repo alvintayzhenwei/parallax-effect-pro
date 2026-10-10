@@ -12,4 +12,4 @@ For each of three distinct concepts, record:
 - Mobile and reduced-motion experience
 - Relative effort and main tradeoff
 
-Recommend one with reasons. Let the user select or combine; do not implement before preview approval.
+Recommend one with reasons. Let the user select or combine before authoring the local preview. For a revamp, name the existing components and real scroll owner using `templates/revamp.md`; review the selected effect inside the actual site. Carry out already authorized local preview/integration work, and retain any outstanding exact-revision creative review. Packaged stage exports require their recorded preview approval.

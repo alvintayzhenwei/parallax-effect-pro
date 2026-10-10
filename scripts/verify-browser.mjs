@@ -1,5 +1,6 @@
 import { verifyCameraBrowser } from "./verify-camera-browser.mjs";
 import { verifyStoryBrowser } from "./verify-story-browser.mjs";
+import { verifyRevampBrowser } from "./verify-revamp-browser.mjs";
 import { chromium } from "playwright";
 import assert from "node:assert/strict";
 import { mkdtemp, writeFile, mkdir, rm, stat } from "node:fs/promises";
@@ -260,6 +261,7 @@ try {
   }
   const storyEvidence = await verifyStoryBrowser(browser, capture);
   const cameraEvidence = await verifyCameraBrowser(browser, capture);
+  const revampEvidence = await verifyRevampBrowser(browser);
   console.log(
     JSON.stringify(
       {
@@ -267,6 +269,7 @@ try {
         evidence,
         storyEvidence,
         cameraEvidence,
+        revampEvidence,
       },
       null,
       2,

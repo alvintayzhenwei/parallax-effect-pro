@@ -2,7 +2,10 @@
 
 <img src="https://raw.githubusercontent.com/alvintayzhenwei/parallax-effect-pro/main/docs/branding/logo.png" alt="Parallax Effect Pro Offset P logo" width="96">
 
-[![CI](https://github.com/alvintayzhenwei/parallax-effect-pro/actions/workflows/ci.yml/badge.svg)](https://github.com/alvintayzhenwei/parallax-effect-pro/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/@alvintayzhenwei/parallax-effect-pro)](https://www.npmjs.com/package/@alvintayzhenwei/parallax-effect-pro)
+[![CI](https://github.com/alvintayzhenwei/parallax-effect-pro/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/alvintayzhenwei/parallax-effect-pro/actions/workflows/ci.yml)
+[![Security checks](https://github.com/alvintayzhenwei/parallax-effect-pro/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/alvintayzhenwei/parallax-effect-pro/actions/workflows/security.yml)
+[![Dependabot Updates](https://github.com/alvintayzhenwei/parallax-effect-pro/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/alvintayzhenwei/parallax-effect-pro/actions/workflows/dependabot/dependabot-updates)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 Shape motion stories with your coding agent, review local previews, and integrate approved choreography into your existing site.
@@ -10,6 +13,12 @@ Shape motion stories with your coding agent, review local previews, and integrat
 - Compare three tailored motion concepts before implementation.
 - Preview layered or continuous motion locally, including mobile and reduced-motion views.
 - Export revision-bound handoffs for your host-owned website.
+
+## Website example: no AI video required
+
+[lvntay.ai](https://lvntay.ai/) demonstrates parallax through layered artwork, native scrolling, and CSS transforms, without AI-generated video. Scroll through the desktop windows and watch the terminal illustration's layers move at different depths.
+
+AI video generators such as Higgsfield and Runway are optional asset sources, not requirements for creating parallax. Existing images, SVGs, and interface elements can supply the layers; your website's code controls their motion.
 
 ## Quickstart
 
@@ -24,11 +33,11 @@ npm run build
 node dist/cli.js doctor
 ```
 
-From a customer project, run the published development preview explicitly:
+From a customer project, install release `0.1.2` after npm publication:
 
 ```sh
-npx --yes @alvintayzhenwei/parallax-effect-pro@0.1.1 doctor
-npm install @alvintayzhenwei/parallax-effect-pro@0.1.1
+npx --yes @alvintayzhenwei/parallax-effect-pro@0.1.2 doctor
+npm install @alvintayzhenwei/parallax-effect-pro@0.1.2
 ```
 
 `doctor` reports `runtime: "supported"` and `assets: "present"`. Host and Runway connections remain `unverified` until configured.
@@ -42,7 +51,19 @@ npm installation provides the CLI and local tools. Complete [host setup](https:/
 3. Approve the exact revision, export its handoff, and build in your existing site stack.
 4. Review the integrated site; approve publication separately.
 
-**Status:** Development preview `0.1.1` is published (registry verified 2026-10-08). Visual and full end-to-end acceptance remain pending.
+## New release: 0.1.2
+
+Version `0.1.2` improves parallax revamps for existing websites:
+
+- A [dedicated revamp workflow](skills/parallax-effect-pro/references/revamp.md) traces the actual scroll container, reuses existing hooks/CSS, and diagnoses motion with no visible effect.
+- Native host effects need no story record or stage export; packaged stages retain revision approval and handoff requirements. AI video generation remains optional.
+- Integrated local previews and [before/after evidence](skills/parallax-effect-pro/templates/revamp.md) make changes reviewable, with a runnable example checked for nested scrolling, reverse motion, reduced motion, resize, and mobile overflow.
+
+See the [verification report](docs/verification/2026-10-08-revamp-workflow.md) for executed checks and limits. Customer-site creative acceptance and full end-to-end acceptance remain pending.
+
+Release changes are summarized in the [changelog](CHANGELOG.md).
+
+**Publication status:** The `0.1.2` release is being prepared; npm publication is pending. For testing before publication, use this source checkout or the local Codex plugin `0.1.2-revamp.1`.
 
 ## Documentation
 

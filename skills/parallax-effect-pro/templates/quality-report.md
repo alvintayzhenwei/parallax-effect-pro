@@ -20,7 +20,9 @@ Environment and method:
 Remaining issues:
 Manual or physical-device checks:
 Owner visual verdict (depth, choreography, art direction, usability, requirements):
-Matched baseline comparison, if executed:
+Matched baseline comparison (required for a revamp improvement claim; otherwise record not run):
+Revamp route/components, actual scroll owner, observed progress and visible change:
+Integration route: native host / packaged stage / host video:
 Deployment readiness and separate approval:
 
 Never label a check passed because its UI looks ready or its configuration exists.

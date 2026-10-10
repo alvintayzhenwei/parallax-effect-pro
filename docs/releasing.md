@@ -1,8 +1,10 @@
 # Release preparation and publication
 
-The repository is public and `@alvintayzhenwei/parallax-effect-pro@0.1.1` is published (registry verified 2026-10-08). GitHub trusted-publisher configuration and actual workflow publication remain unverified. Source push, CI success, package preparation and npm publication are distinct events.
+The repository is public. This checkout prepares `@alvintayzhenwei/parallax-effect-pro@0.1.2`; npm publication is pending. Version `0.1.1` was verified in the registry on 2026-10-08. Source push, CI success, package preparation and npm publication are distinct events.
 
 ## Current workflow
+
+Tag `v0.1.2` identifies the reviewed release commit. A tag push does not publish npm: `release.yml` runs only through manual dispatch. If the tag is created while its PR is open, the tagged commit is not yet on `main`; do not move the tag silently if review changes the release contents.
 
 `release.yml` prepares artifacts by default. Opt-in publication requires dispatch on `main`, `publish=true`, repository variable `NPM_PUBLISH_ENABLED=true`, and the `npm-publish` environment. It uses OIDC without stored npm tokens. The publish job rebuilds and retests the same immutable dispatch SHA before publishing its tarball. Runs are serialized.
 

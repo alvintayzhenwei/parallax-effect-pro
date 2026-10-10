@@ -11,7 +11,7 @@ cp node_modules/@alvintayzhenwei/parallax-effect-pro/skills/parallax-effect-pro/
 ./node_modules/.bin/parallax-effect-pro preview --root "$PWD" --record story-review.json --output previews/story-review-r1.html
 ```
 
-Before registry publication, install a reviewed local tarball with `npm install /absolute/path/alvintayzhenwei-parallax-effect-pro-0.1.1.tgz`. After publication, use the reviewed registry version instead. Node.js 24 or later is required. Existing output files are never overwritten.
+Before registry publication, install a reviewed local tarball with `npm install /absolute/path/alvintayzhenwei-parallax-effect-pro-0.1.2.tgz`. After publication, use the reviewed registry version instead. Node.js 24 or later is required. Existing output files are never overwritten.
 
 ## Pinpoint feedback
 

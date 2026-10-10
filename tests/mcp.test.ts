@@ -57,6 +57,13 @@ test("stdio discovery, preview, validation and unsafe path rejection", async (t)
       assert.match(data.workflow, /Clarify audience/);
       assert.ok(data.references.length > 0);
       assert.ok(Object.keys(data.templates).length > 0);
+      if (["discovery", "preview", "build", "review"].includes(phase)) {
+        assert.ok(
+          data.references.some((r: any) => r.path === "references/revamp.md"),
+          `${phase} must expose existing-site integration guidance`,
+        );
+        assert.ok(data.templates["revamp.md"]);
+      }
       if (phase === "discovery")
         assert.match(
           data.references.map((r: any) => r.content).join("\n"),

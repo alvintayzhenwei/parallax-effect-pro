@@ -11,7 +11,7 @@ Executed quality checks and outstanding work:
 Owner visual verdict and unresolved aesthetic limitations:
 Deployment choices and required destination-specific approval:
 
-Export through the local handoff tool to verify revision/digest consistency. Do not imply recorded approval proves identity or green design validation proves a working site.
+For packaged stages, export through the local handoff tool to verify revision/digest consistency. For native host effects, record changed component paths and integrated-site evidence in `templates/revamp.md`; no package export is required. Do not imply recorded approval proves identity or green design validation proves a working site.
 
 ## Continuous-story export
 
